@@ -1,7 +1,8 @@
-package com.morgandev.kioskacademy
+package com.morgandev.kioskacademy.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.morgandev.kioskacademy.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
