@@ -1,28 +1,31 @@
 package com.morgandev.kioskacademy.data
 
 import androidx.lifecycle.LiveData
+import com.morgandev.kioskacademy.domain.entity.AppData
 import com.morgandev.kioskacademy.domain.entity.Warrior
+import com.morgandev.kioskacademy.domain.repository.AppDataRepository
 import com.morgandev.kioskacademy.domain.repository.WarriorsRepository
 
 
-class AppDataListRepositoryImpl(): WarriorsRepository {
-    override suspend fun addWarrior(warrior: Warrior) {
+class AppDataListRepositoryImpl(): AppDataRepository {
+    override fun addAppData(appData: AppData) {
         TODO("Not yet implemented")
     }
 
-    override suspend fun deleteWarrior(warrior: Warrior) {
+    override fun deleteAppData(appData: AppData) {
         TODO("Not yet implemented")
     }
 
-    override suspend fun editWarrior(warrior: Warrior) {
+    override fun editAppData(appData: AppData) {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getWarrior(warriorId: Int): Warrior {
+    override fun getAppData(appDataId: Int): AppData {
         TODO("Not yet implemented")
     }
 
-    override fun getWarriorList(): LiveData<List<Warrior>> {
+    override fun getAppDataList(): LiveData<List<AppData>> {
         TODO("Not yet implemented")
     }
+
 }

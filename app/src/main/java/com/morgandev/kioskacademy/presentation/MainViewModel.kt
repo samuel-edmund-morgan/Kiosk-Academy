@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.morgandev.kioskacademy.data.WarriorListRepositoryImpl
 import com.morgandev.kioskacademy.domain.entity.Warrior
+import com.morgandev.kioskacademy.domain.usecases.AddWarriorUseCase
 import com.morgandev.kioskacademy.domain.usecases.DeleteWarriorUseCase
 import com.morgandev.kioskacademy.domain.usecases.EditWarriorUseCase
 import com.morgandev.kioskacademy.domain.usecases.GetWarriorListUseCase
@@ -17,6 +18,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application)  {
 
     private val getWarriorListUseCase = GetWarriorListUseCase(repository)
     private val deleteWarriorUseCase = DeleteWarriorUseCase(repository)
+    private val addWarriorUseCase = AddWarriorUseCase(repository)
+
     private val editWarriorUseCase = EditWarriorUseCase(repository)
 
     val warriorList = getWarriorListUseCase.getWarriorList()
@@ -26,5 +29,14 @@ class MainViewModel(application: Application) : AndroidViewModel(application)  {
             deleteWarriorUseCase.deleteWarrior(warrior)
         }
     }
+
+    fun addWarrior(warrior: Warrior){
+        viewModelScope.launch {
+            addWarriorUseCase.addWarrior(warrior)
+        }
+    }
+
+
+
 
 }
