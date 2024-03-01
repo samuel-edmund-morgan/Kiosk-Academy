@@ -6,9 +6,9 @@ import com.morgandev.kioskacademy.domain.entity.Warrior
 import java.util.UUID
 
 interface AppDataRepository {
-    fun addAppData(appData: AppData)
-    fun deleteAppData(appData: AppData)
-    fun editAppData(appData: AppData)
-    fun getAppData(appDataId: Int): AppData
+    suspend fun addAppData(appData: AppData)
+    suspend fun deleteAppData(appData: AppData)
+    suspend fun editAppData(appData: AppData)
+    suspend fun getAppData(appDataId: Int): AppData
     fun getAppDataList(): LiveData<List<AppData>>
 }

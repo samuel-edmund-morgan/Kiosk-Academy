@@ -1,31 +1,40 @@
 package com.morgandev.kioskacademy.data
 
+import android.app.Application
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.map
 import com.morgandev.kioskacademy.domain.entity.AppData
 import com.morgandev.kioskacademy.domain.entity.Warrior
 import com.morgandev.kioskacademy.domain.repository.AppDataRepository
 import com.morgandev.kioskacademy.domain.repository.WarriorsRepository
 
 
-class AppDataListRepositoryImpl(): AppDataRepository {
-    override fun addAppData(appData: AppData) {
-        TODO("Not yet implemented")
+class AppDataListRepositoryImpl(
+    application: Application
+): AppDataRepository {
+
+    private val appDataDao = ApplicationDatabase.getInstance(application).appDataDao()
+    private val mapper = AppDataMapper()
+
+    override suspend fun addAppData(appData: AppData) {
+        appDataDao.addAppData(mapper.mapEntityToDbModel(appData))
     }
 
-    override fun deleteAppData(appData: AppData) {
-        TODO("Not yet implemented")
+    override suspend fun deleteAppData(appData: AppData) {
+        appDataDao.deleteAppData(appData.id)
     }
 
-    override fun editAppData(appData: AppData) {
-        TODO("Not yet implemented")
+    override suspend fun editAppData(appData: AppData) {
+        appDataDao.addAppData(mapper.mapEntityToDbModel(appData))
     }
 
-    override fun getAppData(appDataId: Int): AppData {
-        TODO("Not yet implemented")
+    override suspend fun getAppData(appDataId: Int): AppData {
+        val dbModel = appDataDao.getAppData(appDataId)
+        return mapper.mapDbModelToEntity(dbModel)
     }
 
-    override fun getAppDataList(): LiveData<List<AppData>> {
-        TODO("Not yet implemented")
+    override fun getAppDataList(): LiveData<List<AppData>> = appDataDao.getAppDataList().map {
+        mapper.mapListDbModelToListEntity(it)
     }
 
 }
