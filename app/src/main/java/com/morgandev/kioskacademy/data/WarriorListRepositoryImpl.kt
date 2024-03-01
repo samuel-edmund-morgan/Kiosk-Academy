@@ -6,6 +6,7 @@ import com.morgandev.kioskacademy.domain.entity.Warrior
 import com.morgandev.kioskacademy.domain.repository.WarriorsRepository
 import androidx.lifecycle.map
 
+
 class WarriorListRepositoryImpl(
     application: Application
 ): WarriorsRepository {
