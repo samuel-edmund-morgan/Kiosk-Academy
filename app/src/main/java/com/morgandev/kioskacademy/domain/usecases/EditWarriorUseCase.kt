@@ -4,7 +4,7 @@ import com.morgandev.kioskacademy.domain.entity.Warrior
 import com.morgandev.kioskacademy.domain.repository.WarriorsRepository
 
 class EditWarriorUseCase(private val warriorsRepository: WarriorsRepository) {
-    fun editWarrior(warrior: Warrior){
+    suspend fun editWarrior(warrior: Warrior){
         warriorsRepository.editWarrior(warrior)
     }
 }

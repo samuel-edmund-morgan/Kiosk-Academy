@@ -1,9 +1,8 @@
 package com.morgandev.kioskacademy.data
 
 import com.morgandev.kioskacademy.domain.entity.Warrior
-import javax.inject.Inject
 
-class WarriorListMapper @Inject constructor() {
+class WarriorListMapper {
 
     fun mapEntityToDbModel(warrior: Warrior) = WarriorDbModel(
         id = warrior.id,

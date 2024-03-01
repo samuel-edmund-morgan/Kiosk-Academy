@@ -14,14 +14,8 @@ interface WarriorListDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addWarrior(warriorDbModel: WarriorDbModel)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addWarriorSync(warriorDbModel: WarriorDbModel)
-
     @Query("DELETE FROM warriors WHERE id=:warriorId")
     suspend fun deleteWarrior(warriorId: Int)
-
-    @Query("DELETE FROM warriors WHERE id=:warriorId")
-    fun deleteWarriorSync(warriorId: Int)
 
     @Query("SELECT * FROM warriors WHERE id=:warriorId LIMIT 1")
     suspend fun getWarrior(warriorId: Int): WarriorDbModel

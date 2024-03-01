@@ -5,9 +5,9 @@ import com.morgandev.kioskacademy.domain.entity.Warrior
 import java.util.UUID
 
 interface WarriorsRepository {
-    fun addWarrior(warrior: Warrior)
-    fun deleteWarrior(warrior: Warrior)
-    fun editWarrior(warrior: Warrior)
-    fun getWarrior(warriorId: Int): Warrior
+    suspend fun addWarrior(warrior: Warrior)
+    suspend fun deleteWarrior(warrior: Warrior)
+    suspend fun editWarrior(warrior: Warrior)
+    suspend fun getWarrior(warriorId: Int): Warrior
     fun getWarriorList(): LiveData<List<Warrior>>
 }

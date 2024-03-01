@@ -5,7 +5,7 @@ import com.morgandev.kioskacademy.domain.repository.WarriorsRepository
 import java.util.UUID
 
 class GetWarriorUseCase(private val warriorsRepository: WarriorsRepository) {
-    fun getWarrior(warriorId: Int): Warrior{
+    suspend fun getWarrior(warriorId: Int): Warrior{
         return  warriorsRepository.getWarrior(warriorId)
     }
 }
