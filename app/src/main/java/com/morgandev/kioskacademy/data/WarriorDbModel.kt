@@ -1,7 +1,12 @@
-package com.morgandev.kioskacademy.domain.entity
+package com.morgandev.kioskacademy.data
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import java.util.UUID
 
-data class Warrior(
+@Entity(tableName = "warriors")
+data class WarriorDbModel(
+    @PrimaryKey(autoGenerate = true)
     val id: Int,
     val profilePicture: Int,
     val rank: String,
@@ -15,8 +20,4 @@ data class Warrior(
     val description: String,
     val photos: List<Int>,
     val videos: List<Int>
-) {
-    companion object{
-        const val UNDEFINED_ID = -1
-    }
-}
+)

@@ -8,6 +8,6 @@ interface WarriorsRepository {
     fun addWarrior(warrior: Warrior)
     fun deleteWarrior(warrior: Warrior)
     fun editWarrior(warrior: Warrior)
-    fun getWarrior(warriorId: UUID): Warrior
+    fun getWarrior(warriorId: Int): Warrior
     fun getWarriorList(): LiveData<List<Warrior>>
 }

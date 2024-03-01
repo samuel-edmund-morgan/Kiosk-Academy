@@ -56,6 +56,12 @@ dependencies {
     //Glide for pictures
     implementation("com.github.bumptech.glide:glide:4.14.2")
 
+    implementation("com.google.dagger:dagger:2.48.1")
+    ksp("com.google.dagger:dagger-compiler:2.48.1") // Dagger compiler
+    ksp("com.google.dagger:hilt-compiler:2.48.1")   // Hilt compiler
+    ksp("androidx.room:room-compiler:2.6.0")
+    ksp("androidx.hilt:hilt-compiler:1.1.0")
+
 
 
     implementation("androidx.core:core-ktx:1.12.0")
