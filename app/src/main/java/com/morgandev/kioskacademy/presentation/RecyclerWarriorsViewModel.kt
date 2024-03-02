@@ -3,7 +3,6 @@ package com.morgandev.kioskacademy.presentation
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.morgandev.kioskacademy.data.AppData.AppDataListRepositoryImpl
 import com.morgandev.kioskacademy.data.WarriorsData.WarriorListRepositoryImpl
 import com.morgandev.kioskacademy.domain.entity.Warrior
 import com.morgandev.kioskacademy.domain.usecases.AddWarriorUseCase
@@ -12,10 +11,9 @@ import com.morgandev.kioskacademy.domain.usecases.EditWarriorUseCase
 import com.morgandev.kioskacademy.domain.usecases.GetWarriorListUseCase
 import kotlinx.coroutines.launch
 
-class MainViewModel(application: Application) : AndroidViewModel(application)  {
+class RecyclerWarriorsViewModel(application: Application) : AndroidViewModel(application)  {
 
     private val repository = WarriorListRepositoryImpl(application)
-    private val repository = AppDataListRepositoryImpl(application)
 
     private val getWarriorListUseCase = GetWarriorListUseCase(repository)
     private val deleteWarriorUseCase = DeleteWarriorUseCase(repository)

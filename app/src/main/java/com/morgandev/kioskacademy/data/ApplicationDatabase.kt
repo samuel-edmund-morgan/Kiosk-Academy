@@ -5,10 +5,14 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.morgandev.kioskacademy.data.AppData.AppDataDao
+import com.morgandev.kioskacademy.data.AppData.AppDataDbModel
+import com.morgandev.kioskacademy.data.WarriorsData.WarriorDbModel
+import com.morgandev.kioskacademy.data.WarriorsData.WarriorListDao
 
 @TypeConverters(ListIntTypeConverter::class)
 @Database
-    (entities = [AppDataDbModel::class,WarriorDbModel::class], version = 1, exportSchema = false)
+    (entities = [AppDataDbModel::class, WarriorDbModel::class], version = 1, exportSchema = false)
 abstract class ApplicationDatabase: RoomDatabase() {
     abstract fun warriorListDao(): WarriorListDao
     abstract fun appDataDao(): AppDataDao

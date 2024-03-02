@@ -1,12 +1,11 @@
-package com.morgandev.kioskacademy.data
+package com.morgandev.kioskacademy.data.AppData
 
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
+import com.morgandev.kioskacademy.data.ApplicationDatabase
 import com.morgandev.kioskacademy.domain.entity.AppData
-import com.morgandev.kioskacademy.domain.entity.Warrior
 import com.morgandev.kioskacademy.domain.repository.AppDataRepository
-import com.morgandev.kioskacademy.domain.repository.WarriorsRepository
 
 
 class AppDataListRepositoryImpl(

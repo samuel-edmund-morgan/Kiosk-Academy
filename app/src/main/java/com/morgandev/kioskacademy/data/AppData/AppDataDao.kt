@@ -1,4 +1,4 @@
-package com.morgandev.kioskacademy.data
+package com.morgandev.kioskacademy.data.AppData
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao

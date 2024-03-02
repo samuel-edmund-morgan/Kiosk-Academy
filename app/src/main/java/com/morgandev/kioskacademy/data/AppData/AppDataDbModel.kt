@@ -1,4 +1,4 @@
-package com.morgandev.kioskacademy.data
+package com.morgandev.kioskacademy.data.AppData
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

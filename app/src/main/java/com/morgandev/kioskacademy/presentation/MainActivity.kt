@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
         val galleryImage = registerForActivityResult(ActivityResultContracts.GetContent(),
             ActivityResultCallback {
                 binding.backgroundImage?.setImageURI(it)
+                viewModel
             }
         )
 

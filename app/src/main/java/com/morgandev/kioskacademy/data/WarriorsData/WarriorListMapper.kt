@@ -1,4 +1,4 @@
-package com.morgandev.kioskacademy.data
+package com.morgandev.kioskacademy.data.WarriorsData
 
 import com.morgandev.kioskacademy.domain.entity.Warrior
 

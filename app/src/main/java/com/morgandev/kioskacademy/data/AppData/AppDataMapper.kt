@@ -1,4 +1,4 @@
-package com.morgandev.kioskacademy.data
+package com.morgandev.kioskacademy.data.AppData
 
 import com.morgandev.kioskacademy.domain.entity.AppData
 
