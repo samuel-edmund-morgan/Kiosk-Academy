@@ -1,4 +1,4 @@
-package com.morgandev.kioskacademy.domain.usecases
+package com.morgandev.kioskacademy.domain.usecases.WarriorsUseCases
 
 import com.morgandev.kioskacademy.domain.entity.Warrior
 import com.morgandev.kioskacademy.domain.repository.WarriorsRepository

@@ -5,10 +5,10 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.morgandev.kioskacademy.data.WarriorsData.WarriorListRepositoryImpl
 import com.morgandev.kioskacademy.domain.entity.Warrior
-import com.morgandev.kioskacademy.domain.usecases.AddWarriorUseCase
-import com.morgandev.kioskacademy.domain.usecases.DeleteWarriorUseCase
-import com.morgandev.kioskacademy.domain.usecases.EditWarriorUseCase
-import com.morgandev.kioskacademy.domain.usecases.GetWarriorListUseCase
+import com.morgandev.kioskacademy.domain.usecases.WarriorsUseCases.AddWarriorUseCase
+import com.morgandev.kioskacademy.domain.usecases.WarriorsUseCases.DeleteWarriorUseCase
+import com.morgandev.kioskacademy.domain.usecases.WarriorsUseCases.EditWarriorUseCase
+import com.morgandev.kioskacademy.domain.usecases.WarriorsUseCases.GetWarriorListUseCase
 import kotlinx.coroutines.launch
 
 class RecyclerWarriorsViewModel(application: Application) : AndroidViewModel(application)  {
