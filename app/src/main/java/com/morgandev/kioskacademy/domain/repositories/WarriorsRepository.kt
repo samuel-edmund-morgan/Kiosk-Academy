@@ -1,8 +1,7 @@
-package com.morgandev.kioskacademy.domain.repository
+package com.morgandev.kioskacademy.domain.repositories
 
 import androidx.lifecycle.LiveData
-import com.morgandev.kioskacademy.domain.entity.Warrior
-import java.util.UUID
+import com.morgandev.kioskacademy.domain.entities.Warrior
 
 interface WarriorsRepository {
     suspend fun addWarrior(warrior: Warrior)

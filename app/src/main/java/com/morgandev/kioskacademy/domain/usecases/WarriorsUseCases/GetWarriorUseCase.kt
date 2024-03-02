@@ -1,8 +1,7 @@
 package com.morgandev.kioskacademy.domain.usecases.WarriorsUseCases
 
-import com.morgandev.kioskacademy.domain.entity.Warrior
-import com.morgandev.kioskacademy.domain.repository.WarriorsRepository
-import java.util.UUID
+import com.morgandev.kioskacademy.domain.entities.Warrior
+import com.morgandev.kioskacademy.domain.repositories.WarriorsRepository
 
 class GetWarriorUseCase(private val warriorsRepository: WarriorsRepository) {
     suspend fun getWarrior(warriorId: Int): Warrior{

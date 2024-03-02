@@ -1,8 +1,8 @@
-package com.morgandev.kioskacademy.domain.entity
+package com.morgandev.kioskacademy.domain.entities
 
 data class AppData(
     val id: Int,
-    val backgroundImage: ByteArray,
+    val backgroundImage: ByteArray?,
     val emblemId: Int,
     val year: Int,
     val galleryNameUA: String,

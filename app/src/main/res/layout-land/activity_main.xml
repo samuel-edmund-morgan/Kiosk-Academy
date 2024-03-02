@@ -18,10 +18,10 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/saveBtn"
+        android:id="@+id/newBackground"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Save"
+        android:text="New Background"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -42,7 +42,7 @@
         android:ems="10"
         android:inputType="text"
         android:text="Data"
-        app:layout_constraintStart_toEndOf="@+id/saveBtn"
+        app:layout_constraintStart_toEndOf="@+id/newBackground"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

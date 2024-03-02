@@ -1,9 +1,7 @@
-package com.morgandev.kioskacademy.domain.repository
+package com.morgandev.kioskacademy.domain.repositories
 
 import androidx.lifecycle.LiveData
-import com.morgandev.kioskacademy.domain.entity.AppData
-import com.morgandev.kioskacademy.domain.entity.Warrior
-import java.util.UUID
+import com.morgandev.kioskacademy.domain.entities.AppData
 
 interface AppDataRepository {
     suspend fun addAppData(appData: AppData)

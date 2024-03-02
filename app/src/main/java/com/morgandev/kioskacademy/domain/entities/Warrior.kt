@@ -1,4 +1,4 @@
-package com.morgandev.kioskacademy.domain.entity
+package com.morgandev.kioskacademy.domain.entities
 
 
 data class Warrior(

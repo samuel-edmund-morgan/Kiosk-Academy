@@ -1,6 +1,6 @@
 package com.morgandev.kioskacademy.data.AppData
 
-import com.morgandev.kioskacademy.domain.entity.AppData
+import com.morgandev.kioskacademy.domain.entities.AppData
 
 class AppDataMapper {
     fun mapEntityToDbModel(appData: AppData) = AppDataDbModel(

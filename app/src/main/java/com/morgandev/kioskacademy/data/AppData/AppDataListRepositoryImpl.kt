@@ -4,8 +4,8 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
 import com.morgandev.kioskacademy.data.ApplicationDatabase
-import com.morgandev.kioskacademy.domain.entity.AppData
-import com.morgandev.kioskacademy.domain.repository.AppDataRepository
+import com.morgandev.kioskacademy.domain.entities.AppData
+import com.morgandev.kioskacademy.domain.repositories.AppDataRepository
 
 
 class AppDataListRepositoryImpl(

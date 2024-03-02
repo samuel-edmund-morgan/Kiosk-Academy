@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 data class AppDataDbModel(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
-    val backgroundImage: ByteArray,
+    val backgroundImage: ByteArray?,
     val emblemId: Int,
     val year: Int,
     val galleryNameUA: String,

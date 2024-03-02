@@ -1,6 +1,6 @@
 package com.morgandev.kioskacademy.data.WarriorsData
 
-import com.morgandev.kioskacademy.domain.entity.Warrior
+import com.morgandev.kioskacademy.domain.entities.Warrior
 
 class WarriorListMapper {
 
