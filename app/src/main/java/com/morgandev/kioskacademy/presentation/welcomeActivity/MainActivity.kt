@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.KeyEvent
+import android.view.View
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
@@ -30,6 +31,15 @@ class MainActivity : AppCompatActivity() {
 //        viewModel.appDataList.observe(this){
 //            binding.showedData?.text = it.toString()
 //        }
+
+        //Hide bottom navbar
+        window.decorView.apply {
+            // Hide both the navigation bar and the status bar.
+            // SYSTEM_UI_FLAG_FULLSCREEN is only available on Android 4.1 and higher, but as
+            // a general rule, you should design your app to hide the status bar whenever you
+            // hide the navigation bar.
+            systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN
+        }
 
 
 
@@ -83,6 +93,7 @@ class MainActivity : AppCompatActivity() {
 //                galleryImage.launch("image/*")
 //        }
     }
+
 
     //Volume down button listener
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
