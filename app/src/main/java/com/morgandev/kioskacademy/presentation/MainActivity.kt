@@ -6,6 +6,7 @@ import android.view.View
 import com.morgandev.kioskacademy.databinding.ActivityMainBinding
 
 
+@Suppress("DEPRECATION")
 class MainActivity : AppCompatActivity() {
 
     private var _binding: ActivityMainBinding? = null
