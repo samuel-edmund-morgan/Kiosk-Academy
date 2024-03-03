@@ -98,10 +98,10 @@ class MainActivity : AppCompatActivity() {
     //Volume down button listener
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
-            val galleryNameUA = binding.dataToSave?.text.toString()
+            //val galleryNameUA = binding.dataToSave?.text.toString()
             viewModel.addAppData(
                 AppData(1, byteArrayOf(0x48), 1,
-                    2014, galleryNameUA, "Something")
+                    2014, "galleryNameUA", "Something")
             )
         }
         return true

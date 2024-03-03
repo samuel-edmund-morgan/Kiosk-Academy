@@ -1,6 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Kiosk Academy</string>
-    <string name="main_message">герої:\nшлях незламності</string>
     <string name="ssu_emblem">SSU emblem</string>
     <string name="bullet_hole">Bullet Hole</string>
     <string name="year_image">Year Image</string>
