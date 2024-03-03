@@ -1,23 +1,18 @@
-package com.morgandev.kioskacademy.presentation.welcomeActivity
+package com.morgandev.kioskacademy.presentation.welcomeFragment
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.morgandev.kioskacademy.data.AppData.AppDataListRepositoryImpl
 import com.morgandev.kioskacademy.domain.entities.AppData
-import com.morgandev.kioskacademy.domain.entities.Warrior
 import com.morgandev.kioskacademy.domain.usecases.AppDataUseCases.AddAppDataUseCase
 import com.morgandev.kioskacademy.domain.usecases.AppDataUseCases.DeleteAppDataUseCase
 import com.morgandev.kioskacademy.domain.usecases.AppDataUseCases.EditAppDataUseCase
 import com.morgandev.kioskacademy.domain.usecases.AppDataUseCases.GetAppDataListUseCase
 import com.morgandev.kioskacademy.domain.usecases.AppDataUseCases.GetAppDataUseCase
-import com.morgandev.kioskacademy.domain.usecases.WarriorsUseCases.AddWarriorUseCase
-import com.morgandev.kioskacademy.domain.usecases.WarriorsUseCases.DeleteWarriorUseCase
-import com.morgandev.kioskacademy.domain.usecases.WarriorsUseCases.EditWarriorUseCase
-import com.morgandev.kioskacademy.domain.usecases.WarriorsUseCases.GetWarriorListUseCase
 import kotlinx.coroutines.launch
 
-class MainViewModel(application: Application) : AndroidViewModel(application)  {
+class WelcomeFragmentViewModel(application: Application) : AndroidViewModel(application)  {
 
     private val repository = AppDataListRepositoryImpl(application)
 

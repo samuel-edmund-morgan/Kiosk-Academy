@@ -1,4 +1,4 @@
-package com.morgandev.kioskacademy.presentation.recyclerViewActivity
+package com.morgandev.kioskacademy.presentation.recyclerViewFragment
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

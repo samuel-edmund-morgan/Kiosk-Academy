@@ -4,4 +4,8 @@
     <string name="ssu_emblem">SSU emblem</string>
     <string name="bullet_hole">Bullet Hole</string>
     <string name="year_image">Year Image</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

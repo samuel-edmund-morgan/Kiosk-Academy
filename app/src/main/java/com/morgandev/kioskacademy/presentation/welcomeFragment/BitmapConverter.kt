@@ -1,4 +1,4 @@
-package com.morgandev.kioskacademy.presentation.welcomeActivity
+package com.morgandev.kioskacademy.presentation.welcomeFragment
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
