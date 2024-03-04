@@ -11,7 +11,7 @@ import com.morgandev.kioskacademy.domain.usecases.WarriorsUseCases.EditWarriorUs
 import com.morgandev.kioskacademy.domain.usecases.WarriorsUseCases.GetWarriorListUseCase
 import kotlinx.coroutines.launch
 
-class RecyclerWarriorsViewModel(application: Application) : AndroidViewModel(application)  {
+class RecyclerViewWarriorsViewModel(application: Application) : AndroidViewModel(application)  {
 
     private val repository = WarriorListRepositoryImpl(application)
 

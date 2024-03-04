@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import com.morgandev.kioskacademy.R
 import com.morgandev.kioskacademy.databinding.ActivityMainBinding
 import com.morgandev.kioskacademy.databinding.FragmentWelcomeScreenBinding
@@ -17,11 +18,7 @@ class WelcomeScreenFragment : Fragment() {
 
     private var _binding: FragmentWelcomeScreenBinding? = null
     private val binding: FragmentWelcomeScreenBinding
-        get() = _binding ?:  throw RuntimeException("FragmentWelcomeBinding == null")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
+        get() = _binding ?:  throw RuntimeException("FragmentWelcomeScreenBinding == null")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,21 +44,25 @@ class WelcomeScreenFragment : Fragment() {
     private fun setupOnClickListeners(){
         with(binding) {
             yearImage.setOnClickListener {
-                Toast.makeText(activity, "Test", Toast.LENGTH_LONG).show()
+                launchRecyclerViewWarriorsFragment()
             }
             mainMessage.setOnClickListener {
-                Toast.makeText(activity, "Test", Toast.LENGTH_LONG).show()
+                launchRecyclerViewWarriorsFragment()
             }
             ssuEmblem.setOnClickListener {
-                Toast.makeText(activity, "Test", Toast.LENGTH_LONG).show()
+                launchRecyclerViewWarriorsFragment()
             }
             bulletHole.setOnClickListener {
-                Toast.makeText(activity, "Test", Toast.LENGTH_LONG).show()
+                launchRecyclerViewWarriorsFragment()
             }
             root.setOnClickListener {
-                Toast.makeText(activity, "Test", Toast.LENGTH_LONG).show()
+                launchRecyclerViewWarriorsFragment()
             }
         }
+    }
+
+    private fun launchRecyclerViewWarriorsFragment(){
+        findNavController().navigate(R.id.action_welcomeScreenFragment_to_recyclerViewWarriorsFragment)
     }
 
     companion object {
