@@ -18,5 +18,14 @@
         android:id="@+id/recyclerViewWarriorsFragment"
         android:name="com.morgandev.kioskacademy.presentation.recyclerViewFragment.RecyclerViewWarriorsFragment"
         android:label="fragment_recycler_view_warriors"
-        tools:layout="@layout/fragment_recycler_view_warriors" />
+        tools:layout="@layout/fragment_recycler_view_warriors" >
+        <action
+            android:id="@+id/action_recyclerViewWarriorsFragment_to_recyclerViewWarriorsAddFragment"
+            app:destination="@id/recyclerViewWarriorsAddFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/recyclerViewWarriorsAddFragment"
+        android:name="com.morgandev.kioskacademy.presentation.recyclerViewFragment.adminRecyclerView.RecyclerViewWarriorsAddFragment"
+        android:label="fragment_recycler_view_warriors_add"
+        tools:layout="@layout/fragment_recycler_view_warriors_add" />
 </navigation>

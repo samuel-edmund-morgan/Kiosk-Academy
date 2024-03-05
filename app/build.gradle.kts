@@ -41,6 +41,7 @@ android {
 dependencies {
 
 
+    implementation("androidx.databinding:databinding-runtime:8.3.0")
     //Room database
     val room_version = "2.6.1"
     implementation("androidx.room:room-runtime:$room_version")

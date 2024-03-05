@@ -13,9 +13,6 @@ import com.morgandev.kioskacademy.databinding.FragmentWelcomeScreenBinding
 
 class WelcomeScreenFragment : Fragment() {
 
-
-    private lateinit var viewModel: WelcomeFragmentViewModel
-
     private var _binding: FragmentWelcomeScreenBinding? = null
     private val binding: FragmentWelcomeScreenBinding
         get() = _binding ?:  throw RuntimeException("FragmentWelcomeScreenBinding == null")

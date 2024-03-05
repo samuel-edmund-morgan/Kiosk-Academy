@@ -8,4 +8,6 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="warrior_image">Warrior Image</string>
+    <string name="branding_image">Branding Image</string>
 </resources>

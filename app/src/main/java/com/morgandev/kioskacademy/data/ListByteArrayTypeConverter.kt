@@ -2,7 +2,7 @@ package com.morgandev.kioskacademy.data
 
 import androidx.room.TypeConverter
 
-class ListIntTypeConverter {
+class ListByteArrayTypeConverter {
     @TypeConverter
     fun fromListIntToString(intList: List<ByteArray?>): String = intList.toString()
     @TypeConverter
