@@ -5,4 +5,6 @@
     <string name="year_image">Year Image</string>
     <string name="warrior_image">Warrior Image</string>
     <string name="branding_image">Branding Image</string>
+    <string name="arrow_up">Arrow Up</string>
+    <string name="arrow_down">Arrow Down</string>
 </resources>

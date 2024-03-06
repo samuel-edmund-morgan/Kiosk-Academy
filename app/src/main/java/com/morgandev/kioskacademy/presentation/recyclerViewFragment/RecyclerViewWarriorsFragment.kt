@@ -1,17 +1,13 @@
 package com.morgandev.kioskacademy.presentation.recyclerViewFragment
 
-import android.content.IntentFilter
+
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.activityViewModels
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.flexbox.AlignItems
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
@@ -39,7 +35,7 @@ class RecyclerViewWarriorsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding =  FragmentRecyclerViewWarriorsBinding.inflate(inflater,container,false)
 
@@ -54,25 +50,31 @@ class RecyclerViewWarriorsFragment : Fragment() {
 
     }
 
-    companion object {
-        fun newInstance() = RecyclerViewWarriorsFragment()
-    }
-
     private fun submitListObserver(){
         recycleViewWarriorsViewModel.warriorList.observe(viewLifecycleOwner) {
             recyclerViewWarriorsAdapter.submitList(it)
+            binding.progressBar.visibility = View.GONE
         }
     }
 
     private fun setupRecyclerView() {
 
         with(binding.rvWarriors) {
-            //layoutManager = GridLayoutManager(context, 3, GridLayoutManager.VERTICAL, false)
             val lManager = FlexboxLayoutManager(context)
-            lManager.setFlexWrap(FlexWrap.WRAP)
-            lManager.setFlexDirection(FlexDirection.ROW)
-            lManager.setJustifyContent(JustifyContent.CENTER)
-            lManager.setAlignItems(AlignItems.CENTER)
+            lManager.flexWrap = FlexWrap.WRAP
+            lManager.flexDirection = FlexDirection.ROW
+            lManager.justifyContent = JustifyContent.CENTER
+            lManager.alignItems = AlignItems.CENTER
+            binding.arrowDown.setOnClickListener {
+                val position = lManager.findLastVisibleItemPosition()
+                smoothScrollToPosition(position + 4)
+            }
+            binding.arrowUp.setOnClickListener {
+                val swipePosition = if(lManager.findFirstVisibleItemPosition() > 3)
+                    lManager.findFirstVisibleItemPosition() - 4
+                    else 0
+                smoothScrollToPosition(swipePosition)
+            }
             layoutManager = lManager
             recyclerViewWarriorsAdapter = RecyclerViewWarriorsAdapter()
             adapter = recyclerViewWarriorsAdapter
@@ -83,11 +85,10 @@ class RecyclerViewWarriorsFragment : Fragment() {
         }
 
     }
-
     private fun observeKeyDownEventChanges() {
                 recycleViewWarriorsViewModel.keyEvent
                     .observe(viewLifecycleOwner, EventObserver {
-                        result -> launchRecyclerViewWarriorsAddFragment()
+                    launchRecyclerViewWarriorsAddFragment()
                     }
                     )
     }
