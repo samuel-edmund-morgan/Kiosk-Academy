@@ -1,22 +1,15 @@
 package com.morgandev.kioskacademy.presentation
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
-import com.morgandev.kioskacademy.R
-import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
-import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.eventbus.EventBus
+import com.morgandev.kioskacademy.R
 import com.morgandev.kioskacademy.databinding.ActivityMainBinding
 import com.morgandev.kioskacademy.presentation.recyclerViewFragment.RecyclerViewWarriorsViewModel
 import com.morgandev.kioskacademy.presentation.recyclerViewFragment.adminRecyclerView.RecyclerViewWarriorsAddFragment
-import com.morgandev.kioskacademy.presentation.welcomeFragment.WelcomeFragmentViewModel
 
 
 @Suppress("DEPRECATION")
