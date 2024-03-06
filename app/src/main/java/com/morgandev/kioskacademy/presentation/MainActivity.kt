@@ -5,11 +5,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
+import com.morgandev.kioskacademy.R
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.navigation.findNavController
 import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.eventbus.EventBus
 import com.morgandev.kioskacademy.databinding.ActivityMainBinding
 import com.morgandev.kioskacademy.presentation.recyclerViewFragment.RecyclerViewWarriorsViewModel
@@ -53,7 +55,9 @@ class MainActivity : AppCompatActivity(), RecyclerViewWarriorsAddFragment.OnEdit
 
         return when (keyCode) {
             KeyEvent.KEYCODE_VOLUME_DOWN -> {
-                recycleViewWarriorsViewModel.setEvent(keyCode)
+                if(findNavController(R.id.main_container).currentDestination?.id == R.id.recyclerViewWarriorsFragment) {
+                    recycleViewWarriorsViewModel.setEvent(keyCode)
+                }
                 true
             }
             else -> super.onKeyDown(keyCode, event)

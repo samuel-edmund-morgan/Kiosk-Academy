@@ -1,12 +1,12 @@
 package com.morgandev.kioskacademy.presentation.recyclerViewFragment.recyclerViewData
 
-import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.bumptech.glide.Glide
 import com.morgandev.kioskacademy.databinding.WarriorItemFullBinding
 import com.morgandev.kioskacademy.domain.entities.Warrior
+
 
 class RecyclerViewWarriorsAdapter :
     ListAdapter<Warrior, RecyclerViewWarriorsViewHolder>(RecyclerViewWarriorDiffCallback()) {
@@ -24,10 +24,14 @@ class RecyclerViewWarriorsAdapter :
         binding.root.setOnClickListener {
             TODO("Create on click listener")
         }
+        val contextValue = viewHolder.itemView.context
+        val profilePictureValue = warriorItem.profilePicture
+        val warriorIvValue = binding.warriorIv
 
-        Glide.with(viewHolder.itemView.context)
-            .load(warriorItem.profilePicture)
-            .into(binding.warriorIv)
+        Glide.with(contextValue)
+            .load(profilePictureValue)
+            .into(warriorIvValue)
+            .waitForLayout()
 
         binding.warriorTvName.text = warriorItem.nameUA
     }

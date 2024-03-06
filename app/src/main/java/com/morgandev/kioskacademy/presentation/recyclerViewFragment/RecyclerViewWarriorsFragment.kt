@@ -17,6 +17,7 @@ import com.morgandev.kioskacademy.R
 import com.morgandev.kioskacademy.databinding.FragmentRecyclerViewWarriorsBinding
 import com.morgandev.kioskacademy.presentation.EventObserver
 import com.morgandev.kioskacademy.presentation.recyclerViewFragment.recyclerViewData.RecyclerViewWarriorsAdapter
+import kotlin.concurrent.fixedRateTimer
 
 class RecyclerViewWarriorsFragment : Fragment() {
 
@@ -86,11 +87,10 @@ class RecyclerViewWarriorsFragment : Fragment() {
 
     }
     private fun observeKeyDownEventChanges() {
-                recycleViewWarriorsViewModel.keyEvent
-                    .observe(viewLifecycleOwner, EventObserver {
+                recycleViewWarriorsViewModel.keyEvent.observe(viewLifecycleOwner, EventObserver {
                     launchRecyclerViewWarriorsAddFragment()
-                    }
-                    )
+                }
+                )
     }
 
     private fun launchRecyclerViewWarriorsAddFragment(){
