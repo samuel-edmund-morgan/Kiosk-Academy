@@ -4,6 +4,7 @@ import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
+import com.bumptech.glide.Glide
 import com.morgandev.kioskacademy.databinding.WarriorItemFullBinding
 import com.morgandev.kioskacademy.domain.entities.Warrior
 
@@ -24,17 +25,16 @@ class RecyclerViewWarriorsAdapter :
             TODO("Create on click listener")
         }
 
-        val bitmapProfilePicture = warriorItem.profilePicture?.let {
-            it.size.let { it1 ->
-                BitmapFactory.decodeByteArray(
-                    warriorItem.profilePicture,
-                    0,
-                    it1
-                )
-            }
-        }
-        binding.warriorIv.setImageBitmap(bitmapProfilePicture)
+        Glide.with(viewHolder.itemView.context)
+            .load(warriorItem.profilePicture)
+            .into(binding.warriorIv)
+
         binding.warriorTvName.text = warriorItem.nameUA
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        val item = getItem(position)
+        return VIEW_TYPE_ENABLED
     }
 
     companion object{

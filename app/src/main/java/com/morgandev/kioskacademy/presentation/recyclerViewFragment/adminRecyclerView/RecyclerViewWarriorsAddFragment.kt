@@ -55,9 +55,9 @@ class RecyclerViewWarriorsAddFragment : Fragment() {
 
                 //saving image in room
                 val newImage = requireActivity().contentResolver.openInputStream(it!!)?.readBytes()
-
+                val bitmapImage =  BitmapFactory.decodeByteArray(newImage, 0, newImage!!.size)
                 val newWarrior = Warrior(
-                    newImage,
+                    bitmapImage,
                     "Полковник",
                     "Олександр Аніщенко",
                     "Oleksandr Anishenko",
@@ -67,8 +67,8 @@ class RecyclerViewWarriorsAddFragment : Fragment() {
                     11,
                     11,
                     "Descr",
-                    listOf(byteArrayOf(1,2,3), byteArrayOf(1,2,3)),
-                    listOf(byteArrayOf(1,2,3), byteArrayOf(1,2,3))
+                    listOf(bitmapImage, bitmapImage),
+                    listOf(bitmapImage, bitmapImage)
                 )
                 recycleViewWarriorsAddViewModel.addWarrior(newWarrior)
             }

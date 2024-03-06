@@ -1,8 +1,10 @@
 package com.morgandev.kioskacademy.domain.entities
 
+import android.graphics.Bitmap
+
 
 data class Warrior(
-    val profilePicture: ByteArray?,
+    val profilePicture: Bitmap,
     val rank: String,
     val nameUA: String,
     val nameENG: String,
@@ -12,8 +14,8 @@ data class Warrior(
     val dateBirth: Int,
     val dateDied: Int,
     val description: String,
-    val photos: List<ByteArray?>,
-    val videos: List<ByteArray?>,
+    val photos: List<Bitmap>,
+    val videos: List<Bitmap>,
     val id: Int = UNDEFINED_ID,
 ) {
     companion object{

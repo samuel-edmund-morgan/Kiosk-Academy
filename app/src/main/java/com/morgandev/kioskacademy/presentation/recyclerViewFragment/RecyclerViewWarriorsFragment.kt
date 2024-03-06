@@ -77,11 +77,6 @@ class RecyclerViewWarriorsFragment : Fragment() {
                 }
                 )
 
-//                recycleViewWarriorsViewModel.keyEvent.observe(viewLifecycleOwner) {
-//                    Toast.makeText(activity, "Tedddst", Toast.LENGTH_LONG).show()
-//                    launchRecyclerViewWarriorsAddFragment()
-//                }
-
 
     }
 

@@ -1,5 +1,6 @@
 package com.morgandev.kioskacademy.data.WarriorsData
 
+import android.graphics.Bitmap
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -8,7 +9,7 @@ import androidx.room.PrimaryKey
 data class WarriorDbModel(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
-    val profilePicture: ByteArray?,
+    val profilePicture: Bitmap,
     val rank: String,
     val nameUA: String,
     val nameENG: String,
@@ -18,6 +19,6 @@ data class WarriorDbModel(
     val dateBirth: Int,
     val dateDied: Int,
     val description: String,
-    val photos: List<ByteArray?>,
-    val videos: List<ByteArray?>
+    val photos: List<Bitmap>,
+    val videos: List<Bitmap>
 )
