@@ -11,8 +11,7 @@
         android:label="WelcomeScreenFragment" >
         <action
             android:id="@+id/action_welcomeScreenFragment_to_recyclerViewWarriorsFragment"
-            app:destination="@id/recyclerViewWarriorsFragment"
-            app:popUpTo="@id/welcomeScreenFragment" />
+            app:destination="@id/recyclerViewWarriorsFragment" />
     </fragment>
     <fragment
         android:id="@+id/recyclerViewWarriorsFragment"
@@ -21,7 +20,8 @@
         tools:layout="@layout/fragment_recycler_view_warriors" >
         <action
             android:id="@+id/action_recyclerViewWarriorsFragment_to_recyclerViewWarriorsAddFragment"
-            app:destination="@id/recyclerViewWarriorsAddFragment" />
+            app:destination="@id/recyclerViewWarriorsAddFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/recyclerViewWarriorsAddFragment"

@@ -2,7 +2,6 @@ package com.morgandev.kioskacademy.domain.entities
 
 
 data class Warrior(
-    val id: Int,
     val profilePicture: ByteArray?,
     val rank: String,
     val nameUA: String,
@@ -14,9 +13,10 @@ data class Warrior(
     val dateDied: Int,
     val description: String,
     val photos: List<ByteArray?>,
-    val videos: List<ByteArray?>
+    val videos: List<ByteArray?>,
+    val id: Int = UNDEFINED_ID,
 ) {
     companion object{
-        const val UNDEFINED_ID = -1
+        const val UNDEFINED_ID = 0
     }
 }
