@@ -32,10 +32,6 @@ class RecyclerViewWarriorsAdapter :
         binding.warriorTvName.text = warriorItem.nameUA
     }
 
-    override fun getItemViewType(position: Int): Int {
-        val item = getItem(position)
-        return VIEW_TYPE_ENABLED
-    }
 
     companion object{
         const val VIEW_TYPE_ENABLED = 100

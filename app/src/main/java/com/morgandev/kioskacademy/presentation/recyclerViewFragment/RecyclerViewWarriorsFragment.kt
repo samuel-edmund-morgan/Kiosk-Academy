@@ -10,6 +10,13 @@ import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.flexbox.AlignItems
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.flexbox.JustifyContent
 import com.morgandev.kioskacademy.R
 import com.morgandev.kioskacademy.databinding.FragmentRecyclerViewWarriorsBinding
 import com.morgandev.kioskacademy.presentation.EventObserver
@@ -58,7 +65,15 @@ class RecyclerViewWarriorsFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
+
         with(binding.rvWarriors) {
+            //layoutManager = GridLayoutManager(context, 3, GridLayoutManager.VERTICAL, false)
+            val lManager = FlexboxLayoutManager(context)
+            lManager.setFlexWrap(FlexWrap.WRAP)
+            lManager.setFlexDirection(FlexDirection.ROW)
+            lManager.setJustifyContent(JustifyContent.CENTER)
+            lManager.setAlignItems(AlignItems.CENTER)
+            layoutManager = lManager
             recyclerViewWarriorsAdapter = RecyclerViewWarriorsAdapter()
             adapter = recyclerViewWarriorsAdapter
             recycledViewPool.setMaxRecycledViews(
@@ -70,18 +85,14 @@ class RecyclerViewWarriorsFragment : Fragment() {
     }
 
     private fun observeKeyDownEventChanges() {
-                recycleViewWarriorsViewModel.keyEvent.observe(viewLifecycleOwner, EventObserver
-                { result ->
-                    Toast.makeText(activity, "Tedddst", Toast.LENGTH_LONG).show()
-                    launchRecyclerViewWarriorsAddFragment()
-                }
-                )
-
-
+                recycleViewWarriorsViewModel.keyEvent
+                    .observe(viewLifecycleOwner, EventObserver {
+                        result -> launchRecyclerViewWarriorsAddFragment()
+                    }
+                    )
     }
 
     private fun launchRecyclerViewWarriorsAddFragment(){
-
             findNavController().navigate(R.id.action_recyclerViewWarriorsFragment_to_recyclerViewWarriorsAddFragment)
     }
     override fun onDestroyView() {
