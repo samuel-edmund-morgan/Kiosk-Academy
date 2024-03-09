@@ -28,17 +28,14 @@ class RecyclerViewWarriorsFragment : Fragment() {
 
     private var _binding: FragmentRecyclerViewWarriorsBinding? = null
     private val binding: FragmentRecyclerViewWarriorsBinding
-        get() = _binding ?:  throw RuntimeException("FragmentRecyclerViewWarriorsBinding == null")
-
-
+        get() = _binding ?: throw RuntimeException("FragmentRecyclerViewWarriorsBinding == null")
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
-        _binding =  FragmentRecyclerViewWarriorsBinding.inflate(inflater,container,false)
+        _binding = FragmentRecyclerViewWarriorsBinding.inflate(inflater, container, false)
 
         return binding.root
     }
@@ -51,7 +48,7 @@ class RecyclerViewWarriorsFragment : Fragment() {
 
     }
 
-    private fun submitListObserver(){
+    private fun submitListObserver() {
         recycleViewWarriorsViewModel.warriorList.observe(viewLifecycleOwner) {
             recyclerViewWarriorsAdapter.submitList(it)
             binding.progressBar.visibility = View.GONE
@@ -71,9 +68,9 @@ class RecyclerViewWarriorsFragment : Fragment() {
                 smoothScrollToPosition(position + 4)
             }
             binding.arrowUp.setOnClickListener {
-                val swipePosition = if(lManager.findFirstVisibleItemPosition() > 3)
+                val swipePosition = if (lManager.findFirstVisibleItemPosition() > 3)
                     lManager.findFirstVisibleItemPosition() - 4
-                    else 0
+                else 0
                 smoothScrollToPosition(swipePosition)
             }
             layoutManager = lManager
@@ -86,16 +83,18 @@ class RecyclerViewWarriorsFragment : Fragment() {
         }
 
     }
+
     private fun observeKeyDownEventChanges() {
-                recycleViewWarriorsViewModel.keyEvent.observe(viewLifecycleOwner, EventObserver {
-                    launchRecyclerViewWarriorsAddFragment()
-                }
-                )
+        recycleViewWarriorsViewModel.keyEvent.observe(viewLifecycleOwner, EventObserver {
+            launchRecyclerViewWarriorsAddFragment()
+        }
+        )
     }
 
-    private fun launchRecyclerViewWarriorsAddFragment(){
-            findNavController().navigate(R.id.action_recyclerViewWarriorsFragment_to_recyclerViewWarriorsAddFragment)
+    private fun launchRecyclerViewWarriorsAddFragment() {
+        findNavController().navigate(R.id.action_recyclerViewWarriorsFragment_to_recyclerViewWarriorsAddFragment)
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

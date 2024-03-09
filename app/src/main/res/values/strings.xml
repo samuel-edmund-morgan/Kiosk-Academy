@@ -12,4 +12,26 @@
     <string name="branding_image">Branding Image</string>
     <string name="arrow_up">Arrow Up</string>
     <string name="arrow_down">Arrow Down</string>
+    <string name="new_warrior">Новий воїн</string>
+    <string name="profile_picture">Фото профілю:</string>
+    <string name="chose_photo">Обрати фото</string>
+    <string name="rank">Звання:</string>
+    <string name="rank_if_exist">Звання (за наявності)</string>
+    <string name="name_surname">Ім`я та прізвище:</string>
+    <string name="surname_name_patronim">Прізвище, ім`я, по-батькові:</string>
+    <string name="emblem_text">Герб підрозділу\n(за наявності):</string>
+    <string name="chose_emblem">Обрати герб</string>
+    <string name="chose_dates">Введіть дати:</string>
+    <string name="birth_date">Дата народження</string>
+    <string name="death_date">Дата смерті</string>
+    <string name="enter__warrior_description">Введіть опис воїна:</string>
+    <string name="chose_photos">Оберіть фото про воїна\n(за наявності):</string>
+    <string name="chose_photo_btn">Обрати фото</string>
+    <string name="chose_videos_about">Оберіть фільми про воїна\n(за наявності):</string>
+    <string name="chose_videos_btn">Обрати відео</string>
+    <string name="save">Зберегти</string>
+    <string name="description">Опис</string>
+    <string name="colonel">полковник</string>
+    <string name="taras_shevchenko">Тарас Шевченко</string>
+    <string name="shevchenco_taras_hrygorovych">Шевченко Тарас Григорович</string>
 </resources>

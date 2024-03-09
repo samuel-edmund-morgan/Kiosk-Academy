@@ -51,7 +51,7 @@ dependencies {
     implementation("androidx.room:room-ktx:$room_version")
     implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation("com.google.android.flexbox:flexbox:3.0.0")
-
+    implementation("androidx.activity:activity:1.8.2")
 
 
     //Navigation
