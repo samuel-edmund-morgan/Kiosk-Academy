@@ -18,6 +18,7 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import com.morgandev.kioskacademy.databinding.FragmentRecyclerViewWarriorsAddBinding
+import com.morgandev.kioskacademy.presentation.EventObserver
 import com.morgandev.kioskacademy.presentation.recyclerViewFragment.RecyclerViewWarriorsViewModel
 import java.io.ByteArrayInputStream
 import java.io.File
@@ -91,11 +92,7 @@ class RecyclerViewWarriorsAddFragment : Fragment() {
             )
             checkInputData()
             saveDataBtn.setOnClickListener {
-
-                //0) Before starting Change DbModel and Warrior class to store Strings, then reinstall app
-
-                //1) Move data from cache to files asynchronously (make fun in ViewModel)
-
+                recycleViewWarriorsAddViewModel.copyFromCacheToFiles(binding)
 
                 //2) Add Strings to Room db
                 //take data from et and tv then
@@ -109,9 +106,10 @@ class RecyclerViewWarriorsAddFragment : Fragment() {
         }
     }
     private fun observeViewModel() {
-        recycleViewWarriorsAddViewModel.shouldCloseScreen.observe(viewLifecycleOwner) {
+        recycleViewWarriorsAddViewModel.shouldCloseScreen.observe(viewLifecycleOwner, EventObserver {
             onEditingFinishedListener.onEditingFinished()
-        }
+        })
+
     }
     private fun choseDateClickListener(textView: TextView, button: Button) {
         val calendar = Calendar.getInstance()
@@ -175,7 +173,10 @@ class RecyclerViewWarriorsAddFragment : Fragment() {
                     val flag = Intent.FLAG_GRANT_READ_URI_PERMISSION
                     context?.contentResolver?.takePersistableUriPermission(uri, flag)
 
+
                     val fileName = File(uri.path.toString()).name
+
+
                     val fullFileTmpPath = File(context?.cacheDir, fileName)
                     val newVideo: ByteArray?
                     requireActivity().contentResolver.openInputStream(uri).use {

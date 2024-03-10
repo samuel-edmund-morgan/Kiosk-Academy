@@ -20,7 +20,7 @@ data class WarriorDbModel(
     val dateBirth: String,
     val dateDied: String,
     val description: String,
-    val photos: List<String>,
+    val photos: String,
     @ColumnInfo(defaultValue = "")
-    val videos: List<String>
+    val videos: String
 )

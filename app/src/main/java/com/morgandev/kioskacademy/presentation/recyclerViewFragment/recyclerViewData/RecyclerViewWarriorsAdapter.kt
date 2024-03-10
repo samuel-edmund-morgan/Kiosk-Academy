@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.ListAdapter
 import com.bumptech.glide.Glide
 import com.morgandev.kioskacademy.databinding.WarriorItemFullBinding
 import com.morgandev.kioskacademy.domain.entities.Warrior
+import java.io.File
 
 
 class RecyclerViewWarriorsAdapter :
@@ -27,9 +28,10 @@ class RecyclerViewWarriorsAdapter :
         val contextValue = viewHolder.itemView.context
         val profilePictureValue = warriorItem.profilePicture
         val warriorIvValue = binding.warriorIv
+        val picFilePath = contextValue.filesDir
 
         Glide.with(contextValue)
-            .load(profilePictureValue)
+            .load(File("${picFilePath}/${profilePictureValue}/${profilePictureValue}"))
             .into(warriorIvValue)
             .waitForLayout()
 

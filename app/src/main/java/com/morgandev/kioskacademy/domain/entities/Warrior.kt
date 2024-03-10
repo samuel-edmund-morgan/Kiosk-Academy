@@ -12,8 +12,8 @@ data class Warrior(
     val dateBirth: String,
     val dateDied: String,
     val description: String,
-    val photos: List<String>,
-    val videos: List<String>,
+    val photos: String,
+    val videos: String,
     val id: Int = UNDEFINED_ID,
 ) {
     companion object{
