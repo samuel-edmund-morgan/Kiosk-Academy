@@ -10,7 +10,7 @@ import com.morgandev.kioskacademy.data.AppData.AppDataDbModel
 import com.morgandev.kioskacademy.data.WarriorsData.WarriorDbModel
 import com.morgandev.kioskacademy.data.WarriorsData.WarriorListDao
 
-@TypeConverters(ListByteArrayTypeConverter::class)
+@TypeConverters(ListStringTypeConverter::class)
 @Database
     (entities = [AppDataDbModel::class, WarriorDbModel::class], version = 1, exportSchema = false)
 abstract class ApplicationDatabase: RoomDatabase() {

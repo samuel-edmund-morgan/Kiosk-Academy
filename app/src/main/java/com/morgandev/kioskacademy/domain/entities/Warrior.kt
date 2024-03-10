@@ -4,18 +4,16 @@ import android.graphics.Bitmap
 
 
 data class Warrior(
-    val profilePicture: Bitmap,
+    val profilePicture: String,
     val rank: String,
     val nameUA: String,
-    val nameENG: String,
     val fullNameUA: String,
-    val fullNameENG: String,
-    val departmentEmblem: Int,
-    val dateBirth: Int,
-    val dateDied: Int,
+    val departmentEmblem: String,
+    val dateBirth: String,
+    val dateDied: String,
     val description: String,
-    val photos: List<Bitmap>,
-    val videos: List<Bitmap>,
+    val photos: List<String>,
+    val videos: List<String>,
     val id: Int = UNDEFINED_ID,
 ) {
     companion object{

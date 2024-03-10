@@ -10,7 +10,7 @@
     <string name="new_warrior">Новий воїн</string>
     <string name="profile_picture">Фото профілю:</string>
     <string name="chose_photo">Обрати фото</string>
-    <string name="rank">Звання:</string>
+    <string name="rank">Звання\n(за наявності):</string>
     <string name="rank_if_exist">Звання (за наявності)</string>
     <string name="name_surname">Ім`я та прізвище:</string>
     <string name="surname_name_patronim">Прізвище, ім`я, по-батькові:</string>

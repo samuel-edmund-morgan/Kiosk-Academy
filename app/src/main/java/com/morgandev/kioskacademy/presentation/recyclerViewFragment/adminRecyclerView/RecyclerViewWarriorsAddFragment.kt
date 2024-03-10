@@ -5,7 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +21,7 @@ import com.morgandev.kioskacademy.databinding.FragmentRecyclerViewWarriorsAddBin
 import com.morgandev.kioskacademy.presentation.recyclerViewFragment.RecyclerViewWarriorsViewModel
 import java.io.ByteArrayInputStream
 import java.io.File
+import java.lang.IllegalArgumentException
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -32,7 +34,7 @@ class RecyclerViewWarriorsAddFragment : Fragment() {
 
     private var _binding: FragmentRecyclerViewWarriorsAddBinding? = null
     private val binding: FragmentRecyclerViewWarriorsAddBinding
-        get() = _binding ?:  throw RuntimeException("FragmentRecyclerViewWarriorsAddBinding == null")
+        get() = _binding ?: throw RuntimeException("FragmentRecyclerViewWarriorsAddBinding == null")
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -46,8 +48,8 @@ class RecyclerViewWarriorsAddFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        _binding =  FragmentRecyclerViewWarriorsAddBinding.inflate(inflater,container,false)
+    ): View {
+        _binding = FragmentRecyclerViewWarriorsAddBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -55,49 +57,70 @@ class RecyclerViewWarriorsAddFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
 
-        with(binding){
+        with(binding) {
 
-            choseFileClickListener(profileTv,
+            choseFileClickListener(
+                profileTv,
                 profileBtn,
                 ActivityResultContracts.PickVisualMedia.ImageOnly,
-                1)
+                1
+            )
 
-            choseFileClickListener(emblemTv,
+            choseFileClickListener(
+                emblemTv,
                 emblemBtn,
                 ActivityResultContracts.PickVisualMedia.ImageOnly,
-                1)
+                1
+            )
 
             choseDateClickListener(birthTv, birthBtn)
             choseDateClickListener(deathTv, deathBtn)
 
-            choseFileClickListener(photoTv,
+            choseFileClickListener(
+                photoTv,
                 photoBtn,
                 ActivityResultContracts.PickVisualMedia.ImageOnly,
-                15)
+                15
+            )
 
-            choseFileClickListener(videoTv,
+            choseFileClickListener(
+                videoTv,
                 videoBtn,
                 ActivityResultContracts.PickVisualMedia.VideoOnly,
-                5)
-        }
+                5
+            )
+            checkInputData()
+            saveDataBtn.setOnClickListener {
 
-    }
+                //0) Before starting Change DbModel and Warrior class to store Strings, then reinstall app
+
+                //1) Move data from cache to files asynchronously (make fun in ViewModel)
 
 
-    private fun observeViewModel() {
-            recycleViewWarriorsAddViewModel.shouldCloseScreen.observe(viewLifecycleOwner) {
-                onEditingFinishedListener.onEditingFinished()
+                //2) Add Strings to Room db
+                //take data from et and tv then
+                //recycleViewWarriorsAddViewModel.addWarrior()
+
+                //3) Change method of displaying data on RecyclerView
+
+                //4) MAke everything above in First fragment to makeeditable emblem, text and image of year
+
             }
+        }
     }
-
+    private fun observeViewModel() {
+        recycleViewWarriorsAddViewModel.shouldCloseScreen.observe(viewLifecycleOwner) {
+            onEditingFinishedListener.onEditingFinished()
+        }
+    }
     private fun choseDateClickListener(textView: TextView, button: Button) {
         val calendar = Calendar.getInstance()
         val datePickerDialog = context?.let {
             DatePickerDialog(
-                it, { DatePicker, year: Int, monthOfYear: Int, dayOfMonth: Int ->
+                it, { _, year: Int, monthOfYear: Int, dayOfMonth: Int ->
                     val selectedDate = Calendar.getInstance()
                     selectedDate.set(year, monthOfYear, dayOfMonth)
-                    val dateFormat = SimpleDateFormat("dd MMMM yyyy", Locale("uk","UA"))
+                    val dateFormat = SimpleDateFormat("dd MMMM yyyy", Locale("uk", "UA"))
                     val formattedDate = dateFormat.format(selectedDate.time)
                     textView.text = formattedDate
                 },
@@ -110,140 +133,118 @@ class RecyclerViewWarriorsAddFragment : Fragment() {
             datePickerDialog?.show()
         }
     }
+    private fun choseFileClickListener(
+        textView: TextView,
+        button: Button,
+        visualMediaType: ActivityResultContracts.PickVisualMedia.VisualMediaType,
+        fileCount: Int
+    ) {
+        if (fileCount < 1) throw IllegalArgumentException()
 
-
-    private fun choseFileClickListener(textView: TextView,
-                                       button: Button,
-                                       visualMediaType: ActivityResultContracts.PickVisualMedia.VisualMediaType,
-                                       fileCount: Int){
-        // Registers a photo picker activity launcher in single-select mode.
         val contract = if (fileCount == 1) ActivityResultContracts.PickVisualMedia() else
-           ActivityResultContracts.PickMultipleVisualMedia(fileCount)
+            ActivityResultContracts.PickMultipleVisualMedia(fileCount)
         val pickMedia = registerForActivityResult(contract) { uri ->
-
-
             if (uri != null) {
-                if (uri is List<*>){
-                    for(uri_item in uri){
-                        if(uri_item is Uri){
+                val listOfFileNames = mutableListOf<String>()
+                if (uri is List<*> && uri.isNotEmpty()) {
+                    for (uriItem in uri) {
+                        if (uriItem is Uri) {
                             val flag = Intent.FLAG_GRANT_READ_URI_PERMISSION
-                            context?.contentResolver?.takePersistableUriPermission(uri_item, flag)
+                            context?.contentResolver?.takePersistableUriPermission(uriItem, flag)
 
-                            //Create file in tmp dir and write video there:
-                            val fileName = File(uri_item.path).name
-                            val fullFilePath =  File(context?.cacheDir, fileName)
-                            val newVideo = requireActivity().contentResolver.openInputStream(uri_item)?.readBytes()
+                            val fileName = File(uriItem.path.toString()).name
+                            val fullFileTmpPath = File(context?.cacheDir, fileName)
+                            var newVideo: ByteArray?
+                            requireActivity().contentResolver.openInputStream(uriItem).use {
+                                newVideo = it?.readBytes()
+                                it?.close()
+                            }
                             val inputStream = ByteArrayInputStream(newVideo)
                             inputStream.use { input ->
-                                fullFilePath.outputStream().use { output ->
+                                fullFileTmpPath.outputStream().use { output ->
                                     input.copyTo(output)
                                 }
                             }
-
-                            //Also must write name of the file (fileName) to TextView on Fragment
-                            textView.text = fileName
-
-                            //After all input fields are filled you must copy file (fileName) from cache to files
-                            //and write NAME of the file(fileName, not path) to Room db and clear cache
+                            listOfFileNames.add(fileName)
                         }
                     }
-                }
-                else if (uri is Uri){
+                    textView.text = listOfFileNames.toString()
+                        .replace("[","")
+                        .replace("]","")
+                } else if (uri is Uri) {
                     val flag = Intent.FLAG_GRANT_READ_URI_PERMISSION
                     context?.contentResolver?.takePersistableUriPermission(uri, flag)
 
-                    //Create file in tmp dir and write video there:
-                    val fileName = File(uri.path).name
-                    val fullFilePath =  File(context?.cacheDir, fileName)
-                    val newVideo = requireActivity().contentResolver.openInputStream(uri)?.readBytes()
+                    val fileName = File(uri.path.toString()).name
+                    val fullFileTmpPath = File(context?.cacheDir, fileName)
+                    val newVideo: ByteArray?
+                    requireActivity().contentResolver.openInputStream(uri).use {
+                        newVideo = it?.readBytes()
+                        it?.close()
+                    }
                     val inputStream = ByteArrayInputStream(newVideo)
                     inputStream.use { input ->
-                        fullFilePath.outputStream().use { output ->
+                        fullFileTmpPath.outputStream().use { output ->
                             input.copyTo(output)
                         }
                     }
-
-                    //Also must write name of the file (fileName) to TextView on Fragment
                     textView.text = fileName
-
-                    //After all input fields are filled you must copy file (fileName) from cache to files
-                    //and write NAME of the file(fileName, not path) to Room db and clear cache
+                        .replace("[","")
+                        .replace("]","")
+                } else {
+                    textView.text = ""
+                    Toast.makeText(context, "Медіа не обрано!", Toast.LENGTH_LONG).show()
                 }
-
             } else {
-                Toast.makeText(context, "No media selected", Toast.LENGTH_LONG).show()
-                Log.d("PhotoPicker", "No media selected")
+                textView.text = ""
+                Toast.makeText(context, "Медіа не обрано!", Toast.LENGTH_LONG).show()
             }
         }
         button.setOnClickListener {
             pickMedia.launch(PickVisualMediaRequest(visualMediaType))
         }
-
     }
-
+    private fun checkInputData(){
+        with(binding) {
+            val textWatcher = object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    val formattedPhotoName = profileTv.text.toString().trim()
+                    val formattedNameSurname = nameSurnameEt.text.toString().trim()
+                    val formattedSurnameNamePatronim = surnameNamePatronimEt.text.toString().trim()
+                    val formattedBirthDate = birthTv.text.toString().trim()
+                    val formattedDeathDate = deathTv.text.toString().trim()
+                    val formattedDescription = descriptionEt.text.toString().trim()
+                    val formattedPhotoList = photoTv.text.toString().trim()
+                    saveDataBtn.isEnabled = formattedPhotoName.isNotEmpty() &&
+                            formattedNameSurname.isNotEmpty() && formattedSurnameNamePatronim.isNotEmpty() &&
+                            formattedBirthDate.isNotEmpty() && formattedDeathDate.isNotEmpty() &&
+                            formattedDescription.isNotEmpty() && formattedPhotoList.isNotEmpty()
+                }
+                override fun afterTextChanged(s: Editable?) {}
+            }
+            profileTv.addTextChangedListener(textWatcher)
+            nameSurnameEt.addTextChangedListener(textWatcher)
+            surnameNamePatronimEt.addTextChangedListener(textWatcher)
+            birthTv.addTextChangedListener(textWatcher)
+            deathTv.addTextChangedListener(textWatcher)
+            photoTv.addTextChangedListener(textWatcher)
+            descriptionEt.addTextChangedListener(textWatcher)
+        }
+    }
     interface OnEditingFinishedListener {
         fun onEditingFinished()
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 }
-
-
-
-
-//testing
-//                val galleryImage = registerForActivityResult(ActivityResultContracts.GetContent(),
-//            ActivityResultCallback { it ->
-//
-//                //saving image in room
-//                val                 val galleryImage = registerForActivityResult(ActivityResultContracts.GetContent(),
-////            ActivityResultCallback { it ->
-////
-////                //saving image in room
-////                val newImage = requireActivity().contentResolver.openInputStream(it!!)?.readBytes()
-////                val bitmapImage =  BitmapFactory.decodeByteArray(newImage, 0, newImage!!.size)
-////                val newWarrior = Warrior(
-////                    bitmapImage,
-////                    "Полковник",
-////                    "Олександр Аніщенко",
-////                    "Oleksandr Anishenko",
-////                    "Олександр Григорович Аніщенко",
-////                    "Oleksandr Hryhorovych Onishenko",
-////                    11,
-////                    11,
-////                    11,
-////                    "Descr",
-////                    listOf(bitmapImage, bitmapImage),
-////                    listOf(bitmapImage, bitmapImage)
-////                )
-////                recycleViewWarriorsAddViewModel.addWarrior(newWarrior)
-////            }
-////        )
-////        binding.gallery.setOnClickListener {
-////            galleryImage.launch("image/*")
-////        }newImage = requireActivity().contentResolver.openInputStream(it!!)?.readBytes()
-//                val bitmapImage =  BitmapFactory.decodeByteArray(newImage, 0, newImage!!.size)
-//                val newWarrior = Warrior(
-//                    bitmapImage,
-//                    "Полковник",
-//                    "Олександр Аніщенко",
-//                    "Oleksandr Anishenko",
-//                    "Олександр Григорович Аніщенко",
-//                    "Oleksandr Hryhorovych Onishenko",
-//                    11,
-//                    11,
-//                    11,
-//                    "Descr",
-//                    listOf(bitmapImage, bitmapImage),
-//                    listOf(bitmapImage, bitmapImage)
-//                )
-//                recycleViewWarriorsAddViewModel.addWarrior(newWarrior)
-//            }
-//        )
-//        binding.gallery.setOnClickListener {
-//            galleryImage.launch("image/*")
-//        }
-
 

@@ -51,7 +51,7 @@ class RecyclerViewWarriorsViewModel(application: Application) : AndroidViewModel
     fun addWarrior(warrior: Warrior){
         viewModelScope.launch {
             addWarriorUseCase.addWarrior(warrior)
-            //finishWork()
+            finishWork()
         }
     }
 
