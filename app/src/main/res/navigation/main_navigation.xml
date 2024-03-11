@@ -22,10 +22,22 @@
             android:id="@+id/action_recyclerViewWarriorsFragment_to_recyclerViewWarriorsAddFragment"
             app:destination="@id/recyclerViewWarriorsAddFragment"
             app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_recyclerViewWarriorsFragment_to_detailedScreenFragment"
+            app:destination="@id/detailedScreenFragment" />
     </fragment>
     <fragment
         android:id="@+id/recyclerViewWarriorsAddFragment"
         android:name="com.morgandev.kioskacademy.presentation.recyclerViewFragment.adminRecyclerView.RecyclerViewWarriorsAddFragment"
         android:label="fragment_recycler_view_warriors_add"
         tools:layout="@layout/fragment_recycler_view_warriors_add" />
+    <fragment
+        android:id="@+id/detailedScreenFragment"
+        android:name="com.morgandev.kioskacademy.presentation.doubleScreenWarriorsScreen.DetailedScreenFragment"
+        android:label="fragment_detailed_screen"
+        tools:layout="@layout/fragment_detailed_screen" >
+        <argument
+            android:name="warriorId"
+            app:argType="integer" />
+    </fragment>
 </navigation>

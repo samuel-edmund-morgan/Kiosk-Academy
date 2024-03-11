@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/detailed_background"
+    tools:context=".presentation.doubleScreenWarriorsScreen.DetailedScreenFragment">
+
+
+    <ImageView
+        android:id="@+id/arrow_up"
+        android:layout_width="200dp"
+        android:layout_height="186dp"
+        android:clickable="true"
+        android:contentDescription="@string/arrow_up"
+        app:layout_constraintEnd_toEndOf="@id/guideline_third"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/arrow_up" />
+
+    <ImageView
+        android:id="@+id/arrow_down"
+        android:layout_width="200dp"
+        android:layout_height="186dp"
+        android:clickable="true"
+        android:contentDescription="@string/arrow_down"
+        app:layout_constraintEnd_toEndOf="@id/guideline_third"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/arrow_down" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/guideline_third"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_third"
+        android:background="@color/black"
+        android:backgroundTint="@color/black"
+        android:src="@color/black"
+        android:layout_width="5dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.2"
+        />
+    <View
+        android:id="@+id/vertical_line"
+        android:layout_width="4dp"
+        android:layout_height="match_parent"
+        android:alpha="0.8"
+        android:background="#929292"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guideline_third"
+        app:layout_constraintEnd_toStartOf="@id/detailedInfoScrollView"
+        />
+
+    <ScrollView
+        android:id="@+id/detailedInfoScrollView"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/main_message"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/vertical_line">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/onishenko_alex" />
+        </FrameLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

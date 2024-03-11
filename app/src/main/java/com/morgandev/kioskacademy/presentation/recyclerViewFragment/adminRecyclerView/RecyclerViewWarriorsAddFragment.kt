@@ -94,11 +94,7 @@ class RecyclerViewWarriorsAddFragment : Fragment() {
             saveDataBtn.setOnClickListener {
                 recycleViewWarriorsAddViewModel.copyFromCacheToFiles(binding)
 
-                //2) Add Strings to Room db
-                //take data from et and tv then
-                //recycleViewWarriorsAddViewModel.addWarrior()
 
-                //3) Change method of displaying data on RecyclerView
 
                 //4) MAke everything above in First fragment to makeeditable emblem, text and image of year
 

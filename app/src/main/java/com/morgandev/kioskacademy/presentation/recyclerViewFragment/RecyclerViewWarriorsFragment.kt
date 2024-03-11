@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.flexbox.AlignItems
 import com.google.android.flexbox.FlexDirection
@@ -17,7 +18,6 @@ import com.morgandev.kioskacademy.R
 import com.morgandev.kioskacademy.databinding.FragmentRecyclerViewWarriorsBinding
 import com.morgandev.kioskacademy.presentation.EventObserver
 import com.morgandev.kioskacademy.presentation.recyclerViewFragment.recyclerViewData.RecyclerViewWarriorsAdapter
-import kotlin.concurrent.fixedRateTimer
 
 class RecyclerViewWarriorsFragment : Fragment() {
 
@@ -81,6 +81,7 @@ class RecyclerViewWarriorsFragment : Fragment() {
                 RecyclerViewWarriorsAdapter.MAX_POOL_SIZE
             )
         }
+        setupClickListener()
 
     }
 
@@ -93,6 +94,20 @@ class RecyclerViewWarriorsFragment : Fragment() {
 
     private fun launchRecyclerViewWarriorsAddFragment() {
         findNavController().navigate(R.id.action_recyclerViewWarriorsFragment_to_recyclerViewWarriorsAddFragment)
+    }
+
+    private fun setupClickListener() {
+        recyclerViewWarriorsAdapter.onWarriorClickListener = {
+            launchRecyclerViewWarriorsFragment(it.id)
+            //binding.progressBar.visibility = View.VISIBLE
+//                val intent = DetailedWarriorInfoActivity.newIntentEditItem(requireContext(), it.id)
+//                startActivity(intent)
+        }
+    }
+
+    private fun launchRecyclerViewWarriorsFragment(warriorId : Int){
+        findNavController().navigate(RecyclerViewWarriorsFragmentDirections
+            .actionRecyclerViewWarriorsFragmentToDetailedScreenFragment(warriorId))
     }
 
     override fun onDestroyView() {

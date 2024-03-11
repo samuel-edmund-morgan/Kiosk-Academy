@@ -1,9 +1,12 @@
 package com.morgandev.kioskacademy.presentation.recyclerViewFragment.recyclerViewData
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.bumptech.glide.Glide
+import com.morgandev.kioskacademy.databinding.FragmentRecyclerViewWarriorsAddBinding
+import com.morgandev.kioskacademy.databinding.FragmentRecyclerViewWarriorsBinding
 import com.morgandev.kioskacademy.databinding.WarriorItemFullBinding
 import com.morgandev.kioskacademy.domain.entities.Warrior
 import java.io.File
@@ -11,6 +14,10 @@ import java.io.File
 
 class RecyclerViewWarriorsAdapter :
     ListAdapter<Warrior, RecyclerViewWarriorsViewHolder>(RecyclerViewWarriorDiffCallback()) {
+
+
+    var onWarriorClickListener: ((Warrior) -> Unit)? = null
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -22,9 +29,6 @@ class RecyclerViewWarriorsAdapter :
         val warriorItem = getItem(position)
         val binding = viewHolder.binding
 
-        binding.root.setOnClickListener {
-            TODO("Create on click listener")
-        }
         val contextValue = viewHolder.itemView.context
         val profilePictureValue = warriorItem.profilePicture
         val warriorIvValue = binding.warriorIv
@@ -36,6 +40,11 @@ class RecyclerViewWarriorsAdapter :
             .waitForLayout()
 
         binding.warriorTvName.text = warriorItem.nameUA
+
+        binding.root.setOnClickListener {
+            onWarriorClickListener?.invoke(warriorItem)
+        }
+
     }
 
 

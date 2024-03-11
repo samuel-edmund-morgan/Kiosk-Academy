@@ -7,10 +7,13 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.net.toUri
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
+import androidx.navigation.fragment.findNavController
 import com.morgandev.kioskacademy.R
 import com.morgandev.kioskacademy.data.WarriorsData.WarriorListRepositoryImpl
 import com.morgandev.kioskacademy.databinding.FragmentRecyclerViewWarriorsAddBinding
@@ -170,6 +173,9 @@ class RecyclerViewWarriorsViewModel(application: Application) : AndroidViewModel
         }
         return result
     }
+
+
+
 //    fun addShopItem(inputName: String?, inputCount: String?) {
 //        val name = parseName(inputName)
 //        val count = parseCount(inputCount)
@@ -182,6 +188,7 @@ class RecyclerViewWarriorsViewModel(application: Application) : AndroidViewModel
 //            }
 //        }
 //    }
+
 
     private fun finishWork() {
         _shouldCloseScreen.value = Event<Unit>(Unit)

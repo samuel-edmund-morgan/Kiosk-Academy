@@ -45,7 +45,6 @@ class MainActivity : AppCompatActivity(), RecyclerViewWarriorsAddFragment.OnEdit
 
     //In Activity
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-
         return when (keyCode) {
             KeyEvent.KEYCODE_VOLUME_DOWN -> {
                 if(findNavController(R.id.main_container).currentDestination?.id == R.id.recyclerViewWarriorsFragment) {
@@ -56,6 +55,8 @@ class MainActivity : AppCompatActivity(), RecyclerViewWarriorsAddFragment.OnEdit
             else -> super.onKeyDown(keyCode, event)
         }
     }
+
+
 
 
 
