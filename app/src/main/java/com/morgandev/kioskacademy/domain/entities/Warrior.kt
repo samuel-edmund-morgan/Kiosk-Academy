@@ -1,8 +1,11 @@
 package com.morgandev.kioskacademy.domain.entities
 
 import android.graphics.Bitmap
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
 
+@Parcelize
 data class Warrior(
     val profilePicture: String,
     val rank: String,
@@ -15,7 +18,8 @@ data class Warrior(
     val photos: String,
     val videos: String,
     val id: Int = UNDEFINED_ID,
-) {
+) : Parcelable
+{
     companion object{
         const val UNDEFINED_ID = 0
     }

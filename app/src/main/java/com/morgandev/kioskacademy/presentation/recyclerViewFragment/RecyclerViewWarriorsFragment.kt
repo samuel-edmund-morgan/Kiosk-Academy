@@ -16,6 +16,7 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.morgandev.kioskacademy.R
 import com.morgandev.kioskacademy.databinding.FragmentRecyclerViewWarriorsBinding
+import com.morgandev.kioskacademy.domain.entities.Warrior
 import com.morgandev.kioskacademy.presentation.EventObserver
 import com.morgandev.kioskacademy.presentation.recyclerViewFragment.recyclerViewData.RecyclerViewWarriorsAdapter
 
@@ -98,16 +99,13 @@ class RecyclerViewWarriorsFragment : Fragment() {
 
     private fun setupClickListener() {
         recyclerViewWarriorsAdapter.onWarriorClickListener = {
-            launchRecyclerViewWarriorsFragment(it.id)
-            //binding.progressBar.visibility = View.VISIBLE
-//                val intent = DetailedWarriorInfoActivity.newIntentEditItem(requireContext(), it.id)
-//                startActivity(intent)
+            launchRecyclerViewWarriorsFragment(it)
         }
     }
 
-    private fun launchRecyclerViewWarriorsFragment(warriorId : Int){
+    private fun launchRecyclerViewWarriorsFragment(warrior : Warrior){
         findNavController().navigate(RecyclerViewWarriorsFragmentDirections
-            .actionRecyclerViewWarriorsFragmentToDetailedScreenFragment(warriorId))
+            .actionRecyclerViewWarriorsFragmentToDetailedScreenFragment(warrior))
     }
 
     override fun onDestroyView() {
