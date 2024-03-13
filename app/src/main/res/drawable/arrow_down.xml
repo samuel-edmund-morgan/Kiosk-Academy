@@ -2,6 +2,8 @@
     android:width="256dp"
     android:height="256dp"
     android:viewportWidth="2304"
+    android:tintMode="multiply"
+    android:tint="@drawable/arrow_pressing"
     android:viewportHeight="2304">
   <path
       android:strokeWidth="1"

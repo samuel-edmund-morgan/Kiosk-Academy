@@ -26,7 +26,7 @@ class RecyclerViewWarriorsNamesAdapter :
 
         val contextValue = viewHolder.itemView.context
 
-        binding.warriorTvName.text = warriorItem.fullNameUA
+        binding.warriorTvName.text = warriorItem.fullNameUA.replace(' ', '\n')
 
         binding.root.setOnClickListener {
             onWarriorClickListener?.invoke(warriorItem)
