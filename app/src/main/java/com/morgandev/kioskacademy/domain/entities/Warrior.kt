@@ -8,6 +8,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Warrior(
     val profilePicture: String,
+    val profileDetailedPhoto: String,
     val rank: String,
     val nameUA: String,
     val fullNameUA: String,

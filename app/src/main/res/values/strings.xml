@@ -34,4 +34,7 @@
     <string name="colonel">полковник</string>
     <string name="taras_shevchenko">Тарас Шевченко</string>
     <string name="shevchenco_taras_hrygorovych">Шевченко Тарас Григорович</string>
+    <string name="detailed_profile_photo">Фото профілю на екрані детальної інформації</string>
+    <string name="file_with_description">Оберіть файл з описом воїна:</string>
+    <string name="chose_file">Оберіть файл</string>
 </resources>

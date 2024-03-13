@@ -60,53 +60,92 @@ class RecyclerViewWarriorsAddFragment : Fragment() {
 
         with(binding) {
 
-            choseFileClickListener(
+//            choseFileClickListener(
+//                profileTv,
+//                profileBtn,
+//                ActivityResultContracts.PickVisualMedia.ImageOnly,
+//                1
+//            )
+
+            choseAnyFileClickListener(
                 profileTv,
                 profileBtn,
-                ActivityResultContracts.PickVisualMedia.ImageOnly,
-                1
+                false
             )
 
-            choseFileClickListener(
+            choseAnyFileClickListener(
+                profilePhotoDetailedTv,
+                profilePhotoDetailedBtn,
+                false
+            )
+
+
+//            choseFileClickListener(
+//                emblemTv,
+//                emblemBtn,
+//                ActivityResultContracts.PickVisualMedia.ImageOnly,
+//                1
+//            )
+
+            choseAnyFileClickListener(
                 emblemTv,
                 emblemBtn,
-                ActivityResultContracts.PickVisualMedia.ImageOnly,
-                1
+                false
             )
 
             choseDateClickListener(birthTv, birthBtn)
             choseDateClickListener(deathTv, deathBtn)
 
-            choseFileClickListener(
+//            choseFileClickListener(
+//                photoTv,
+//                photoBtn,
+//                ActivityResultContracts.PickVisualMedia.ImageOnly,
+//                15
+//            )
+
+            choseAnyFileClickListener(
                 photoTv,
                 photoBtn,
-                ActivityResultContracts.PickVisualMedia.ImageOnly,
-                15
+                true
             )
 
-            choseFileClickListener(
+
+//            choseFileClickListener(
+//                videoTv,
+//                videoBtn,
+//                ActivityResultContracts.PickVisualMedia.VideoOnly,
+//                5
+//            )
+
+            choseAnyFileClickListener(
                 videoTv,
                 videoBtn,
-                ActivityResultContracts.PickVisualMedia.VideoOnly,
-                5
+                true
             )
+
+            choseAnyFileClickListener(
+                descriptionTv,
+                descriptionBtn,
+                false
+            )
+
             checkInputData()
+
             saveDataBtn.setOnClickListener {
                 recycleViewWarriorsAddViewModel.copyFromCacheToFiles(binding)
-
-
-
-                //4) MAke everything above in First fragment to makeeditable emblem, text and image of year
-
             }
         }
     }
+
     private fun observeViewModel() {
-        recycleViewWarriorsAddViewModel.shouldCloseScreen.observe(viewLifecycleOwner, EventObserver {
-            onEditingFinishedListener.onEditingFinished()
-        })
+        recycleViewWarriorsAddViewModel.shouldCloseScreen.observe(
+            viewLifecycleOwner,
+            EventObserver {
+                onEditingFinishedListener.onEditingFinished()
+            })
 
     }
+
     private fun choseDateClickListener(textView: TextView, button: Button) {
         val calendar = Calendar.getInstance()
         val datePickerDialog = context?.let {
@@ -127,6 +166,82 @@ class RecyclerViewWarriorsAddFragment : Fragment() {
             datePickerDialog?.show()
         }
     }
+
+    private fun choseAnyFileClickListener(
+        textView: TextView,
+        button: Button,
+        multipleFiles: Boolean
+    ) {
+        val contract = if (!multipleFiles) ActivityResultContracts.OpenDocument() else
+            ActivityResultContracts.OpenMultipleDocuments()
+        val launcher = registerForActivityResult(contract) { uri ->
+            if (uri != null) {
+                val listOfFileNames = mutableListOf<String>()
+                if (uri is List<*> && uri.isNotEmpty()) {
+                    for (uriItem in uri) {
+                        if (uriItem is Uri) {
+                            val flag = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                            context?.contentResolver?.takePersistableUriPermission(uriItem, flag)
+
+                            var fileName = File(uriItem.path.toString()).name
+                            fileName = fileName.substring(fileName.indexOf(':') + 1)
+                            val fullFileTmpPath = File(context?.cacheDir, fileName)
+                            var newVideo: ByteArray?
+                            requireActivity().contentResolver.openInputStream(uriItem).use {
+                                newVideo = it?.readBytes()
+                                it?.close()
+                            }
+                            val inputStream = ByteArrayInputStream(newVideo)
+                            inputStream.use { input ->
+                                fullFileTmpPath.outputStream().use { output ->
+                                    input.copyTo(output)
+                                }
+                            }
+                            listOfFileNames.add(fileName)
+                        }
+                    }
+                    textView.text = listOfFileNames.toString()
+                        .replace("[", "")
+                        .replace("]", "")
+
+                } else if (uri is Uri) {
+                    val flag = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    context?.contentResolver?.takePersistableUriPermission(uri, flag)
+
+                    val fileName = File(uri.path.toString()).name
+
+
+                    val fullFileTmpPath = File(context?.cacheDir, fileName)
+                    val newVideo: ByteArray?
+                    requireActivity().contentResolver.openInputStream(uri).use {
+                        newVideo = it?.readBytes()
+                        it?.close()
+                    }
+                    val inputStream = ByteArrayInputStream(newVideo)
+                    inputStream.use { input ->
+                        fullFileTmpPath.outputStream().use { output ->
+                            input.copyTo(output)
+                        }
+                    }
+                    textView.text = fileName
+                        .replace("[", "")
+                        .replace("]", "")
+                        .substring(fileName.indexOf(':') + 1)
+                        .trim()
+                } else {
+                    textView.text = ""
+                    Toast.makeText(context, "Медіа не обрано!", Toast.LENGTH_LONG).show()
+                }
+            } else {
+                textView.text = ""
+                Toast.makeText(context, "Медіа не обрано!", Toast.LENGTH_LONG).show()
+            }
+        }
+        button.setOnClickListener {
+            launcher.launch(arrayOf("*/*"))
+        }
+    }
+
     private fun choseFileClickListener(
         textView: TextView,
         button: Button,
@@ -163,8 +278,8 @@ class RecyclerViewWarriorsAddFragment : Fragment() {
                         }
                     }
                     textView.text = listOfFileNames.toString()
-                        .replace("[","")
-                        .replace("]","")
+                        .replace("[", "")
+                        .replace("]", "")
                 } else if (uri is Uri) {
                     val flag = Intent.FLAG_GRANT_READ_URI_PERMISSION
                     context?.contentResolver?.takePersistableUriPermission(uri, flag)
@@ -186,8 +301,8 @@ class RecyclerViewWarriorsAddFragment : Fragment() {
                         }
                     }
                     textView.text = fileName
-                        .replace("[","")
-                        .replace("]","")
+                        .replace("[", "")
+                        .replace("]", "")
                 } else {
                     textView.text = ""
                     Toast.makeText(context, "Медіа не обрано!", Toast.LENGTH_LONG).show()
@@ -201,7 +316,8 @@ class RecyclerViewWarriorsAddFragment : Fragment() {
             pickMedia.launch(PickVisualMediaRequest(visualMediaType))
         }
     }
-    private fun checkInputData(){
+
+    private fun checkInputData() {
         with(binding) {
             val textWatcher = object : TextWatcher {
                 override fun beforeTextChanged(
@@ -211,30 +327,34 @@ class RecyclerViewWarriorsAddFragment : Fragment() {
                     after: Int
                 ) {
                 }
+
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     val formattedPhotoName = profileTv.text.toString().trim()
+                    val formattedDetailedPhoto = profilePhotoDetailedTv.text.toString().trim()
                     val formattedNameSurname = nameSurnameEt.text.toString().trim()
                     val formattedSurnameNamePatronim = surnameNamePatronimEt.text.toString().trim()
                     val formattedBirthDate = birthTv.text.toString().trim()
                     val formattedDeathDate = deathTv.text.toString().trim()
-                    val formattedDescription = descriptionEt.text.toString().trim()
-                    val formattedPhotoList = photoTv.text.toString().trim()
+                    val formattedDescription = descriptionTv.text.toString().trim()
+
                     saveDataBtn.isEnabled = formattedPhotoName.isNotEmpty() &&
                             formattedNameSurname.isNotEmpty() && formattedSurnameNamePatronim.isNotEmpty() &&
                             formattedBirthDate.isNotEmpty() && formattedDeathDate.isNotEmpty() &&
-                            formattedDescription.isNotEmpty() && formattedPhotoList.isNotEmpty()
+                            formattedDescription.isNotEmpty() && formattedDetailedPhoto.isNotEmpty()
                 }
+
                 override fun afterTextChanged(s: Editable?) {}
             }
             profileTv.addTextChangedListener(textWatcher)
+            profilePhotoDetailedTv.addTextChangedListener(textWatcher)
             nameSurnameEt.addTextChangedListener(textWatcher)
             surnameNamePatronimEt.addTextChangedListener(textWatcher)
             birthTv.addTextChangedListener(textWatcher)
             deathTv.addTextChangedListener(textWatcher)
-            photoTv.addTextChangedListener(textWatcher)
-            descriptionEt.addTextChangedListener(textWatcher)
+            descriptionTv.addTextChangedListener(textWatcher)
         }
     }
+
     interface OnEditingFinishedListener {
         fun onEditingFinished()
     }

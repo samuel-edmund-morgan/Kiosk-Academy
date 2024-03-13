@@ -64,6 +64,39 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/montserrat_black"
+                android:text="@string/detailed_profile_photo"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/profilePhotoDetailedBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:backgroundTint="@color/light_blue_900"
+                    android:fontFamily="@font/montserrat_black"
+                    android:text="@string/chose_photo"
+                    tools:ignore="DuplicateSpeakableTextCheck" />
+
+                <TextView
+                    android:id="@+id/profilePhotoDetailedTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_black"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/montserrat_black"
                 android:text="@string/rank"
                 android:textColor="@color/white"
                 android:textSize="24sp" />
@@ -221,29 +254,39 @@
                     android:textSize="24sp" />
             </LinearLayout>
 
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/montserrat_black"
-                android:text="@string/enter__warrior_description"
+                android:text="@string/file_with_description"
                 android:textColor="@color/white"
                 android:textSize="24sp" />
 
-            <EditText
-                android:id="@+id/descriptionEt"
-                android:layout_width="500dp"
-                android:layout_height="250dp"
-                android:autofillHints="description"
-                android:background="@color/white"
-                android:ems="10"
-                android:fontFamily="@font/montserrat_black"
-                android:gravity="start|top"
-                android:hint="@string/description"
-                android:inputType="textMultiLine"
-                android:textColor="@color/black"
-                android:textColorHint="#78909C"
-                tools:ignore="DuplicateSpeakableTextCheck" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/descriptionBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:backgroundTint="@color/light_blue_900"
+                    android:fontFamily="@font/montserrat_black"
+                    android:text="@string/chose_file"
+                    tools:ignore="DuplicateSpeakableTextCheck" />
+
+                <TextView
+                    android:id="@+id/descriptionTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_black"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
 
             <TextView
                 android:layout_width="match_parent"

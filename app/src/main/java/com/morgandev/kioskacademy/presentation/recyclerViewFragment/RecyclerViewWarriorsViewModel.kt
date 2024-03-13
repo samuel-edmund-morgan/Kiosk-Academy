@@ -70,13 +70,14 @@ class RecyclerViewWarriorsViewModel(application: Application) : AndroidViewModel
     fun copyFromCacheToFiles(binding: FragmentRecyclerViewWarriorsAddBinding){
         viewModelScope.launch {
             val profilePhoto = binding.profileTv.text.toString().trim()
+            val profileDetailedPhoto = binding.profilePhotoDetailedTv.text.toString().trim()
             val emblem = binding.emblemTv.text.toString().trim()
             val rank = binding.rankIdEt.text.toString().trim()
             val nameSurname = binding.nameSurnameEt.text.toString().trim()
             val surnameNamePatronim = binding.surnameNamePatronimEt.text.toString().trim()
             val dateBirth = binding.birthTv.text.toString().trim()
             val dateDeath = binding.deathTv.text.toString().trim()
-            val description = binding.descriptionEt.text.toString().trim()
+            val description = binding.descriptionTv.text.toString().trim()
             val photoGallery = binding.photoTv.text.toString().trim()
             val videoGallery = binding.videoTv.text.toString().trim()
 
@@ -97,6 +98,34 @@ class RecyclerViewWarriorsViewModel(application: Application) : AndroidViewModel
                 }
             }
             fullTmpPathProfilePhoto.delete()
+
+
+            //Detailed profile photo from tmp to persistent storage
+            val fullTmpPathProfileDetailedPhoto = File(context.cacheDir, profileDetailedPhoto)
+            val fullFilePathProfileDetailedPhoto = File(warriorFolderPath, profileDetailedPhoto)
+            val detailedProfilePhotoBytes = fullTmpPathProfileDetailedPhoto.readBytes()
+            val inputStreamDetailedPhoto = ByteArrayInputStream(detailedProfilePhotoBytes)
+            inputStreamDetailedPhoto.use { input ->
+                fullFilePathProfileDetailedPhoto.outputStream().use { output ->
+                    input.copyTo(output)
+                }
+            }
+            fullTmpPathProfileDetailedPhoto.delete()
+
+
+            //Description file from tmp to persistent storage
+            val fullTmpPathDescriptionFile = File(context.cacheDir, description)
+            val fullFilePathDescriptionFile = File(warriorFolderPath, description)
+            val descriptionFileBytes = fullTmpPathDescriptionFile.readBytes()
+            val inputStreamDescriptionFile = ByteArrayInputStream(descriptionFileBytes)
+            inputStreamDescriptionFile.use { input ->
+                fullFilePathDescriptionFile.outputStream().use { output ->
+                    input.copyTo(output)
+                }
+            }
+            fullTmpPathDescriptionFile.delete()
+
+
 
             //Emblem if exist from tmp to persistent storage
             if (emblem != ""){
@@ -147,6 +176,7 @@ class RecyclerViewWarriorsViewModel(application: Application) : AndroidViewModel
             }
             addWarrior(Warrior(
                 profilePhoto,
+                profileDetailedPhoto,
                 rank,
                 nameSurname,
                 surnameNamePatronim,

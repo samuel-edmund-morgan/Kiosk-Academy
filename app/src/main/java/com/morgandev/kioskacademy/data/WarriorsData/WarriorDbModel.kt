@@ -11,6 +11,7 @@ data class WarriorDbModel(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     val profilePicture: String,
+    val profileDetailedPhoto: String,
     @ColumnInfo(defaultValue = "")
     val rank: String,
     val nameUA: String,
@@ -20,6 +21,7 @@ data class WarriorDbModel(
     val dateBirth: String,
     val dateDied: String,
     val description: String,
+    @ColumnInfo(defaultValue = "")
     val photos: String,
     @ColumnInfo(defaultValue = "")
     val videos: String
