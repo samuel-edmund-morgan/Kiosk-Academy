@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="255dp"
+    android:layout_height="315dp"
+    android:layout_marginBottom="48dp"
+    android:layout_marginStart="28dp"
+    android:layout_marginEnd="16dp"
+    android:backgroundTint="@android:color/transparent">
+
+    <ImageView
+        android:id="@+id/galleryImageIv"
+        android:scaleType="centerCrop"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/ssu_emblem" />
+</androidx.cardview.widget.CardView>

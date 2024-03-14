@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/welcomeScreenFragment">
+
+    <fragment
+        android:id="@+id/welcomeScreenFragment"
+        android:name="com.morgandev.kioskacademy.presentation.welcomeFragment.WelcomeScreenFragment"
+        android:label="WelcomeScreenFragment" >
+        <action
+            android:id="@+id/action_welcomeScreenFragment_to_recyclerViewWarriorsFragment"
+            app:destination="@id/recyclerViewWarriorsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/recyclerViewWarriorsFragment"
+        android:name="com.morgandev.kioskacademy.presentation.recyclerViewFragment.RecyclerViewWarriorsFragment"
+        android:label="fragment_recycler_view_warriors"
+        tools:layout="@layout/fragment_recycler_view_warriors" >
+        <action
+            android:id="@+id/action_recyclerViewWarriorsFragment_to_recyclerViewWarriorsAddFragment"
+            app:destination="@id/recyclerViewWarriorsAddFragment"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_recyclerViewWarriorsFragment_to_detailedScreenFragment"
+            app:destination="@id/detailedScreenFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/recyclerViewWarriorsAddFragment"
+        android:name="com.morgandev.kioskacademy.presentation.recyclerViewFragment.adminRecyclerView.RecyclerViewWarriorsAddFragment"
+        android:label="fragment_recycler_view_warriors_add"
+        tools:layout="@layout/fragment_recycler_view_warriors_add" />
+    <fragment
+        android:id="@+id/detailedScreenFragment"
+        android:name="com.morgandev.kioskacademy.presentation.doubleScreenWarriorsScreen.DetailedScreenFragment"
+        android:label="fragment_detailed_screen"
+        tools:layout="@layout/fragment_detailed_screen" >
+        <argument
+            android:name="warrior"
+            app:argType="com.morgandev.kioskacademy.domain.entities.Warrior" />
+    </fragment>
+</navigation>
