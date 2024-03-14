@@ -2,15 +2,21 @@ package com.morgandev.kioskacademy.presentation.doubleScreenWarriorsScreen
 
 import android.app.Dialog
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.LeadingMarginSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.MediaController
 import android.widget.TextView
+import android.widget.Toast
 import android.widget.VideoView
 import androidx.core.net.toUri
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,6 +30,7 @@ import com.morgandev.kioskacademy.presentation.doubleScreenWarriorsScreen.photoG
 import com.morgandev.kioskacademy.presentation.doubleScreenWarriorsScreen.videoGalleryRecyclerView.VideoGalleryRecyclerViewAdapter
 import com.morgandev.kioskacademy.presentation.recyclerViewFragment.RecyclerViewWarriorsViewModel
 import java.io.File
+import java.nio.charset.Charset
 
 
 class DetailedScreenFragment : Fragment() {
@@ -57,22 +64,28 @@ class DetailedScreenFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val warrior = args.warrior
+
+
         submitListObserver()
         setupRecyclerView()
         setupViewsOfDetailedInfo(warrior)
         setupPhotoGallery(warrior)
         setupVideoGallery(warrior)
 
+
         recyclerViewWarriorsNamesAdapter.onWarriorClickListener = {
             setupViewsOfDetailedInfo(it)
             setupPhotoGallery(it)
             setupVideoGallery(it)
+
         }
         photoGalleryRecyclerViewAdapter.onPhotoClickListener = {
-            setupPhotoDialogBox(warrior, it)
+            fileName: String , filePosition: Int ->
+            setupPhotoDialogBox(warrior, fileName, filePosition)
         }
         videoGalleryRecyclerViewAdapter.onVideoClickListener = {
-            setupVideoDialogBox(warrior, it)
+            fileName: String , filePosition: Int ->
+            setupVideoDialogBox(warrior, fileName, filePosition)
         }
 
     }
@@ -106,7 +119,7 @@ class DetailedScreenFragment : Fragment() {
     }
 
     private fun setupViewsOfDetailedInfo(warrior: Warrior) {
-        setupViewAndVisibility(warrior, warrior.profilePicture, binding.profilePictureIv, true)
+        setupViewAndVisibility(warrior, warrior.profileDetailedPhoto, binding.profilePictureIv, true)
         setupViewAndVisibility(warrior, warrior.departmentEmblem, binding.departmentEmblem, true)
         setupViewAndVisibility(warrior, warrior.rank, binding.rank, false)
         setupViewAndVisibility(
@@ -123,7 +136,21 @@ class DetailedScreenFragment : Fragment() {
         )
 
         //edit description for good paragraphs
-        setupViewAndVisibility(warrior, warrior.description, binding.descriptionTv, false)
+        val profilePictureValue = warrior.profilePicture
+        val picFilePath = requireContext().filesDir
+        val descriptionFile = File("${picFilePath}/${profilePictureValue}/${warrior.description}")
+        val descriptionUri = descriptionFile.toUri()
+        val newDescrition: ByteArray?
+        requireActivity().contentResolver.openInputStream(descriptionUri).use {
+            newDescrition = it?.readBytes()
+            it?.close()
+        }
+        val rawText = newDescrition?.toString(Charsets.UTF_8) ?: "no description"
+        val spannable = SpannableString(rawText)
+        val span = LeadingMarginSpan.Standard(110, 0)
+        spannable.setSpan(span, 0, spannable.count(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        binding.descriptionTv.text = spannable
+        binding.detailedInfoScrollView.smoothScrollTo(0,0)
     }
 
     private fun setupViewAndVisibility(
@@ -212,11 +239,13 @@ class DetailedScreenFragment : Fragment() {
             val listOfPhotos = warrior.photos.split(",").map { it.trim() }
             photoGalleryRecyclerViewAdapter.submitList(listOfPhotos)
             photoGalleryRecyclerViewAdapter.onPhotoClickListener = {
-                setupPhotoDialogBox(warrior, it)
+                fileName: String , filePosition: Int ->
+                setupPhotoDialogBox(warrior, fileName, filePosition)
             }
+
         }
     }
-    private fun setupPhotoDialogBox(warrior: Warrior, imageName: String) {
+    private fun setupPhotoDialogBox(warrior: Warrior, imageName: String, position: Int) {
 
 
         val profilePictureValue = warrior.profilePicture
@@ -232,6 +261,32 @@ class DetailedScreenFragment : Fragment() {
             .load(File("${picFilePath}/${profilePictureValue}/${imageName}"))
             .into(imageView)
             .waitForLayout()
+
+
+        //ready swipe right
+        val rightBtn = dialog.findViewById<ImageView>(R.id.arrowRightFull)
+        rightBtn.setOnClickListener {
+            dialog.dismiss()
+            binding.photoGalleryRv.smoothScrollToPosition(position+2)
+            binding.photoGalleryRv.findViewHolderForAdapterPosition(position + 1)?.itemView?.performClick()
+        }
+
+        //swipe left
+        val leftBtn = dialog.findViewById<ImageView>(R.id.arrowLeftFull)
+        leftBtn.setOnClickListener {
+            dialog.dismiss()
+            if (position > 1){
+                binding.photoGalleryRv.smoothScrollToPosition(position-2)
+            }
+            binding.photoGalleryRv.findViewHolderForAdapterPosition(position - 1)?.itemView?.performClick()
+        }
+
+        //cross close
+        val crossClose = dialog.findViewById<ImageView>(R.id.cross)
+        crossClose.setOnClickListener {
+            dialog.dismiss()
+        }
+
         dialog.show()
     }
     private fun setupVideoGalleryRecyclerView(warrior: Warrior) {
@@ -263,12 +318,12 @@ class DetailedScreenFragment : Fragment() {
             val listOfVideos = warrior.videos.split(",").map { it.trim() }
             videoGalleryRecyclerViewAdapter.submitList(listOfVideos)
             videoGalleryRecyclerViewAdapter.onVideoClickListener = {
-                setupVideoDialogBox(warrior, it)
+                fileName: String , filePosition: Int ->
+                setupVideoDialogBox(warrior, fileName, filePosition)
             }
         }
     }
-    private fun setupVideoDialogBox(warrior: Warrior, videoName: String) {
-
+    private fun setupVideoDialogBox(warrior: Warrior, videoName: String, position: Int) {
 
         val profilePictureValue = warrior.profilePicture
         val vidFilePath = requireContext().filesDir
@@ -285,19 +340,41 @@ class DetailedScreenFragment : Fragment() {
             mediaController.requestFocus()
             val parent = mediaController.parent as ViewGroup
             parent.removeView(mediaController)
-
             frameView.addView(mediaController)
-
             mediaController.setMediaPlayer(videoView)
             mediaController.isEnabled = true
-
             videoView.setMediaController(mediaController)
-
             mediaController.setAnchorView(videoView)
-
             videoView.start()
             mediaController.show(0)
+            videoView.setOnClickListener {
+                frameView.visibility = if (frameView.isVisible) View.GONE else View.VISIBLE
+            }
         }
+        //ready swipe right
+        val rightBtnVideo = dialog.findViewById<ImageView>(R.id.arrowRightFullVideo)
+        rightBtnVideo.setOnClickListener {
+            dialog.dismiss()
+            binding.videoGalleryRv.smoothScrollToPosition(position + 2)
+            binding.videoGalleryRv.findViewHolderForAdapterPosition(position + 1)?.itemView?.performClick()
+        }
+
+        //swipe left
+        val leftBtnVideo = dialog.findViewById<ImageView>(R.id.arrowLeftFullVideo)
+        leftBtnVideo.setOnClickListener {
+            dialog.dismiss()
+            if (position > 1){
+                binding.videoGalleryRv.smoothScrollToPosition(position-2)
+            }
+            binding.videoGalleryRv.findViewHolderForAdapterPosition(position - 1)?.itemView?.performClick()
+        }
+        //cross close
+        val crossClose = dialog.findViewById<ImageView>(R.id.crossVideo)
+        crossClose.setOnClickListener {
+            dialog.dismiss()
+        }
+
+
         dialog.show()
     }
 

@@ -7,25 +7,28 @@ import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.morgandev.kioskacademy.databinding.FragmentRecyclerViewWarriorsAddBinding
 import com.morgandev.kioskacademy.presentation.EventObserver
 import com.morgandev.kioskacademy.presentation.recyclerViewFragment.RecyclerViewWarriorsViewModel
+import java.io.BufferedOutputStream
 import java.io.ByteArrayInputStream
 import java.io.File
-import java.lang.IllegalArgumentException
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.InputStream
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+
 
 class RecyclerViewWarriorsAddFragment : Fragment() {
 
@@ -60,13 +63,6 @@ class RecyclerViewWarriorsAddFragment : Fragment() {
 
         with(binding) {
 
-//            choseFileClickListener(
-//                profileTv,
-//                profileBtn,
-//                ActivityResultContracts.PickVisualMedia.ImageOnly,
-//                1
-//            )
-
             choseAnyFileClickListener(
                 profileTv,
                 profileBtn,
@@ -79,14 +75,6 @@ class RecyclerViewWarriorsAddFragment : Fragment() {
                 false
             )
 
-
-//            choseFileClickListener(
-//                emblemTv,
-//                emblemBtn,
-//                ActivityResultContracts.PickVisualMedia.ImageOnly,
-//                1
-//            )
-
             choseAnyFileClickListener(
                 emblemTv,
                 emblemBtn,
@@ -96,26 +84,11 @@ class RecyclerViewWarriorsAddFragment : Fragment() {
             choseDateClickListener(birthTv, birthBtn)
             choseDateClickListener(deathTv, deathBtn)
 
-//            choseFileClickListener(
-//                photoTv,
-//                photoBtn,
-//                ActivityResultContracts.PickVisualMedia.ImageOnly,
-//                15
-//            )
-
             choseAnyFileClickListener(
                 photoTv,
                 photoBtn,
                 true
             )
-
-
-//            choseFileClickListener(
-//                videoTv,
-//                videoBtn,
-//                ActivityResultContracts.PickVisualMedia.VideoOnly,
-//                5
-//            )
 
             choseAnyFileClickListener(
                 videoTv,
@@ -185,18 +158,13 @@ class RecyclerViewWarriorsAddFragment : Fragment() {
 
                             var fileName = File(uriItem.path.toString()).name
                             fileName = fileName.substring(fileName.indexOf(':') + 1)
-                            val fullFileTmpPath = File(context?.cacheDir, fileName)
-                            var newVideo: ByteArray?
+
+                            val fullFileTmpPath = File(context?.cacheDir, fileName).absolutePath
                             requireActivity().contentResolver.openInputStream(uriItem).use {
-                                newVideo = it?.readBytes()
-                                it?.close()
+                                writeToFile(it, fullFileTmpPath)
                             }
-                            val inputStream = ByteArrayInputStream(newVideo)
-                            inputStream.use { input ->
-                                fullFileTmpPath.outputStream().use { output ->
-                                    input.copyTo(output)
-                                }
-                            }
+
+
                             listOfFileNames.add(fileName)
                         }
                     }
@@ -242,79 +210,16 @@ class RecyclerViewWarriorsAddFragment : Fragment() {
         }
     }
 
-    private fun choseFileClickListener(
-        textView: TextView,
-        button: Button,
-        visualMediaType: ActivityResultContracts.PickVisualMedia.VisualMediaType,
-        fileCount: Int
-    ) {
-        if (fileCount < 1) throw IllegalArgumentException()
-
-        val contract = if (fileCount == 1) ActivityResultContracts.PickVisualMedia() else
-            ActivityResultContracts.PickMultipleVisualMedia(fileCount)
-        val pickMedia = registerForActivityResult(contract) { uri ->
-            if (uri != null) {
-                val listOfFileNames = mutableListOf<String>()
-                if (uri is List<*> && uri.isNotEmpty()) {
-                    for (uriItem in uri) {
-                        if (uriItem is Uri) {
-                            val flag = Intent.FLAG_GRANT_READ_URI_PERMISSION
-                            context?.contentResolver?.takePersistableUriPermission(uriItem, flag)
-
-                            val fileName = File(uriItem.path.toString()).name
-                            val fullFileTmpPath = File(context?.cacheDir, fileName)
-                            var newVideo: ByteArray?
-                            requireActivity().contentResolver.openInputStream(uriItem).use {
-                                newVideo = it?.readBytes()
-                                it?.close()
-                            }
-                            val inputStream = ByteArrayInputStream(newVideo)
-                            inputStream.use { input ->
-                                fullFileTmpPath.outputStream().use { output ->
-                                    input.copyTo(output)
-                                }
-                            }
-                            listOfFileNames.add(fileName)
-                        }
-                    }
-                    textView.text = listOfFileNames.toString()
-                        .replace("[", "")
-                        .replace("]", "")
-                } else if (uri is Uri) {
-                    val flag = Intent.FLAG_GRANT_READ_URI_PERMISSION
-                    context?.contentResolver?.takePersistableUriPermission(uri, flag)
-
-
-                    val fileName = File(uri.path.toString()).name
-
-
-                    val fullFileTmpPath = File(context?.cacheDir, fileName)
-                    val newVideo: ByteArray?
-                    requireActivity().contentResolver.openInputStream(uri).use {
-                        newVideo = it?.readBytes()
-                        it?.close()
-                    }
-                    val inputStream = ByteArrayInputStream(newVideo)
-                    inputStream.use { input ->
-                        fullFileTmpPath.outputStream().use { output ->
-                            input.copyTo(output)
-                        }
-                    }
-                    textView.text = fileName
-                        .replace("[", "")
-                        .replace("]", "")
-                } else {
-                    textView.text = ""
-                    Toast.makeText(context, "Медіа не обрано!", Toast.LENGTH_LONG).show()
-                }
-            } else {
-                textView.text = ""
-                Toast.makeText(context, "Медіа не обрано!", Toast.LENGTH_LONG).show()
-            }
+    @Throws(IOException::class)
+    private fun writeToFile(inputStream: InputStream?, path: String) {
+        val output = BufferedOutputStream(FileOutputStream(path))
+        val bufferSize = 1024
+        val buffer = ByteArray(bufferSize)
+        var len: Int
+        while (inputStream?.read(buffer).also { len = it!! } != -1) {
+            output.write(buffer, 0, len)
         }
-        button.setOnClickListener {
-            pickMedia.launch(PickVisualMediaRequest(visualMediaType))
-        }
+        output.close()
     }
 
     private fun checkInputData() {

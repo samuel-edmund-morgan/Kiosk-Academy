@@ -13,7 +13,7 @@ class VideoGalleryRecyclerViewAdapter(private val warriorDir: String) :
     ListAdapter<String, VideoGalleryRecyclerViewViewHolder>(VideoGalleryRecyclerViewDiffCallback()) {
 
 
-    var onVideoClickListener: ((String) -> Unit)? = null
+    var onVideoClickListener: ((String, Int) -> Unit)? = null
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -36,7 +36,7 @@ class VideoGalleryRecyclerViewAdapter(private val warriorDir: String) :
 
 
         binding.root.setOnClickListener {
-            onVideoClickListener?.invoke(videoItem)
+            onVideoClickListener?.invoke(videoItem, position)
         }
 
     }

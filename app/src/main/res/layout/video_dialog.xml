@@ -2,16 +2,50 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:background="@drawable/background_image"
+    android:layout_width="1200dp"
+    android:layout_height="550dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+                <ImageView
+                    android:id="@+id/arrowLeftFullVideo"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:elevation="1dp"
+                    android:src="@drawable/arrow_left"
+                    app:layout_constraintBottom_toBottomOf="@+id/videoView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/videoView" />
 
         <VideoView
             android:id="@+id/videoView"
-            android:layout_width="500dp"
-            android:layout_height="500dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/arrowRightFullVideo"
+            app:layout_constraintStart_toEndOf="@+id/arrowLeftFullVideo"
             app:layout_constraintTop_toTopOf="parent" />
+                <ImageView
+                    android:id="@+id/arrowRightFullVideo"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/arrow_right"
+                    app:layout_constraintBottom_toBottomOf="@+id/videoView"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/videoView" />
+                <ImageView
+                    android:id="@+id/crossVideo"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/close"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/videoView" />
 
         <FrameLayout
             android:id="@+id/frameView"
@@ -22,4 +56,7 @@
             app:layout_constraintEnd_toEndOf="@id/videoView"
             app:layout_constraintBottom_toBottomOf="@id/videoView"/>
 
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

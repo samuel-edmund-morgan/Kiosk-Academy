@@ -7,6 +7,7 @@ class WarriorListMapper {
     fun mapEntityToDbModel(warrior: Warrior) = WarriorDbModel(
         id = warrior.id,
         profilePicture = warrior.profilePicture,
+        profileDetailedPhoto = warrior.profileDetailedPhoto,
         rank = warrior.rank,
         nameUA = warrior.nameUA,
         fullNameUA = warrior.fullNameUA,
@@ -21,6 +22,7 @@ class WarriorListMapper {
     fun mapDbModelToEntity(warriorDbModel: WarriorDbModel) = Warrior(
         id = warriorDbModel.id,
         profilePicture = warriorDbModel.profilePicture,
+        profileDetailedPhoto = warriorDbModel.profileDetailedPhoto,
         rank = warriorDbModel.rank,
         nameUA = warriorDbModel.nameUA,
         fullNameUA = warriorDbModel.fullNameUA,

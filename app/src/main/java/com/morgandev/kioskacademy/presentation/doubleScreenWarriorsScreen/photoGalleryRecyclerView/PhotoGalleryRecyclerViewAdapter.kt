@@ -14,7 +14,7 @@ class PhotoGalleryRecyclerViewAdapter(private val warriorDir: String) :
     ListAdapter<String, PhotoGalleryRecyclerViewViewHolder>(PhotoGalleryRecyclerViewDiffCallback()) {
 
 
-    var onPhotoClickListener: ((String) -> Unit)? = null
+    var onPhotoClickListener: ((String, Int) -> Unit)? = null
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -39,7 +39,8 @@ class PhotoGalleryRecyclerViewAdapter(private val warriorDir: String) :
             .waitForLayout()
 
         binding.root.setOnClickListener {
-            onPhotoClickListener?.invoke(photoItem)
+
+            onPhotoClickListener?.invoke(photoItem, position)
         }
 
     }

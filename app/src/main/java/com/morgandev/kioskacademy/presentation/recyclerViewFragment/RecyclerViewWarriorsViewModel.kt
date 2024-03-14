@@ -14,6 +14,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.commons.io.FileUtils.openInputStream
 import com.morgandev.kioskacademy.R
 import com.morgandev.kioskacademy.data.WarriorsData.WarriorListRepositoryImpl
 import com.morgandev.kioskacademy.databinding.FragmentRecyclerViewWarriorsAddBinding
@@ -24,8 +25,12 @@ import com.morgandev.kioskacademy.domain.usecases.WarriorsUseCases.EditWarriorUs
 import com.morgandev.kioskacademy.domain.usecases.WarriorsUseCases.GetWarriorListUseCase
 import com.morgandev.kioskacademy.presentation.Event
 import kotlinx.coroutines.launch
+import java.io.BufferedOutputStream
 import java.io.ByteArrayInputStream
 import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.InputStream
 
 class RecyclerViewWarriorsViewModel(application: Application) : AndroidViewModel(application)  {
 
@@ -86,92 +91,40 @@ class RecyclerViewWarriorsViewModel(application: Application) : AndroidViewModel
             val warriorFolderPath = File("$filesDir/$profilePhoto")
             warriorFolderPath.mkdirs()
 
-
-            //Profile photo from tmp to persistent storage
-            val fullTmpPathProfilePhoto = File(context.cacheDir, profilePhoto)
-            val fullFilePathProfilePhoto = File(warriorFolderPath, profilePhoto)
-            val profilePhotoBytes = fullTmpPathProfilePhoto.readBytes()
-            val inputStreamPhoto = ByteArrayInputStream(profilePhotoBytes)
-            inputStreamPhoto.use { input ->
-                fullFilePathProfilePhoto.outputStream().use { output ->
-                    input.copyTo(output)
-                }
+            moveToPersistentStorage(
+                File(context.cacheDir, profilePhoto),
+                File(warriorFolderPath, profilePhoto)
+            )
+            moveToPersistentStorage(
+                File(context.cacheDir, profileDetailedPhoto),
+                File(warriorFolderPath, profileDetailedPhoto)
+            )
+            moveToPersistentStorage(
+                File(context.cacheDir, description),
+                File(warriorFolderPath, description)
+            )
+            if(emblem != ""){
+                moveToPersistentStorage(
+                    File(context.cacheDir, emblem),
+                    File(warriorFolderPath, emblem)
+                )
             }
-            fullTmpPathProfilePhoto.delete()
-
-
-            //Detailed profile photo from tmp to persistent storage
-            val fullTmpPathProfileDetailedPhoto = File(context.cacheDir, profileDetailedPhoto)
-            val fullFilePathProfileDetailedPhoto = File(warriorFolderPath, profileDetailedPhoto)
-            val detailedProfilePhotoBytes = fullTmpPathProfileDetailedPhoto.readBytes()
-            val inputStreamDetailedPhoto = ByteArrayInputStream(detailedProfilePhotoBytes)
-            inputStreamDetailedPhoto.use { input ->
-                fullFilePathProfileDetailedPhoto.outputStream().use { output ->
-                    input.copyTo(output)
-                }
-            }
-            fullTmpPathProfileDetailedPhoto.delete()
-
-
-            //Description file from tmp to persistent storage
-            val fullTmpPathDescriptionFile = File(context.cacheDir, description)
-            val fullFilePathDescriptionFile = File(warriorFolderPath, description)
-            val descriptionFileBytes = fullTmpPathDescriptionFile.readBytes()
-            val inputStreamDescriptionFile = ByteArrayInputStream(descriptionFileBytes)
-            inputStreamDescriptionFile.use { input ->
-                fullFilePathDescriptionFile.outputStream().use { output ->
-                    input.copyTo(output)
-                }
-            }
-            fullTmpPathDescriptionFile.delete()
-
-
-
-            //Emblem if exist from tmp to persistent storage
-            if (emblem != ""){
-                val fullTmpPathEmblem = File(context.cacheDir, emblem)
-                val fullFilePathEmblem = File(warriorFolderPath, emblem)
-                val emblemBytes = fullTmpPathEmblem.readBytes()
-                val inputStreamEmblem = ByteArrayInputStream(emblemBytes)
-                inputStreamEmblem.use { input ->
-                    fullFilePathEmblem.outputStream().use { output ->
-                        input.copyTo(output)
-                    }
-                }
-                fullTmpPathEmblem.delete()
-            }
-
-            //Gallery photos from gallery tmp to persistent storage
             if (photoGallery != ""){
                 val namesOfPhotos = toListStringFromString(photoGallery)
                 for (photo in namesOfPhotos){
-                    val fullTmpPathPhoto = File(context.cacheDir, photo)
-                    val fullFilePathPhoto = File(warriorFolderPath, photo)
-                    val photoBytes = fullTmpPathPhoto.readBytes()
-                    val inputStreamPhotoG = ByteArrayInputStream(photoBytes)
-                    inputStreamPhotoG.use { input ->
-                        fullFilePathPhoto.outputStream().use { output ->
-                            input.copyTo(output)
-                        }
-                    }
-                    fullTmpPathPhoto.delete()
+                    moveToPersistentStorage(
+                        File(context.cacheDir, photo),
+                        File(warriorFolderPath, photo)
+                    )
                 }
             }
-
-            //Gallery videos from gallery tmp to persistent storage
             if (videoGallery != ""){
                 val namesOfVideos = toListStringFromString(videoGallery)
                 for (video in namesOfVideos){
-                    val fullTmpPathVideo = File(context.cacheDir, video)
-                    val fullFilePathVideo = File(warriorFolderPath, video)
-                    val videoBytes = fullTmpPathVideo.readBytes()
-                    val inputStreamVideoG = ByteArrayInputStream(videoBytes)
-                    inputStreamVideoG.use { input ->
-                        fullFilePathVideo.outputStream().use { output ->
-                            input.copyTo(output)
-                        }
-                    }
-                    fullTmpPathVideo.delete()
+                    moveToPersistentStorage(
+                        File(context.cacheDir, video),
+                        File(warriorFolderPath, video)
+                    )
                 }
             }
             addWarrior(Warrior(
@@ -219,6 +172,24 @@ class RecyclerViewWarriorsViewModel(application: Application) : AndroidViewModel
 //        }
 //    }
 
+    @Throws(IOException::class)
+    private fun writeToFile(inputStream: InputStream?, path: String) {
+        val output = BufferedOutputStream(FileOutputStream(path))
+        val bufferSize = 1024
+        val buffer = ByteArray(bufferSize)
+        var len: Int
+        while (inputStream?.read(buffer).also { len = it!! } != -1) {
+            output.write(buffer, 0, len)
+        }
+        output.close()
+    }
+
+    private fun moveToPersistentStorage(from: File, to: File){
+        openInputStream(from).use {
+            writeToFile(it, to.absolutePath)
+        }
+        from.delete()
+    }
 
     private fun finishWork() {
         _shouldCloseScreen.value = Event<Unit>(Unit)

@@ -5,7 +5,7 @@
     android:layout_height="315dp"
     android:layout_marginBottom="48dp"
     android:layout_marginStart="28dp"
-    android:layout_marginEnd="48dp"
+    android:layout_marginEnd="16dp"
     android:backgroundTint="@android:color/transparent">
 
     <ImageView
