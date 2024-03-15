@@ -39,7 +39,7 @@ class RecyclerViewWarriorsAdapter :
             .into(warriorIvValue)
             .waitForLayout()
 
-        binding.warriorTvName.text = warriorItem.nameUA
+        binding.warriorTvName.text = warriorItem.nameUA.replace(' ', '\n')
 
         binding.root.setOnClickListener {
             onWarriorClickListener?.invoke(warriorItem)

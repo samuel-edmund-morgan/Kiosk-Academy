@@ -2,6 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:focusableInTouchMode="true"
+    android:descendantFocusability="beforeDescendants"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/detailed_background"
@@ -88,6 +90,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
+            android:descendantFocusability="blocksDescendants"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="48dp">
@@ -114,16 +117,16 @@
 
                 <ImageView
                     android:id="@+id/ssuEmblem"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:layout_weight="1"
                     android:baselineAlignBottom="false"
                     android:src="@drawable/ssu_emblem" />
 
                 <ImageView
                     android:id="@+id/departmentEmblem"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:layout_weight="1"
                     android:src="@drawable/ssu_emblem" />
             </LinearLayout>
@@ -147,11 +150,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat_extra_bold"
+                android:textAllCaps="true"
                 android:lineSpacingExtra="-15dp"
                 android:text="БІЛІЧЕНКО\nГЕННАДІЙ\nВАСИЛЬОВИЧ"
                 android:textAlignment="center"
                 android:textColor="@color/white"
-                android:textSize="62dp"
+                android:textSize="53dp"
                 app:layout_constraintBottom_toTopOf="@+id/dates"
                 app:layout_constraintEnd_toEndOf="@+id/rank"
                 app:layout_constraintStart_toStartOf="@+id/rank"
@@ -200,17 +204,17 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/photoGalleryRv"
-                android:layout_marginTop="36dp"
                 android:layout_width="0dp"
                 android:layout_height="200dp"
+                android:layout_marginTop="36dp"
+                android:contentDescription="@string/chose_photo"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintTop_toBottomOf="@id/descriptionTv"
-                app:layout_constraintStart_toEndOf="@id/arrowLeft"
                 app:layout_constraintEnd_toStartOf="@id/arrowRight"
-                tools:listitem="@layout/photo_gallery_item"
+                app:layout_constraintStart_toEndOf="@id/arrowLeft"
+                app:layout_constraintTop_toBottomOf="@id/descriptionTv"
 
-                />
+                tools:listitem="@layout/photo_gallery_item" />
 
             <ImageView
                 android:id="@+id/arrowRight"

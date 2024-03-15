@@ -157,21 +157,6 @@ class RecyclerViewWarriorsViewModel(application: Application) : AndroidViewModel
         return result
     }
 
-
-
-//    fun addShopItem(inputName: String?, inputCount: String?) {
-//        val name = parseName(inputName)
-//        val count = parseCount(inputCount)
-//        val fieldsValid = validateInput(name, count)
-//        if (fieldsValid) {
-//            viewModelScope.launch {
-//                val shopItem = ShopItem(name, count, true)
-//                addShopItemUseCase.addShopItem(shopItem)
-//                finishWork()
-//            }
-//        }
-//    }
-
     @Throws(IOException::class)
     private fun writeToFile(inputStream: InputStream?, path: String) {
         val output = BufferedOutputStream(FileOutputStream(path))

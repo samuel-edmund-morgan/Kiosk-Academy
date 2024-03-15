@@ -3,7 +3,7 @@
     android:height="256dp"
     android:tintMode="multiply"
     android:tint="@drawable/arrow_pressing"
-    android:viewportWidth="2304"
+    android:viewportWidth="1940"
     android:viewportHeight="2304">
   <path
       android:strokeWidth="1"

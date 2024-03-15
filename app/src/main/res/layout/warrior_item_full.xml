@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="255dp"
     android:layout_height="315dp"
-    android:layout_marginBottom="48dp"
+    android:layout_marginBottom="40dp"
     android:layout_marginStart="48dp"
     android:layout_marginEnd="48dp"
     android:backgroundTint="@android:color/transparent">
@@ -37,7 +37,7 @@
             android:textAlignment="center"
             android:textAllCaps="true"
             android:textColor="@color/white"
-            android:textSize="32sp"
+            android:textSize="28sp"
             tools:text="аніщенко\nолександр" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

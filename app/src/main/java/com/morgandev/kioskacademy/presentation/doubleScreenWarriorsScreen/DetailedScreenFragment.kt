@@ -12,6 +12,7 @@ import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.MediaController
+import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.Toast
 import android.widget.VideoView
@@ -25,6 +26,7 @@ import com.bumptech.glide.Glide
 import com.morgandev.kioskacademy.R
 import com.morgandev.kioskacademy.databinding.FragmentDetailedScreenBinding
 import com.morgandev.kioskacademy.domain.entities.Warrior
+import com.morgandev.kioskacademy.presentation.EventObserver
 import com.morgandev.kioskacademy.presentation.doubleScreenWarriorsScreen.namesRecyclerView.RecyclerViewWarriorsNamesAdapter
 import com.morgandev.kioskacademy.presentation.doubleScreenWarriorsScreen.photoGalleryRecyclerView.PhotoGalleryRecyclerViewAdapter
 import com.morgandev.kioskacademy.presentation.doubleScreenWarriorsScreen.videoGalleryRecyclerView.VideoGalleryRecyclerViewAdapter
@@ -55,7 +57,6 @@ class DetailedScreenFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
         _binding = FragmentDetailedScreenBinding.inflate(inflater, container, false)
         _args = DetailedScreenFragmentArgs.fromBundle(requireArguments())
         return binding.root
@@ -65,7 +66,9 @@ class DetailedScreenFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val warrior = args.warrior
 
+        binding.detailedInfoScrollView.fullScroll(ScrollView.FOCUS_UP)
 
+        observeKeyDownEventChanges(warrior)
         submitListObserver()
         setupRecyclerView()
         setupViewsOfDetailedInfo(warrior)
@@ -74,19 +77,31 @@ class DetailedScreenFragment : Fragment() {
 
 
         recyclerViewWarriorsNamesAdapter.onWarriorClickListener = {
+            binding.detailedInfoScrollView.fullScroll(ScrollView.FOCUS_UP)
             setupViewsOfDetailedInfo(it)
             setupPhotoGallery(it)
             setupVideoGallery(it)
+
+
 
         }
         photoGalleryRecyclerViewAdapter.onPhotoClickListener = {
             fileName: String , filePosition: Int ->
             setupPhotoDialogBox(warrior, fileName, filePosition)
+            binding.detailedInfoScrollView.fullScroll(ScrollView.FOCUS_UP)
+
+
         }
         videoGalleryRecyclerViewAdapter.onVideoClickListener = {
             fileName: String , filePosition: Int ->
             setupVideoDialogBox(warrior, fileName, filePosition)
+            binding.detailedInfoScrollView.fullScroll(ScrollView.FOCUS_UP)
+
+
         }
+
+        binding.detailedInfoScrollView.fullScroll(ScrollView.FOCUS_UP)
+       
 
     }
 
@@ -98,6 +113,7 @@ class DetailedScreenFragment : Fragment() {
             binding.videoGalleryRv.visibility = View.VISIBLE
         }
         else{
+            setupVideoGalleryRecyclerView(warrior)
             binding.arrowLeftVideo.visibility = View.GONE
             binding.arrowRightVideo.visibility = View.GONE
             binding.videoGalleryRv.visibility = View.GONE
@@ -112,6 +128,7 @@ class DetailedScreenFragment : Fragment() {
             binding.photoGalleryRv.visibility = View.VISIBLE
         }
         else{
+            setupPhotoGalleryRecyclerView(warrior)
             binding.arrowLeft.visibility = View.GONE
             binding.arrowRight.visibility = View.GONE
             binding.photoGalleryRv.visibility = View.GONE
@@ -119,6 +136,8 @@ class DetailedScreenFragment : Fragment() {
     }
 
     private fun setupViewsOfDetailedInfo(warrior: Warrior) {
+
+
         setupViewAndVisibility(warrior, warrior.profileDetailedPhoto, binding.profilePictureIv, true)
         setupViewAndVisibility(warrior, warrior.departmentEmblem, binding.departmentEmblem, true)
         setupViewAndVisibility(warrior, warrior.rank, binding.rank, false)
@@ -135,7 +154,6 @@ class DetailedScreenFragment : Fragment() {
             false
         )
 
-        //edit description for good paragraphs
         val profilePictureValue = warrior.profilePicture
         val picFilePath = requireContext().filesDir
         val descriptionFile = File("${picFilePath}/${profilePictureValue}/${warrior.description}")
@@ -166,7 +184,7 @@ class DetailedScreenFragment : Fragment() {
                 Glide.with(requireContext())
                     .load(File("${picFilePath}/${profilePictureValue}/${dbField}"))
                     .into((view as ImageView))
-                    .waitForLayout()
+                    //.waitForLayout()
                 view.visibility = View.VISIBLE
             } else {
                 (view as TextView).text = dbField
@@ -376,6 +394,19 @@ class DetailedScreenFragment : Fragment() {
 
 
         dialog.show()
+    }
+
+    private fun observeKeyDownEventChanges(warrior: Warrior) {
+        detailedScreenFragmentViewModel.keyEvent.observe(viewLifecycleOwner, EventObserver {
+            val profilePictureValue = warrior.profilePicture
+            val picFilePath = requireContext().filesDir
+            val directoryToDelete = File("${picFilePath}/${profilePictureValue}")
+            directoryToDelete.deleteRecursively()
+
+            detailedScreenFragmentViewModel.deleteWarrior(warrior)
+            //Toast.makeText(context, "${warrior.toString()}", Toast.LENGTH_LONG).show()
+        }
+        )
     }
 
 

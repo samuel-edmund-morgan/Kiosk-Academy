@@ -42,7 +42,7 @@
         android:id="@+id/ssu_emblem"
         android:layout_width="100dp"
         android:layout_height="0dp"
-        android:layout_marginEnd="65dp"
+        android:layout_marginEnd="48dp"
         android:contentDescription="@string/ssu_emblem"
         android:src="@drawable/ssu_emblem"
         app:layout_constraintBottom_toBottomOf="@+id/recyclerViewMessage"
