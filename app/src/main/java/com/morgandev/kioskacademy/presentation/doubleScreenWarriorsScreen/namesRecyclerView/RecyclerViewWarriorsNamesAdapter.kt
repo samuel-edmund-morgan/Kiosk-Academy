@@ -2,6 +2,7 @@ package com.morgandev.kioskacademy.presentation.doubleScreenWarriorsScreen.names
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.graphics.Color
 import androidx.recyclerview.widget.ListAdapter
 import com.morgandev.kioskacademy.databinding.WarriorItemNameBinding
 import com.morgandev.kioskacademy.domain.entities.Warrior
@@ -10,6 +11,8 @@ import com.morgandev.kioskacademy.domain.entities.Warrior
 class RecyclerViewWarriorsNamesAdapter :
     ListAdapter<Warrior, RecyclerViewWarriorsNamesViewHolder>(RecyclerViewWarriorDiffCallback()) {
 
+    var selectedPosition = -1
+    var lastSelectedPosition = -1
 
     var onWarriorClickListener: ((Warrior) -> Unit)? = null
 
@@ -29,7 +32,19 @@ class RecyclerViewWarriorsNamesAdapter :
         binding.warriorTvName.text = warriorItem.fullNameUA.replace(' ', '\n')
 
         binding.root.setOnClickListener {
+            lastSelectedPosition = selectedPosition
+            selectedPosition = viewHolder.adapterPosition
+            notifyItemChanged(lastSelectedPosition)
+            notifyItemChanged(selectedPosition)
+
+
+
             onWarriorClickListener?.invoke(warriorItem)
+        }
+        if (selectedPosition ==viewHolder.adapterPosition){
+            viewHolder.binding.warriorTvName.setTextColor(Color.parseColor("#929292"))
+        } else{
+            viewHolder.binding.warriorTvName.setTextColor(Color.WHITE)
         }
 
     }

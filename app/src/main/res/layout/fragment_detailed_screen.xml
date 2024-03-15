@@ -2,10 +2,24 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:focusableInTouchMode="true"
+    android:descendantFocusability="beforeDescendants"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/detailed_background"
     tools:context=".presentation.doubleScreenWarriorsScreen.DetailedScreenFragment">
+
+
+    <ImageView
+        android:id="@+id/backBtnF"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/close"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 
     <ImageView
@@ -15,7 +29,6 @@
         android:clickable="true"
         android:contentDescription="@string/arrow_up"
         app:layout_constraintEnd_toStartOf="@+id/guideline_third"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/arrow_up" />
 
@@ -51,9 +64,8 @@
         android:layout_height="186dp"
         android:clickable="true"
         android:contentDescription="@string/arrow_down"
-        app:layout_constraintEnd_toEndOf="@id/guideline_third"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/guideline_third"
         app:srcCompat="@drawable/arrow_down" />
 
 
@@ -88,6 +100,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
+            android:descendantFocusability="blocksDescendants"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="48dp">
@@ -114,16 +127,16 @@
 
                 <ImageView
                     android:id="@+id/ssuEmblem"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:layout_weight="1"
                     android:baselineAlignBottom="false"
                     android:src="@drawable/ssu_emblem" />
 
                 <ImageView
                     android:id="@+id/departmentEmblem"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:layout_weight="1"
                     android:src="@drawable/ssu_emblem" />
             </LinearLayout>
@@ -147,11 +160,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat_extra_bold"
+                android:textAllCaps="true"
                 android:lineSpacingExtra="-15dp"
                 android:text="БІЛІЧЕНКО\nГЕННАДІЙ\nВАСИЛЬОВИЧ"
                 android:textAlignment="center"
                 android:textColor="@color/white"
-                android:textSize="62dp"
+                android:textSize="53dp"
                 app:layout_constraintBottom_toTopOf="@+id/dates"
                 app:layout_constraintEnd_toEndOf="@+id/rank"
                 app:layout_constraintStart_toStartOf="@+id/rank"
@@ -200,17 +214,17 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/photoGalleryRv"
-                android:layout_marginTop="36dp"
                 android:layout_width="0dp"
                 android:layout_height="200dp"
+                android:layout_marginTop="36dp"
+                android:contentDescription="@string/chose_photo"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintTop_toBottomOf="@id/descriptionTv"
-                app:layout_constraintStart_toEndOf="@id/arrowLeft"
                 app:layout_constraintEnd_toStartOf="@id/arrowRight"
-                tools:listitem="@layout/photo_gallery_item"
+                app:layout_constraintStart_toEndOf="@id/arrowLeft"
+                app:layout_constraintTop_toBottomOf="@id/descriptionTv"
 
-                />
+                tools:listitem="@layout/photo_gallery_item" />
 
             <ImageView
                 android:id="@+id/arrowRight"
