@@ -20,6 +20,7 @@ import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -64,6 +65,9 @@ class DetailedScreenFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        onBackBtnPressed()
+
         val warrior = args.warrior
 
         binding.detailedInfoScrollView.fullScroll(ScrollView.FOCUS_UP)
@@ -396,6 +400,7 @@ class DetailedScreenFragment : Fragment() {
         dialog.show()
     }
 
+
     private fun observeKeyDownEventChanges(warrior: Warrior) {
         detailedScreenFragmentViewModel.keyEvent.observe(viewLifecycleOwner, EventObserver {
             val profilePictureValue = warrior.profilePicture
@@ -407,6 +412,12 @@ class DetailedScreenFragment : Fragment() {
             //Toast.makeText(context, "${warrior.toString()}", Toast.LENGTH_LONG).show()
         }
         )
+    }
+
+    private fun onBackBtnPressed(){
+        binding.backBtnF.setOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
 
