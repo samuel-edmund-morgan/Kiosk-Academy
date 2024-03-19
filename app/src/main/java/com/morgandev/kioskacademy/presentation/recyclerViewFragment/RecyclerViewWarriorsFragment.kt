@@ -43,6 +43,7 @@ class RecyclerViewWarriorsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        onBackBtnPressed()
         observeKeyDownEventChanges()
         setupRecyclerView()
         submitListObserver()
@@ -111,6 +112,18 @@ class RecyclerViewWarriorsFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun onBackBtnPressed(){
+        binding.brandingIv.setOnClickListener {
+            findNavController().popBackStack()
+        }
+        binding.recyclerViewMessage.setOnClickListener {
+            findNavController().popBackStack()
+        }
+        binding.ssuEmblem.setOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
 
