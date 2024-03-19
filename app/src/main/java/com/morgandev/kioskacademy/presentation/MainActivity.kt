@@ -70,6 +70,7 @@ class MainActivity : AppCompatActivity(),
         mAdminComponentName = KioskDeviceAdminReceiver.getComponentName(this)
         mDevicePolicyManager = getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
 
+        //Before everything must be ready
         //setKioskPolicies(true, true)
 
         setContentView(binding.root)
@@ -110,24 +111,23 @@ class MainActivity : AppCompatActivity(),
         inactivityCountDownTimer.cancel()
     }
 
-    //In Activity
+    //DEBUG ON!
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         return when (keyCode) {
-            KeyEvent.KEYCODE_VOLUME_DOWN -> {
-                if (findNavController(R.id.main_container).currentDestination?.id == R.id.recyclerViewWarriorsFragment) {
-                    recycleViewWarriorsViewModel.setEvent(keyCode)
-                }
-                true
-            }
+//            KeyEvent.KEYCODE_VOLUME_DOWN -> {
+//                if (findNavController(R.id.main_container).currentDestination?.id == R.id.recyclerViewWarriorsFragment) {
+//                    recycleViewWarriorsViewModel.setEvent(keyCode)
+//                }
+//                true
+//            }
 
             KeyEvent.KEYCODE_VOLUME_UP -> {
                 if (findNavController(R.id.main_container).currentDestination?.id == R.id.welcomeScreenFragment) {
                     setKioskPolicies(true, true)
                 }
-
-                if (findNavController(R.id.main_container).currentDestination?.id == R.id.detailedScreenFragment) {
-                    recycleViewWarriorsViewModel.setEvent(keyCode)
-                }
+//                if (findNavController(R.id.main_container).currentDestination?.id == R.id.detailedScreenFragment) {
+//                    recycleViewWarriorsViewModel.setEvent(keyCode)
+//                }
                 true
             }
 

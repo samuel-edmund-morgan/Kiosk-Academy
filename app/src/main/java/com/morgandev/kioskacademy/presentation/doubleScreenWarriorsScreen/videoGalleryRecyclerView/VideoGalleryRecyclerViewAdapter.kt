@@ -1,10 +1,15 @@
 package com.morgandev.kioskacademy.presentation.doubleScreenWarriorsScreen.videoGalleryRecyclerView
 
+import android.media.ThumbnailUtils
+import android.os.CancellationSignal
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.MediaController
+import androidx.compose.ui.geometry.Size
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.ListAdapter
+import com.bumptech.glide.Glide
 import com.morgandev.kioskacademy.databinding.VideoGalleryItemBinding
 import java.io.File
 
@@ -38,6 +43,18 @@ class VideoGalleryRecyclerViewAdapter(private val warriorDir: String) :
         binding.root.setOnClickListener {
             onVideoClickListener?.invoke(videoItem, position)
         }
+
+        val videoFile = File("${videoFilePath}/${profilePictureValue}/${videoItem}")
+        val size = android.util.Size(256, 256)
+        val cs = CancellationSignal()
+        val thumbnail = ThumbnailUtils.createVideoThumbnail(videoFile, size, cs)
+
+        Glide.with(contextValue)
+            .load(thumbnail)
+            .into(binding.thumbnailIv)
+            .waitForLayout()
+
+
 
     }
 
