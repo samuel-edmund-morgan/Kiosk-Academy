@@ -70,9 +70,6 @@ class MainActivity : AppCompatActivity(),
         mAdminComponentName = KioskDeviceAdminReceiver.getComponentName(this)
         mDevicePolicyManager = getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
 
-        //Before everything must be ready
-        //setKioskPolicies(true, true)
-
         setContentView(binding.root)
         hideNavBar()
         inactivityCountDownTimer.start()
