@@ -3,8 +3,12 @@ package com.morgandev.kioskacademy.presentation.recyclerViewFragment.adminRecycl
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.media.ThumbnailUtils
 import android.net.Uri
 import android.os.Bundle
+import android.os.CancellationSignal
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -14,13 +18,16 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.morgandev.kioskacademy.databinding.FragmentRecyclerViewWarriorsAddBinding
 import com.morgandev.kioskacademy.presentation.EventObserver
 import com.morgandev.kioskacademy.presentation.recyclerViewFragment.RecyclerViewWarriorsViewModel
+import com.morgandev.kioskacademy.presentation.welcomeFragment.BitmapConverter
 import java.io.BufferedOutputStream
 import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -64,41 +71,8 @@ class RecyclerViewWarriorsAddFragment : Fragment() {
         with(binding) {
 
             choseAnyFileClickListener(
-                profileTv,
-                profileBtn,
-                false
-            )
-
-            choseAnyFileClickListener(
-                profilePhotoDetailedTv,
-                profilePhotoDetailedBtn,
-                false
-            )
-
-            choseAnyFileClickListener(
-                emblemTv,
-                emblemBtn,
-                false
-            )
-
-            choseDateClickListener(birthTv, birthBtn)
-            choseDateClickListener(deathTv, deathBtn)
-
-            choseAnyFileClickListener(
-                photoTv,
-                photoBtn,
-                true
-            )
-
-            choseAnyFileClickListener(
-                videoTv,
-                videoBtn,
-                true
-            )
-
-            choseAnyFileClickListener(
-                descriptionTv,
-                descriptionBtn,
+                videoFileNameTv,
+                videoChoseBtn,
                 false
             )
 
@@ -117,27 +91,6 @@ class RecyclerViewWarriorsAddFragment : Fragment() {
                 onEditingFinishedListener.onEditingFinished()
             })
 
-    }
-
-    private fun choseDateClickListener(textView: TextView, button: Button) {
-        val calendar = Calendar.getInstance()
-        val datePickerDialog = context?.let {
-            DatePickerDialog(
-                it, { _, year: Int, monthOfYear: Int, dayOfMonth: Int ->
-                    val selectedDate = Calendar.getInstance()
-                    selectedDate.set(year, monthOfYear, dayOfMonth)
-                    val dateFormat = SimpleDateFormat("dd MMMM yyyy", Locale("uk", "UA"))
-                    val formattedDate = dateFormat.format(selectedDate.time)
-                    textView.text = formattedDate
-                },
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)
-            )
-        }
-        button.setOnClickListener {
-            datePickerDialog?.show()
-        }
     }
 
     private fun choseAnyFileClickListener(
@@ -176,21 +129,25 @@ class RecyclerViewWarriorsAddFragment : Fragment() {
                     val flag = Intent.FLAG_GRANT_READ_URI_PERMISSION
                     context?.contentResolver?.takePersistableUriPermission(uri, flag)
 
-                    val fileName = File(uri.path.toString()).name
+                    var fileName = File(uri.path.toString()).name
+                    fileName = fileName.substring(fileName.indexOf(':') + 1)
 
-
-                    val fullFileTmpPath = File(context?.cacheDir, fileName)
-                    val newVideo: ByteArray?
+                    val fullFileTmpPath = File(context?.cacheDir, fileName).absolutePath
                     requireActivity().contentResolver.openInputStream(uri).use {
-                        newVideo = it?.readBytes()
-                        it?.close()
+                        writeToFile(it, fullFileTmpPath)
                     }
-                    val inputStream = ByteArrayInputStream(newVideo)
-                    inputStream.use { input ->
-                        fullFileTmpPath.outputStream().use { output ->
-                            input.copyTo(output)
-                        }
-                    }
+//                    val size = android.util.Size(256, 256)
+//                    val cs = CancellationSignal()
+//                    val thumbnail = ThumbnailUtils.createVideoThumbnail(
+//                        File(context?.cacheDir, fileName), size, cs)
+//                    BitmapConverter.converterBitmapToString(thumbnail).toUri()
+//                    thumbnail.
+//
+//                    val fullThumbnailTmpPath = File(context?.cacheDir, "thumbnail").absolutePath
+//                    requireActivity().contentResolver.openInputStream().use {
+//                        writeToFile(it, fullFileTmpPath)
+//                    }
+
                     textView.text = fileName
                         .replace("[", "")
                         .replace("]", "")
@@ -234,29 +191,18 @@ class RecyclerViewWarriorsAddFragment : Fragment() {
                 }
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    val formattedPhotoName = profileTv.text.toString().trim()
-                    val formattedDetailedPhoto = profilePhotoDetailedTv.text.toString().trim()
-                    val formattedNameSurname = nameSurnameEt.text.toString().trim()
-                    val formattedSurnameNamePatronim = surnameNamePatronimEt.text.toString().trim()
-                    val formattedBirthDate = birthTv.text.toString().trim()
-                    val formattedDeathDate = deathTv.text.toString().trim()
-                    val formattedDescription = descriptionTv.text.toString().trim()
 
-                    saveDataBtn.isEnabled = formattedPhotoName.isNotEmpty() &&
-                            formattedNameSurname.isNotEmpty() && formattedSurnameNamePatronim.isNotEmpty() &&
-                            formattedBirthDate.isNotEmpty() && formattedDeathDate.isNotEmpty() &&
-                            formattedDescription.isNotEmpty() && formattedDetailedPhoto.isNotEmpty()
+                    val formattedVideoName = videoNameEt.text.toString().trim()
+                    val formattedVideoFileName = videoFileNameTv.text.toString().trim()
+
+                    saveDataBtn.isEnabled = formattedVideoName.isNotEmpty() &&
+                            formattedVideoFileName.isNotEmpty()
                 }
 
                 override fun afterTextChanged(s: Editable?) {}
             }
-            profileTv.addTextChangedListener(textWatcher)
-            profilePhotoDetailedTv.addTextChangedListener(textWatcher)
-            nameSurnameEt.addTextChangedListener(textWatcher)
-            surnameNamePatronimEt.addTextChangedListener(textWatcher)
-            birthTv.addTextChangedListener(textWatcher)
-            deathTv.addTextChangedListener(textWatcher)
-            descriptionTv.addTextChangedListener(textWatcher)
+            videoNameEt.addTextChangedListener(textWatcher)
+            videoFileNameTv.addTextChangedListener(textWatcher)
         }
     }
 

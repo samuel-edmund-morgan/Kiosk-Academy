@@ -111,12 +111,12 @@ class MainActivity : AppCompatActivity(),
     //DEBUG ON!
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         return when (keyCode) {
-//            KeyEvent.KEYCODE_VOLUME_DOWN -> {
-//                if (findNavController(R.id.main_container).currentDestination?.id == R.id.recyclerViewWarriorsFragment) {
-//                    recycleViewWarriorsViewModel.setEvent(keyCode)
-//                }
-//                true
-//            }
+            KeyEvent.KEYCODE_VOLUME_DOWN -> {
+                if (findNavController(R.id.main_container).currentDestination?.id == R.id.recyclerViewWarriorsFragment) {
+                    recycleViewWarriorsViewModel.setEvent(keyCode)
+                }
+                true
+            }
 
             KeyEvent.KEYCODE_VOLUME_UP -> {
                 if (findNavController(R.id.main_container).currentDestination?.id == R.id.welcomeScreenFragment) {

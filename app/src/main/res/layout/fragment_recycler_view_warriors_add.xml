@@ -27,7 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat_black"
-                android:text="@string/new_warrior"
+                android:text="Нове відео"
                 android:textColor="@color/white"
                 android:textSize="52sp" />
 
@@ -36,145 +36,30 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/montserrat_black"
-                android:text="@string/profile_picture"
-                android:textColor="@color/white"
-                android:textSize="24sp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/profileBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:backgroundTint="@color/light_blue_900"
-
-                    android:fontFamily="@font/montserrat_black"
-                    android:text="@string/chose_photo"
-                    tools:ignore="DuplicateSpeakableTextCheck" />
-
-                <TextView
-                    android:id="@+id/profileTv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserrat_black"
-                    android:textColor="@color/white" />
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:fontFamily="@font/montserrat_black"
-                android:text="@string/detailed_profile_photo"
-                android:textColor="@color/white"
-                android:textSize="24sp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/profilePhotoDetailedBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:backgroundTint="@color/light_blue_900"
-                    android:fontFamily="@font/montserrat_black"
-                    android:text="@string/chose_photo"
-                    tools:ignore="DuplicateSpeakableTextCheck" />
-
-                <TextView
-                    android:id="@+id/profilePhotoDetailedTv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserrat_black"
-                    android:textColor="@color/white" />
-            </LinearLayout>
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:fontFamily="@font/montserrat_black"
-                android:text="@string/rank"
+                android:text="Назва відео"
                 android:textColor="@color/white"
                 android:textSize="24sp" />
 
             <EditText
-                android:id="@+id/rank_id_et"
+                android:id="@+id/videoNameEt"
                 android:layout_width="500dp"
                 android:layout_height="wrap_content"
                 android:autofillHints="rank"
                 android:background="@color/white"
                 android:ems="10"
                 android:fontFamily="@font/montserrat_black"
-                android:hint="@string/colonel"
+                android:hint="Назва"
                 android:inputType="text"
                 android:minHeight="48dp"
                 android:textColor="@color/black"
                 android:textColorHint="#78909C" />
 
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/montserrat_black"
-                android:text="@string/name_surname"
-                android:textColor="@color/white"
-                android:textSize="24sp" />
-
-            <EditText
-                android:id="@+id/nameSurnameEt"
-                android:layout_width="500dp"
-                android:layout_height="wrap_content"
-                android:autofillHints=""
-                android:background="@color/white"
-                android:ems="10"
-                android:fontFamily="@font/montserrat_black"
-                android:hint="@string/taras_shevchenko"
-                android:inputType="text"
-                android:minHeight="48dp"
-                android:textColor="@color/black"
-                android:textColorHint="#78909C"
-                tools:ignore="DuplicateSpeakableTextCheck" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:fontFamily="@font/montserrat_black"
-                android:text="@string/surname_name_patronim"
-                android:textColor="@color/white"
-                android:textSize="24sp" />
-
-            <EditText
-                android:id="@+id/surnameNamePatronimEt"
-                android:layout_width="500dp"
-                android:layout_height="wrap_content"
-                android:autofillHints="surname name patronim"
-                android:background="@color/white"
-                android:ems="10"
-                android:fontFamily="@font/montserrat_black"
-                android:hint="@string/shevchenco_taras_hrygorovych"
-                android:inputType="text"
-                android:minHeight="48dp"
-                android:textColor="@color/black"
-                android:textColorHint="#78909C"
-                tools:ignore="DuplicateSpeakableTextCheck" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:fontFamily="@font/montserrat_black"
-                android:text="@string/emblem_text"
+                android:text="Оберіть відео"
                 android:textColor="@color/white"
                 android:textSize="24sp" />
 
@@ -184,98 +69,7 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/emblemBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:backgroundTint="@color/light_blue_900"
-
-                    android:fontFamily="@font/montserrat_black"
-                    android:text="@string/chose_emblem" />
-
-                <TextView
-                    android:id="@+id/emblemTv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserrat_black"
-                    android:textColor="@color/white" />
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:fontFamily="@font/montserrat_black"
-                android:text="@string/chose_dates"
-                android:textColor="@color/white"
-                android:textSize="24sp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/birthBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:backgroundTint="@color/light_blue_900"
-                    android:fontFamily="@font/montserrat_black"
-                    android:text="@string/birth_date" />
-
-                <TextView
-                    android:id="@+id/birthTv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserrat_black"
-                    android:text=""
-                    android:textColor="@color/white"
-                    android:textSize="24sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/deathBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:backgroundTint="@color/light_blue_900"
-
-                    android:fontFamily="@font/montserrat_black"
-                    android:text="@string/death_date" />
-
-                <TextView
-                    android:id="@+id/deathTv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserrat_black"
-                    android:text=""
-                    android:textColor="@color/white"
-                    android:textSize="24sp" />
-            </LinearLayout>
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:fontFamily="@font/montserrat_black"
-                android:text="@string/file_with_description"
-                android:textColor="@color/white"
-                android:textSize="24sp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/descriptionBtn"
+                    android:id="@+id/videoChoseBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
@@ -285,76 +79,13 @@
                     tools:ignore="DuplicateSpeakableTextCheck" />
 
                 <TextView
-                    android:id="@+id/descriptionTv"
+                    android:id="@+id/videoFileNameTv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/montserrat_black"
                     android:textColor="@color/white" />
             </LinearLayout>
 
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:fontFamily="@font/montserrat_black"
-                android:text="@string/chose_photos"
-                android:textColor="@color/white"
-                android:textSize="24sp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/photoBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:backgroundTint="@color/light_blue_900"
-
-                    android:fontFamily="@font/montserrat_black"
-                    android:text="@string/chose_photo_btn" />
-
-                <TextView
-                    android:id="@+id/photoTv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserrat_black"
-                    android:textColor="@color/white" />
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:fontFamily="@font/montserrat_black"
-                android:text="@string/chose_videos_about"
-                android:textColor="@color/white"
-                android:textSize="24sp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/videoBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:backgroundTint="@color/light_blue_900"
-                    android:fontFamily="@font/montserrat_black"
-                    android:text="@string/chose_videos_btn" />
-
-                <TextView
-                    android:id="@+id/videoTv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserrat_black"
-                    android:textColor="@color/white" />
-            </LinearLayout>
 
             <Button
                 android:id="@+id/saveDataBtn"

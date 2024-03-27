@@ -7,15 +7,18 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.morgandev.kioskacademy.data.AppData.AppDataDao
 import com.morgandev.kioskacademy.data.AppData.AppDataDbModel
+import com.morgandev.kioskacademy.data.VideosData.VideosDbModel
+import com.morgandev.kioskacademy.data.VideosData.VideosListDao
 import com.morgandev.kioskacademy.data.WarriorsData.WarriorDbModel
 import com.morgandev.kioskacademy.data.WarriorsData.WarriorListDao
 
 @TypeConverters(ListStringTypeConverter::class)
 @Database
-    (entities = [AppDataDbModel::class, WarriorDbModel::class], version = 1, exportSchema = false)
+    (entities = [AppDataDbModel::class, WarriorDbModel::class, VideosDbModel::class], version = 1, exportSchema = false)
 abstract class ApplicationDatabase: RoomDatabase() {
     abstract fun warriorListDao(): WarriorListDao
     abstract fun appDataDao(): AppDataDao
+    abstract fun videosListDao(): VideosListDao
 
     companion object {
 

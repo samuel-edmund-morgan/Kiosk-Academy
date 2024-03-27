@@ -1,5 +1,7 @@
 package com.morgandev.kioskacademy.presentation.recyclerViewFragment.recyclerViewData
 
+import android.media.ThumbnailUtils
+import android.os.CancellationSignal
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,15 +10,16 @@ import com.bumptech.glide.Glide
 import com.morgandev.kioskacademy.databinding.FragmentRecyclerViewWarriorsAddBinding
 import com.morgandev.kioskacademy.databinding.FragmentRecyclerViewWarriorsBinding
 import com.morgandev.kioskacademy.databinding.WarriorItemFullBinding
+import com.morgandev.kioskacademy.domain.entities.VideoData
 import com.morgandev.kioskacademy.domain.entities.Warrior
 import java.io.File
 
 
 class RecyclerViewWarriorsAdapter :
-    ListAdapter<Warrior, RecyclerViewWarriorsViewHolder>(RecyclerViewWarriorDiffCallback()) {
+    ListAdapter<VideoData, RecyclerViewWarriorsViewHolder>(RecyclerViewWarriorDiffCallback()) {
 
 
-    var onWarriorClickListener: ((Warrior) -> Unit)? = null
+    var onWarriorClickListener: ((String, Int) -> Unit)? = null
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -26,23 +29,30 @@ class RecyclerViewWarriorsAdapter :
         return RecyclerViewWarriorsViewHolder(bind)
     }
     override fun onBindViewHolder(viewHolder: RecyclerViewWarriorsViewHolder, position: Int) {
-        val warriorItem = getItem(position)
+        val videoItem = getItem(position)
         val binding = viewHolder.binding
-
         val contextValue = viewHolder.itemView.context
-        val profilePictureValue = warriorItem.profilePicture
-        val warriorIvValue = binding.warriorIv
-        val picFilePath = contextValue.filesDir
+
+        val videoFileNameValue = videoItem.videoFileName
+        val videoFilePath = contextValue.filesDir
+
+        val videoFile = File("${videoFilePath}/${videoFileNameValue}/${videoFileNameValue}")
+        val size = android.util.Size(256, 256)
+        val cs = CancellationSignal()
+        val thumbnail = ThumbnailUtils.createVideoThumbnail(videoFile, size, cs)
 
         Glide.with(contextValue)
-            .load(File("${picFilePath}/${profilePictureValue}/${profilePictureValue}"))
-            .into(warriorIvValue)
-            .waitForLayout()
+            .load(thumbnail)
+            .into(binding.warriorIv)
+            //.waitForLayout()
 
-        binding.warriorTvName.text = warriorItem.nameUA.replace(' ', '\n')
+
+
+        binding.warriorTvName.text = videoItem.videoName.replace(". ", ".\n")
+            //.replace('.', '\n')
 
         binding.root.setOnClickListener {
-            onWarriorClickListener?.invoke(warriorItem)
+            onWarriorClickListener?.invoke(videoFileNameValue, position)
         }
 
     }

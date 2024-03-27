@@ -73,7 +73,7 @@ class DetailedScreenFragment : Fragment() {
         binding.detailedInfoScrollView.fullScroll(ScrollView.FOCUS_UP)
 
         observeKeyDownEventChanges(warrior)
-        submitListObserver()
+        //submitListObserver()
         setupRecyclerView()
         setupViewsOfDetailedInfo(warrior)
         setupPhotoGallery(warrior)
@@ -200,12 +200,12 @@ class DetailedScreenFragment : Fragment() {
 
     }
 
-    private fun submitListObserver() {
-        detailedScreenFragmentViewModel.warriorList.observe(viewLifecycleOwner) {
-            recyclerViewWarriorsNamesAdapter.submitList(it)
-            binding.progressBarNames.visibility = View.GONE
-        }
-    }
+//    private fun submitListObserver() {
+//        detailedScreenFragmentViewModel.warriorList.observe(viewLifecycleOwner) {
+//            recyclerViewWarriorsNamesAdapter.submitList(it)
+//            binding.progressBarNames.visibility = View.GONE
+//        }
+//    }
 
     private fun setupRecyclerView() {
 
@@ -408,7 +408,7 @@ class DetailedScreenFragment : Fragment() {
             val directoryToDelete = File("${picFilePath}/${profilePictureValue}")
             directoryToDelete.deleteRecursively()
 
-            detailedScreenFragmentViewModel.deleteWarrior(warrior)
+            //detailedScreenFragmentViewModel.deleteWarrior(warrior)
             //Toast.makeText(context, "${warrior.toString()}", Toast.LENGTH_LONG).show()
         }
         )

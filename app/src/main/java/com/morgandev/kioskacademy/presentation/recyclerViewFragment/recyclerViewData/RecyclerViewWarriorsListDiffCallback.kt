@@ -1,11 +1,12 @@
 package com.morgandev.kioskacademy.presentation.recyclerViewFragment.recyclerViewData
 
 import androidx.recyclerview.widget.DiffUtil
+import com.morgandev.kioskacademy.domain.entities.VideoData
 import com.morgandev.kioskacademy.domain.entities.Warrior
 
 class RecyclerViewWarriorsListDiffCallback(
-    private val oldList: List<Warrior>,
-    private val newList: List<Warrior>,
+    private val oldList: List<VideoData>,
+    private val newList: List<VideoData>,
 ): DiffUtil.Callback() {
     override fun getOldListSize(): Int {
         return oldList.size

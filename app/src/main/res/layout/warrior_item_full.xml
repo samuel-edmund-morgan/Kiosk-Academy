@@ -1,43 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="255dp"
-    android:layout_height="315dp"
+    android:layout_width="300dp"
+    android:layout_height="300dp"
     android:layout_marginBottom="40dp"
     android:layout_marginStart="48dp"
     android:layout_marginEnd="48dp"
     android:backgroundTint="@android:color/transparent">
 
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/gradient"
-
         android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/warrior_iv"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="9"
+            android:id="@+id/playImage"
+            android:elevation="1dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            app:layout_constraintBottom_toBottomOf="@id/warrior_iv"
+            app:layout_constraintEnd_toEndOf="@id/warrior_iv"
+            app:layout_constraintStart_toStartOf="@id/warrior_iv"
+            app:layout_constraintTop_toTopOf="@id/warrior_iv"
+            android:src="@drawable/resume" />
 
+        <ImageView
+            android:id="@+id/warrior_iv"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:alpha="0.8"
             android:contentDescription="@string/warrior_image"
             android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/warrior_tv_name"
             tools:src="@drawable/onishenko_alex" />
 
         <TextView
             android:id="@+id/warrior_tv_name"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat_semi_bold"
             android:lineSpacingExtra="-10dp"
             android:textAlignment="center"
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="28sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             tools:text="аніщенко\nолександр" />
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
