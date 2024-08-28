@@ -15,7 +15,7 @@
         android:layout_marginStart="48dp"
         android:layout_marginTop="32dp"
         android:contentDescription="@string/branding_image"
-        android:src="@drawable/ssu_emblem"
+        android:src="@drawable/academy"
         app:layout_constraintBottom_toBottomOf="@+id/recyclerViewMessage"
         app:layout_constraintEnd_toStartOf="@id/recyclerViewMessage"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,7 +30,7 @@
         android:includeFontPadding="false"
         android:lineSpacingExtra="-15dp"
         android:layout_marginLeft="16dp"
-        android:text="спецоперації\nслужби безпеки україни"
+        android:text="академія сбу:\nвідеогалерея"
         android:textAllCaps="true"
         android:textColor="@color/white"
         android:textSize="50sp"
@@ -75,7 +75,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/arrow_down" />
 
-    <ImageView
+    <!-- <ImageView
         android:id="@+id/bullet"
         android:layout_width="32dp"
         android:layout_height="30dp"
@@ -85,7 +85,7 @@
         android:contentDescription="@string/bullet_hole"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/bullet_hole" />
+        app:srcCompat="@drawable/bullet_hole" /> -->
 
     <ProgressBar
         android:id="@+id/progressBar"

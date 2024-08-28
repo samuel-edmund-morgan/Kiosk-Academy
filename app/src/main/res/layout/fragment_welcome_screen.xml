@@ -8,11 +8,11 @@
 
     <ImageView
         android:id="@+id/ssu_emblem"
-        android:layout_width="110dp"
-        android:layout_height="110dp"
-        android:layout_marginTop="140dp"
+        android:layout_width="210dp"
+        android:layout_height="210dp"
+        android:layout_marginTop="40dp"
         android:contentDescription="@string/ssu_emblem"
-        android:src="@drawable/ssu_emblem"
+        android:src="@drawable/academy"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,31 +21,31 @@
     <TextView
         android:id="@+id/main_message"
         android:layout_width="1146dp"
-        android:layout_height="337dp"
+        android:layout_height="537dp"
         android:layout_marginTop="32dp"
         android:contentDescription="@string/main_message"
         android:fontFamily="@font/montserrat_black"
-        android:text="спецоперації\nСБУ"
+        android:text="академія СБУ:\nвідеогалерея"
         android:textAlignment="center"
         android:textAllCaps="true"
         android:textColor="@color/white"
-        android:textSize="130sp"
+        android:textSize="100sp"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ssu_emblem" />
-
-    <ImageView
-        android:id="@+id/bullet_hole"
-        android:layout_width="108dp"
-        android:layout_height="83dp"
-        android:layout_marginTop="330dp"
-        android:alpha="0.7"
-        android:contentDescription="@string/bullet_hole"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.425"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/bullet_hole" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!--
+        <ImageView
+            android:id="@+id/bullet_hole"
+            android:layout_width="108dp"
+            android:layout_height="83dp"
+            android:layout_marginTop="330dp"
+            android:alpha="0.7"
+            android:contentDescription="@string/bullet_hole"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.425"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/bullet_hole" />
+-->
+    </androidx.constraintlayout.widget.ConstraintLayout>

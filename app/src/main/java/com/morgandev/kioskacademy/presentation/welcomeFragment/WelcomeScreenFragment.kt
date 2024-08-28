@@ -49,9 +49,9 @@ class WelcomeScreenFragment : Fragment() {
             ssuEmblem.setOnClickListener {
                 launchRecyclerViewWarriorsFragment()
             }
-            bulletHole.setOnClickListener {
-                launchRecyclerViewWarriorsFragment()
-            }
+            //bulletHole.setOnClickListener {
+            //    launchRecyclerViewWarriorsFragment()
+            //}
             root.setOnClickListener {
                 launchRecyclerViewWarriorsFragment()
             }
