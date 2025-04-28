@@ -6,7 +6,8 @@
     android:descendantFocusability="beforeDescendants"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/detailed_background"
+    android:background="@drawable/background_image"
+
     tools:context=".presentation.doubleScreenWarriorsScreen.DetailedScreenFragment">
 
 
@@ -23,12 +24,11 @@
 
     <ImageView
         android:id="@+id/arrow_up"
-        android:layout_width="180dp"
-        android:layout_height="166dp"
+        android:layout_width="124dp"
+        android:layout_height="110dp"
         android:clickable="true"
         android:contentDescription="@string/arrow_up"
         app:layout_constraintEnd_toStartOf="@+id/guideline_third"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/arrow_up" />
 
@@ -60,13 +60,12 @@
 
     <ImageView
         android:id="@+id/arrow_down"
-        android:layout_width="180dp"
-        android:layout_height="166dp"
+        android:layout_width="124dp"
+        android:layout_height="110dp"
         android:clickable="true"
         android:contentDescription="@string/arrow_down"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/guideline_third"
-        app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/arrow_down" />
 
 
@@ -75,7 +74,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.2"
+        app:layout_constraintGuide_percent="0.20"
         />
     <View
         android:id="@+id/vertical_line"
@@ -108,8 +107,8 @@
 
             <ImageView
                 android:id="@+id/profilePictureIv"
-                android:layout_width="400dp"
-                android:layout_height="400dp"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
                 android:scaleType="centerCrop"
                 android:background="@drawable/photo_borders"
                 android:src="@drawable/onishenko_alex"
@@ -119,7 +118,7 @@
             <LinearLayout
                 android:id="@+id/linearLayout"
                 android:layout_width="300dp"
-                android:layout_height="100dp"
+                android:layout_height="40dp"
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/profilePictureIv"
@@ -128,16 +127,16 @@
 
                 <ImageView
                     android:id="@+id/ssuEmblem"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_weight="1"
                     android:baselineAlignBottom="false"
                     android:src="@drawable/ssu_emblem" />
 
                 <ImageView
                     android:id="@+id/departmentEmblem"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_weight="1"
                     android:src="@drawable/ssu_emblem" />
             </LinearLayout>
@@ -151,6 +150,7 @@
                 android:text="капітан"
                 android:textColor="@color/white"
                 android:textSize="32dp"
+                android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/fullName"
                 app:layout_constraintEnd_toEndOf="@+id/linearLayout"
                 app:layout_constraintStart_toStartOf="@+id/linearLayout"
@@ -158,19 +158,22 @@
 
             <TextView
                 android:id="@+id/fullName"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
                 android:fontFamily="@font/montserrat_extra_bold"
-                android:textAllCaps="true"
-                android:lineSpacingExtra="-15dp"
+                android:lineSpacingExtra="-3dp"
                 android:text="БІЛІЧЕНКО\nГЕННАДІЙ\nВАСИЛЬОВИЧ"
                 android:textAlignment="center"
+
+                android:textAllCaps="true"
                 android:textColor="@color/white"
-                android:textSize="53dp"
-                app:layout_constraintBottom_toTopOf="@+id/dates"
-                app:layout_constraintEnd_toEndOf="@+id/rank"
-                app:layout_constraintStart_toStartOf="@+id/rank"
-                app:layout_constraintTop_toBottomOf="@+id/rank" />
+                android:textSize="21sp"
+                app:layout_constraintBottom_toBottomOf="@+id/profilePictureIv"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/profilePictureIv"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
             <TextView
                 android:id="@+id/dates"
@@ -180,10 +183,15 @@
                 android:text="14 грудня 1972 - 13 квітня 2014"
                 android:textColor="@color/white"
                 android:textSize="32dp"
+
+
+
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/profilePictureIv"
                 app:layout_constraintEnd_toEndOf="@+id/fullName"
                 app:layout_constraintStart_toStartOf="@+id/fullName"
                 app:layout_constraintTop_toBottomOf="@+id/fullName" />
+
 
             <TextView
                 android:id="@+id/descriptionTv"
@@ -194,10 +202,12 @@
                 android:justificationMode="inter_word"
                 android:text="Геннадій Біліченко народився 14 грудня 1972 року у Казахстані....."
                 android:textColor="@color/white"
-                android:textSize="26dp"
+                android:backgroundTint="@color/black"
+                android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/profilePictureIv" />
+                app:layout_constraintTop_toBottomOf="@+id/profilePictureIv"
+                 />
 
 
             <ImageView
@@ -208,8 +218,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/descriptionTv"
                 app:layout_constraintBottom_toBottomOf="@id/photoGalleryRv"
-
-
                 />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -223,7 +231,6 @@
                 app:layout_constraintEnd_toStartOf="@id/arrowRight"
                 app:layout_constraintStart_toEndOf="@id/arrowLeft"
                 app:layout_constraintTop_toBottomOf="@id/descriptionTv"
-
                 tools:listitem="@layout/photo_gallery_item" />
 
             <ImageView
@@ -249,7 +256,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/videoGalleryRv"
                 android:layout_marginTop="36dp"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_height="200dp"
                 android:orientation="horizontal"

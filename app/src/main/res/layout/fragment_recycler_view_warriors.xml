@@ -10,12 +10,14 @@
     <ImageView
         android:id="@+id/branding_iv"
 
-        android:layout_width="130dp"
+        android:layout_width="100dp"
         android:layout_height="0dp"
         android:layout_marginStart="48dp"
         android:layout_marginTop="32dp"
+        android:layout_marginEnd="24dp"
         android:contentDescription="@string/branding_image"
-        android:src="@drawable/year"
+        android:src="@drawable/ssu_emblem"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/recyclerViewMessage"
         app:layout_constraintEnd_toStartOf="@id/recyclerViewMessage"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,20 +27,27 @@
         android:id="@+id/recyclerViewMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/main_message"
+        android:layout_marginStart="24dp"
 
+        android:contentDescription="@string/main_message"
         android:fontFamily="@font/montserrat_black"
         android:includeFontPadding="false"
-        android:lineSpacingExtra="-15dp"
+        android:lineSpacingExtra="-5dp"
+        android:shadowColor="@color/black"
+        android:shadowDx="2"
+        android:shadowDy="2"
+
+        android:shadowRadius="5"
         android:text="@string/main_message"
         android:textAllCaps="true"
         android:textColor="@color/white"
-        android:textSize="40sp"
+
+        android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="@id/branding_iv"
         app:layout_constraintStart_toEndOf="@id/branding_iv"
         app:layout_constraintTop_toTopOf="@id/branding_iv" />
 
-    <ImageView
+    <!--<ImageView
         android:id="@+id/ssu_emblem"
         android:layout_width="100dp"
         android:layout_height="0dp"
@@ -47,7 +56,7 @@
         android:src="@drawable/ssu_emblem"
         app:layout_constraintBottom_toBottomOf="@+id/recyclerViewMessage"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/recyclerViewMessage" />
+        app:layout_constraintTop_toTopOf="@id/recyclerViewMessage" />-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvWarriors"
@@ -66,8 +75,9 @@
 
     <ImageView
         android:id="@+id/arrow_up"
-        android:layout_width="200dp"
-        android:layout_height="186dp"
+        android:layout_width="144dp"
+        android:layout_height="130dp"
+        android:layout_marginEnd="16dp"
         android:clickable="true"
         android:contentDescription="@string/arrow_up"
         app:layout_constraintEnd_toEndOf="parent"
@@ -76,8 +86,9 @@
 
     <ImageView
         android:id="@+id/arrow_down"
-        android:layout_width="200dp"
-        android:layout_height="186dp"
+        android:layout_width="144dp"
+        android:layout_height="130dp"
+        android:layout_marginEnd="16dp"
         android:clickable="true"
         android:contentDescription="@string/arrow_down"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -92,6 +103,7 @@
         android:layout_marginTop="76dp"
         android:alpha="0.7"
         android:contentDescription="@string/bullet_hole"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/bullet_hole" />

@@ -147,7 +147,7 @@ class DetailedScreenFragment : Fragment() {
         setupViewAndVisibility(warrior, warrior.rank, binding.rank, false)
         setupViewAndVisibility(
             warrior,
-            warrior.fullNameUA.replace(' ', '\n'),
+            warrior.fullNameUA.replace(Regex("([-])"), "$1 \n"),
             binding.fullName,
             false
         )
@@ -156,7 +156,11 @@ class DetailedScreenFragment : Fragment() {
             "${warrior.dateBirth} - ${warrior.dateDied}",
             binding.dates,
             false
-        )
+        )//
+        //For Скеля української державності
+        //
+        binding.dates.visibility = View.GONE
+        // till here
 
         val profilePictureValue = warrior.profilePicture
         val picFilePath = requireContext().filesDir

@@ -118,12 +118,13 @@ class RecyclerViewWarriorsFragment : Fragment() {
         binding.brandingIv.setOnClickListener {
             findNavController().popBackStack()
         }
+
         binding.recyclerViewMessage.setOnClickListener {
             findNavController().popBackStack()
         }
-        binding.ssuEmblem.setOnClickListener {
-            findNavController().popBackStack()
-        }
+        //binding.ssuEmblem.setOnClickListener {
+        //    findNavController().popBackStack()
+        //}
     }
 
 

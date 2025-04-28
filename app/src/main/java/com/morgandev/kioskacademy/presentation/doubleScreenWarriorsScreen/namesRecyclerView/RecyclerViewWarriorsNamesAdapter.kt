@@ -29,7 +29,7 @@ class RecyclerViewWarriorsNamesAdapter :
 
         val contextValue = viewHolder.itemView.context
 
-        binding.warriorTvName.text = warriorItem.fullNameUA.replace(' ', '\n')
+        binding.warriorTvName.text = warriorItem.nameUA.replace(' ', '\n').replace(Regex("([-])"), "$1 \n")
 
         binding.root.setOnClickListener {
             lastSelectedPosition = selectedPosition

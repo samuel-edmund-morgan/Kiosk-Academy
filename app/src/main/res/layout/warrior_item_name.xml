@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -13,13 +14,19 @@
             android:id="@+id/warrior_tv_name"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:lineSpacingExtra="-7dp"
+            android:lineSpacingExtra="-1dp"
             android:layout_weight="1"
             android:fontFamily="@font/montserrat_semi_bold"
             android:textAlignment="center"
             android:textAllCaps="true"
             android:textColor="@color/white"
-            android:textSize="22sp"
+            android:textSize="15sp"
+
+            android:shadowRadius="5"
+            android:shadowColor="@color/black"
+            android:shadowDx="2"
+            android:shadowDy="2"
+
             tools:text="аніщенко\nолександр" />
 
 </androidx.cardview.widget.CardView>

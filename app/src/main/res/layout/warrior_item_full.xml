@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="255dp"
-    android:layout_height="315dp"
+    android:layout_width="405dp"
+    android:layout_height="255dp"
     android:layout_marginBottom="40dp"
     android:layout_marginStart="48dp"
     android:layout_marginEnd="48dp"
     android:backgroundTint="@android:color/transparent">
-
+   <!--w255,h315-->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,11 +33,11 @@
             android:layout_height="40dp"
             android:layout_weight="1"
             android:fontFamily="@font/montserrat_semi_bold"
-            android:lineSpacingExtra="-10dp"
+            android:lineSpacingExtra="-7dp"
             android:textAlignment="center"
             android:textAllCaps="true"
             android:textColor="@color/white"
-            android:textSize="28sp"
+            android:textSize="20sp"
             tools:text="аніщенко\nолександр" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

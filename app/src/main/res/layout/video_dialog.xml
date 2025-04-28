@@ -2,8 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="1200dp"
-    android:layout_height="550dp"
+    android:layout_width="750dp"
+    android:layout_height="350dp"
     android:background="@drawable/background_image">
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -5,32 +5,38 @@
     android:layout_height="match_parent"
     android:background="@drawable/background_image"
     >
+
     <ImageView
         android:id="@+id/ssu_emblem"
+        android:layout_width="190dp"
+        android:layout_height="190dp"
         android:layout_marginTop="80dp"
-        android:layout_width="110dp"
-        android:layout_height="110dp"
+        android:contentDescription="@string/ssu_emblem"
         android:src="@drawable/ssu_emblem"
+        app:layout_constraintBottom_toTopOf="@+id/main_message"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@string/ssu_emblem" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/main_message"
-        android:fontFamily="@font/montserrat_black"
-        android:textColor="@color/white"
-        android:layout_marginTop="30dp"
-        android:textSize="90sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAllCaps="true"
-        android:textAlignment="center"
-        android:text="@string/main_message"
         android:contentDescription="@string/main_message"
+        android:fontFamily="@font/montserrat_black"
+        android:shadowColor="@color/black"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="5"
+        android:text="@string/main_message"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textSize="80sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ssu_emblem" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/bullet_hole"
@@ -38,21 +44,23 @@
         android:layout_height="57dp"
         android:layout_marginTop="252dp"
         android:alpha="0.7"
+        android:contentDescription="@string/bullet_hole"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.546"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/bullet_hole"
-        android:contentDescription="@string/bullet_hole" />
+        app:srcCompat="@drawable/bullet_hole" />
 
     <ImageView
         android:id="@+id/year_image"
         android:layout_width="1085dp"
         android:layout_height="289dp"
+        android:contentDescription="@string/year_image"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="@+id/main_message"
         app:layout_constraintStart_toStartOf="@+id/main_message"
         app:layout_constraintTop_toBottomOf="@+id/main_message"
-        app:srcCompat="@drawable/year"
-        android:contentDescription="@string/year_image" />
+        app:srcCompat="@drawable/year" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
