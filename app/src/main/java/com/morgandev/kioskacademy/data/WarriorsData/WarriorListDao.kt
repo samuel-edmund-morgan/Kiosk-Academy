@@ -7,7 +7,8 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 
 @Dao
-interface WarriorListDao {
+interface
+WarriorListDao {
     @Query("SELECT * FROM warriors")
     fun getWarriorsList(): LiveData<List<WarriorDbModel>>
 
