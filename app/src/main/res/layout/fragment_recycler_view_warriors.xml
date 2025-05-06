@@ -29,7 +29,7 @@
 
         android:fontFamily="@font/montserrat_black"
         android:includeFontPadding="false"
-        android:lineSpacingExtra="-15dp"
+        android:lineSpacingExtra="-10dp"
         android:text="@string/main_message"
         android:textAllCaps="true"
         android:textColor="@color/white"
@@ -44,7 +44,7 @@
         android:layout_height="0dp"
         android:layout_marginEnd="48dp"
         android:contentDescription="@string/ssu_emblem"
-        android:src="@drawable/ssu_emblem"
+        android:src="@drawable/academy_emblem"
         app:layout_constraintBottom_toBottomOf="@+id/recyclerViewMessage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/recyclerViewMessage" />
@@ -86,10 +86,10 @@
 
     <ImageView
         android:id="@+id/bullet"
-        android:layout_width="30dp"
-        android:layout_height="28dp"
-        android:layout_marginStart="260dp"
-        android:layout_marginTop="76dp"
+        android:layout_width="26dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="309dp"
+        android:layout_marginTop="111dp"
         android:alpha="0.7"
         android:contentDescription="@string/bullet_hole"
         app:layout_constraintStart_toStartOf="parent"

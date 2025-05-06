@@ -40,9 +40,9 @@ class WelcomeScreenFragment : Fragment() {
 
     private fun setupOnClickListeners(){
         with(binding) {
-            yearImage.setOnClickListener {
-                launchRecyclerViewWarriorsFragment()
-            }
+//           binding yearImage.setOnClickListener {
+//                launchRecyclerViewWarriorsFragment()
+//            }
             mainMessage.setOnClickListener {
                 launchRecyclerViewWarriorsFragment()
             }

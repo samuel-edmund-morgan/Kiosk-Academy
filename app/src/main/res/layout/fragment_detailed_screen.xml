@@ -132,14 +132,14 @@
                     android:layout_height="100dp"
                     android:layout_weight="1"
                     android:baselineAlignBottom="false"
-                    android:src="@drawable/ssu_emblem" />
+                    android:src="@drawable/academy_emblem" />
 
                 <ImageView
                     android:id="@+id/departmentEmblem"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_weight="1"
-                    android:src="@drawable/ssu_emblem" />
+                    android:src="@drawable/academy_emblem" />
             </LinearLayout>
 
             <TextView
@@ -179,7 +179,7 @@
                 android:fontFamily="@font/montserrat_bold"
                 android:text="14 грудня 1972 - 13 квітня 2014"
                 android:textColor="@color/white"
-                android:textSize="32dp"
+                android:textSize="28dp"
                 app:layout_constraintBottom_toBottomOf="@+id/profilePictureIv"
                 app:layout_constraintEnd_toEndOf="@+id/fullName"
                 app:layout_constraintStart_toStartOf="@+id/fullName"
