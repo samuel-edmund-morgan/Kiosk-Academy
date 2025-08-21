@@ -8,44 +8,43 @@
 
     <ImageView
         android:id="@+id/ssu_emblem"
-        android:layout_width="210dp"
-        android:layout_height="210dp"
-        android:layout_marginTop="40dp"
+        android:layout_width="1200dp"
+        android:layout_height="120dp"
         android:contentDescription="@string/ssu_emblem"
-        android:src="@drawable/academy"
+        android:src="@drawable/ssu_emblem"
+        app:layout_constraintBottom_toTopOf="@+id/main_message"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/main_message"
-        android:layout_width="1146dp"
-        android:layout_height="537dp"
-        android:layout_marginTop="32dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:contentDescription="@string/main_message"
         android:fontFamily="@font/montserrat_black"
-        android:text="академія СБУ:\nвідеогалерея"
+        android:text="спецоперації\nсбу"
         android:textAlignment="center"
         android:textAllCaps="true"
         android:textColor="@color/white"
-        android:textSize="100sp"
+        android:textSize="123sp"
 
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ssu_emblem" />
-    <!--
-        <ImageView
-            android:id="@+id/bullet_hole"
-            android:layout_width="108dp"
-            android:layout_height="83dp"
-            android:layout_marginTop="330dp"
-            android:alpha="0.7"
-            android:contentDescription="@string/bullet_hole"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.425"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/bullet_hole" />
--->
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/bullet_hole"
+        android:layout_width="108dp"
+        android:layout_height="83dp"
+        android:layout_marginTop="320dp"
+        android:alpha="0.7"
+        android:contentDescription="@string/bullet_hole"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.425"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/bullet_hole" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
