@@ -2,24 +2,22 @@ package com.morgandev.kioskacademy.presentation.doubleScreenWarriorsScreen
 
 import android.app.Dialog
 import android.os.Bundle
-import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.LeadingMarginSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.MediaController
 import android.widget.ScrollView
 import android.widget.TextView
-import android.widget.Toast
 import android.widget.VideoView
 import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -32,397 +30,232 @@ import com.morgandev.kioskacademy.presentation.doubleScreenWarriorsScreen.namesR
 import com.morgandev.kioskacademy.presentation.doubleScreenWarriorsScreen.photoGalleryRecyclerView.PhotoGalleryRecyclerViewAdapter
 import com.morgandev.kioskacademy.presentation.doubleScreenWarriorsScreen.videoGalleryRecyclerView.VideoGalleryRecyclerViewAdapter
 import com.morgandev.kioskacademy.presentation.recyclerViewFragment.RecyclerViewWarriorsViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
-import java.nio.charset.Charset
-
 
 class DetailedScreenFragment : Fragment() {
 
-    private val detailedScreenFragmentViewModel: RecyclerViewWarriorsViewModel by activityViewModels()
+    private val viewModel: RecyclerViewWarriorsViewModel by activityViewModels()
 
-
-    private lateinit var recyclerViewWarriorsNamesAdapter: RecyclerViewWarriorsNamesAdapter
-    private lateinit var photoGalleryRecyclerViewAdapter: PhotoGalleryRecyclerViewAdapter
-    private lateinit var videoGalleryRecyclerViewAdapter: VideoGalleryRecyclerViewAdapter
+    private lateinit var namesAdapter: RecyclerViewWarriorsNamesAdapter
+    private lateinit var photoAdapter: PhotoGalleryRecyclerViewAdapter
+    private lateinit var videoAdapter: VideoGalleryRecyclerViewAdapter
 
     private var _binding: FragmentDetailedScreenBinding? = null
-    private val binding: FragmentDetailedScreenBinding
-        get() = _binding ?: throw RuntimeException("FragmentDetailedScreenBinding == null")
+    private val binding: FragmentDetailedScreenBinding get() = _binding!!
 
-    private var _args: DetailedScreenFragmentArgs? = null
-    private val args: DetailedScreenFragmentArgs
-        get() = _args ?: throw RuntimeException("DetailedScreenFragmentArgs == null")
+    private var currentWarrior: Warrior? = null
 
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentDetailedScreenBinding.inflate(inflater, container, false)
-        _args = DetailedScreenFragmentArgs.fromBundle(requireArguments())
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val args = DetailedScreenFragmentArgs.fromBundle(requireArguments())
+        currentWarrior = args.warrior
 
+        initAdapters(args.warrior)
+        setupNamesRecycler()
+        setupPhotoRecycler()
+        setupVideoRecycler()
+        observeWarriorList()
+        observeDeleteEvents(args.warrior)
+        bindWarrior(args.warrior)
+        updatePhotoGallery(args.warrior)
+        updateVideoGallery(args.warrior)
+        setupCallbacks()
         onBackBtnPressed()
-
-        val warrior = args.warrior
-
         binding.detailedInfoScrollView.fullScroll(ScrollView.FOCUS_UP)
-
-        observeKeyDownEventChanges(warrior)
-        submitListObserver()
-        setupRecyclerView()
-        setupViewsOfDetailedInfo(warrior)
-        setupPhotoGallery(warrior)
-        setupVideoGallery(warrior)
-
-
-        recyclerViewWarriorsNamesAdapter.onWarriorClickListener = {
-            binding.detailedInfoScrollView.fullScroll(ScrollView.FOCUS_UP)
-            setupViewsOfDetailedInfo(it)
-            setupPhotoGallery(it)
-            setupVideoGallery(it)
-
-
-
-        }
-        photoGalleryRecyclerViewAdapter.onPhotoClickListener = {
-            fileName: String , filePosition: Int ->
-            setupPhotoDialogBox(warrior, fileName, filePosition)
-            binding.detailedInfoScrollView.fullScroll(ScrollView.FOCUS_UP)
-
-
-        }
-        videoGalleryRecyclerViewAdapter.onVideoClickListener = {
-            fileName: String , filePosition: Int ->
-            setupVideoDialogBox(warrior, fileName, filePosition)
-            binding.detailedInfoScrollView.fullScroll(ScrollView.FOCUS_UP)
-
-
-        }
-
-        binding.detailedInfoScrollView.fullScroll(ScrollView.FOCUS_UP)
-       
-
     }
 
-    private fun setupVideoGallery(warrior: Warrior) {
-        if (warrior.videos != ""){
-            setupVideoGalleryRecyclerView(warrior)
-            binding.arrowLeftVideo.visibility = View.VISIBLE
-            binding.arrowRightVideo.visibility = View.VISIBLE
-            binding.videoGalleryRv.visibility = View.VISIBLE
+    private fun initAdapters(warrior: Warrior) {
+        namesAdapter = RecyclerViewWarriorsNamesAdapter()
+        photoAdapter = PhotoGalleryRecyclerViewAdapter(warrior.profilePicture)
+        videoAdapter = VideoGalleryRecyclerViewAdapter(warrior.profilePicture)
+    }
+
+    private fun setupCallbacks() {
+        namesAdapter.onWarriorClickListener = { w ->
+            currentWarrior = w
+            bindWarrior(w)
+            updatePhotoGallery(w)
+            updateVideoGallery(w)
+            binding.detailedInfoScrollView.fullScroll(ScrollView.FOCUS_UP)
         }
-        else{
-            setupVideoGalleryRecyclerView(warrior)
-            binding.arrowLeftVideo.visibility = View.GONE
-            binding.arrowRightVideo.visibility = View.GONE
-            binding.videoGalleryRv.visibility = View.GONE
+        photoAdapter.onPhotoClickListener = { name, pos ->
+            currentWarrior?.let { setupPhotoDialog(it, name, pos) }
+        }
+        videoAdapter.onVideoClickListener = { name, pos ->
+            currentWarrior?.let { setupVideoDialog(it, name, pos) }
         }
     }
 
-    private fun setupPhotoGallery(warrior: Warrior) {
-        if (warrior.photos != ""){
-            setupPhotoGalleryRecyclerView(warrior)
-            binding.arrowLeft.visibility = View.VISIBLE
-            binding.arrowRight.visibility = View.VISIBLE
-            binding.photoGalleryRv.visibility = View.VISIBLE
-        }
-        else{
-            setupPhotoGalleryRecyclerView(warrior)
-            binding.arrowLeft.visibility = View.GONE
-            binding.arrowRight.visibility = View.GONE
-            binding.photoGalleryRv.visibility = View.GONE
-        }
-    }
-
-    private fun setupViewsOfDetailedInfo(warrior: Warrior) {
-
-
-        setupViewAndVisibility(warrior, warrior.profileDetailedPhoto, binding.profilePictureIv, true)
-        setupViewAndVisibility(warrior, warrior.departmentEmblem, binding.departmentEmblem, true)
-        setupViewAndVisibility(warrior, warrior.rank, binding.rank, false)
-        setupViewAndVisibility(
-            warrior,
-            warrior.fullNameUA.replace(Regex("([-])"), "$1 \n"),
-            binding.fullName,
-            false
-        )
-        setupViewAndVisibility(
-            warrior,
-            "${warrior.dateBirth} - ${warrior.dateDied}",
-            binding.dates,
-            false
-        )//
-        //For Скеля української державності
-        //
+    private fun bindWarrior(warrior: Warrior) {
+        loadImage(warrior.profileDetailedPhoto, binding.profilePictureIv, warrior.profilePicture)
+        loadImage(warrior.departmentEmblem, binding.departmentEmblem, warrior.profilePicture)
+        setTextOrHide(binding.rank, warrior.rank)
+        setTextOrHide(binding.fullName, warrior.fullNameUA)
         binding.dates.visibility = View.GONE
-        // till here
-
-        val profilePictureValue = warrior.profilePicture
-        val picFilePath = requireContext().filesDir
-        val descriptionFile = File("${picFilePath}/${profilePictureValue}/${warrior.description}")
-        val descriptionUri = descriptionFile.toUri()
-        val newDescrition: ByteArray?
-        requireActivity().contentResolver.openInputStream(descriptionUri).use {
-            newDescrition = it?.readBytes()
-            it?.close()
-        }
-        val rawText = newDescrition?.toString(Charsets.UTF_8) ?: "no description"
-        val spannable = SpannableString(rawText)
-        val span = LeadingMarginSpan.Standard(110, 0)
-        spannable.setSpan(span, 0, spannable.count(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        binding.descriptionTv.text = spannable
+        loadDescriptionAsync(warrior)
         binding.detailedInfoScrollView.smoothScrollTo(0,0)
     }
 
-    private fun setupViewAndVisibility(
-        warrior: Warrior,
-        dbField: String,
-        view: View,
-        isImage: Boolean
-    ) {
-        val profilePictureValue = warrior.profilePicture
-        val picFilePath = requireContext().filesDir
-        if (dbField != "") {
-            if (isImage) {
-                Glide.with(requireContext())
-                    .load(File("${picFilePath}/${profilePictureValue}/${dbField}"))
-                    .into((view as ImageView))
-                    //.waitForLayout()
-                view.visibility = View.VISIBLE
-            } else {
-                (view as TextView).text = dbField
-                view.visibility = View.VISIBLE
+    private fun loadDescriptionAsync(warrior: Warrior) {
+        val dir = requireContext().filesDir
+        val file = File(dir, "${warrior.profilePicture}/${warrior.description}")
+        lifecycleScope.launch(Dispatchers.IO) {
+            val text = runCatching { file.readText() }.getOrDefault("no description")
+            val span = SpannableString(text).apply {
+                setSpan(LeadingMarginSpan.Standard(110,0),0,length,SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE)
             }
-        } else {
-            view.visibility = View.GONE
-        }
-
-    }
-
-    private fun submitListObserver() {
-        detailedScreenFragmentViewModel.warriorList.observe(viewLifecycleOwner) {
-            recyclerViewWarriorsNamesAdapter.submitList(it)
-            binding.progressBarNames.visibility = View.GONE
+            withContext(Dispatchers.Main) { binding.descriptionTv.text = span }
         }
     }
 
-    private fun setupRecyclerView() {
-
-        with(binding.recyclerViewWarriorFullnames) {
-            val lManager = LinearLayoutManager(context)
-
-            binding.arrowDown.setOnClickListener {
-                val position = lManager.findLastVisibleItemPosition()
-                smoothScrollToPosition(position + 1)
-            }
-            binding.arrowUp.setOnClickListener {
-                val swipePosition = if (lManager.findFirstVisibleItemPosition() > 0)
-                    lManager.findFirstVisibleItemPosition() - 1
-                else 0
-                smoothScrollToPosition(swipePosition)
-            }
-            layoutManager = lManager
-            recyclerViewWarriorsNamesAdapter = RecyclerViewWarriorsNamesAdapter()
-            adapter = recyclerViewWarriorsNamesAdapter
-            recycledViewPool.setMaxRecycledViews(
-                RecyclerViewWarriorsNamesAdapter.VIEW_TYPE_ENABLED,
-                RecyclerViewWarriorsNamesAdapter.MAX_POOL_SIZE
-            )
-        }
+    private fun setTextOrHide(view: TextView, value: String) {
+        if (value.isBlank()) view.visibility = View.GONE else { view.text = value; view.visibility = View.VISIBLE }
     }
 
-    private fun setupPhotoGalleryRecyclerView(warrior: Warrior) {
-
-        with(binding.photoGalleryRv) {
-            val lManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
-
-            binding.arrowLeft.setOnClickListener {
-                val swipePosition = if (lManager.findFirstVisibleItemPosition() > 0)
-                    lManager.findFirstVisibleItemPosition() - 1
-                else 0
-                smoothScrollToPosition(swipePosition)
-            }
-
-            binding.arrowRight.setOnClickListener {
-                val position = lManager.findLastVisibleItemPosition() + 1
-                smoothScrollToPosition(position)
-            }
-
-            layoutManager = lManager
-            photoGalleryRecyclerViewAdapter =
-                PhotoGalleryRecyclerViewAdapter(warrior.profilePicture)
-            adapter = photoGalleryRecyclerViewAdapter
-
-            recycledViewPool.setMaxRecycledViews(
-                RecyclerViewWarriorsNamesAdapter.VIEW_TYPE_ENABLED,
-                RecyclerViewWarriorsNamesAdapter.MAX_POOL_SIZE
-            )
-            val listOfPhotos = warrior.photos.split(",").map { it.trim() }
-            photoGalleryRecyclerViewAdapter.submitList(listOfPhotos)
-            photoGalleryRecyclerViewAdapter.onPhotoClickListener = {
-                fileName: String , filePosition: Int ->
-                setupPhotoDialogBox(warrior, fileName, filePosition)
-            }
-
-        }
+    private fun loadImage(name: String, target: ImageView, folder: String) {
+        if (name.isBlank()) { target.visibility = View.GONE; return }
+        val file = File(requireContext().filesDir, "$folder/$name")
+        Glide.with(this).load(file).centerCrop().into(target)
+        target.visibility = View.VISIBLE
     }
-    private fun setupPhotoDialogBox(warrior: Warrior, imageName: String, position: Int) {
 
+    // Always set adapter even if layoutManager provided via XML (previously skipped)
+    private fun setupNamesRecycler() {
+        val rv = binding.recyclerViewWarriorFullnames
+        val lm = rv.layoutManager as? LinearLayoutManager ?: LinearLayoutManager(requireContext()).also { rv.layoutManager = it }
+        rv.setHasFixedSize(true)
+        binding.arrowDown.setOnClickListener { rv.smoothScrollToPosition(lm.findLastVisibleItemPosition()+1) }
+        binding.arrowUp.setOnClickListener { rv.smoothScrollToPosition((lm.findFirstVisibleItemPosition()-1).coerceAtLeast(0)) }
+        rv.adapter = namesAdapter
+    }
 
-        val profilePictureValue = warrior.profilePicture
-        val picFilePath = requireContext().filesDir
+    private fun setupPhotoRecycler() {
+        val rv = binding.photoGalleryRv
+        val lm = rv.layoutManager as? LinearLayoutManager ?: LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false).also { rv.layoutManager = it }
+        rv.setHasFixedSize(true)
+        binding.arrowLeft.setOnClickListener { rv.smoothScrollToPosition((lm.findFirstVisibleItemPosition()-1).coerceAtLeast(0)) }
+        binding.arrowRight.setOnClickListener { rv.smoothScrollToPosition(lm.findLastVisibleItemPosition()+1) }
+        rv.adapter = photoAdapter
+    }
 
+    private fun setupVideoRecycler() {
+        val rv = binding.videoGalleryRv
+        val lm = rv.layoutManager as? LinearLayoutManager ?: LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false).also { rv.layoutManager = it }
+        rv.setHasFixedSize(true)
+        binding.arrowLeftVideo.setOnClickListener { rv.smoothScrollToPosition((lm.findFirstVisibleItemPosition()-1).coerceAtLeast(0)) }
+        binding.arrowRightVideo.setOnClickListener { rv.smoothScrollToPosition(lm.findLastVisibleItemPosition()+1) }
+        rv.adapter = videoAdapter
+    }
+
+    private fun updatePhotoGallery(warrior: Warrior) {
+        val items = warrior.photos.takeIf { it.isNotBlank() }?.split(',')?.map { it.trim().trim('[',']') }?.filter { it.isNotBlank() } ?: emptyList()
+        photoAdapter.setWarriorDir(warrior.profilePicture)
+        photoAdapter.submitList(items)
+        val vis = items.isNotEmpty()
+        binding.photoGalleryRv.visibility = if (vis) View.VISIBLE else View.GONE
+        binding.arrowLeft.visibility = if (vis) View.VISIBLE else View.GONE
+        binding.arrowRight.visibility = if (vis) View.VISIBLE else View.GONE
+    }
+
+    private fun updateVideoGallery(warrior: Warrior) {
+        val items = warrior.videos.takeIf { it.isNotBlank() }?.split(',')?.map { it.trim().trim('[',']') }?.filter { it.isNotBlank() } ?: emptyList()
+        videoAdapter.updateWarriorDir(warrior.profilePicture)
+        videoAdapter.submitList(items)
+        val vis = items.isNotEmpty()
+        binding.videoGalleryRv.visibility = if (vis) View.VISIBLE else View.GONE
+        binding.arrowLeftVideo.visibility = if (vis) View.VISIBLE else View.GONE
+        binding.arrowRightVideo.visibility = if (vis) View.VISIBLE else View.GONE
+    }
+
+    private fun setupPhotoDialog(warrior: Warrior, imageName: String, position: Int) {
         val dialog = Dialog(requireContext())
-
         dialog.setContentView(R.layout.photo_dialog)
-
-        val imageView = dialog.findViewById<ImageView>(R.id.dialogImageView)
-
-        Glide.with(requireContext())
-            .load(File("${picFilePath}/${profilePictureValue}/${imageName}"))
-            .into(imageView)
-            .waitForLayout()
-
-
-        //ready swipe right
-        val rightBtn = dialog.findViewById<ImageView>(R.id.arrowRightFull)
-        rightBtn.setOnClickListener {
-            dialog.dismiss()
-            binding.photoGalleryRv.smoothScrollToPosition(position+2)
-            binding.photoGalleryRv.findViewHolderForAdapterPosition(position + 1)?.itemView?.performClick()
+        val iv = dialog.findViewById<ImageView>(R.id.dialogImageView)
+        val file = File(requireContext().filesDir, "${warrior.profilePicture}/$imageName")
+        Glide.with(this).load(file).centerInside().into(iv)
+        dialog.findViewById<ImageView>(R.id.arrowRightFull).setOnClickListener {
+            dialog.dismiss(); binding.photoGalleryRv.smoothScrollToPosition(position+2)
+            binding.photoGalleryRv.findViewHolderForAdapterPosition(position+1)?.itemView?.performClick()
         }
-
-        //swipe left
-        val leftBtn = dialog.findViewById<ImageView>(R.id.arrowLeftFull)
-        leftBtn.setOnClickListener {
-            dialog.dismiss()
-            if (position > 1){
-                binding.photoGalleryRv.smoothScrollToPosition(position-2)
-            }
-            binding.photoGalleryRv.findViewHolderForAdapterPosition(position - 1)?.itemView?.performClick()
+        dialog.findViewById<ImageView>(R.id.arrowLeftFull).setOnClickListener {
+            dialog.dismiss(); if (position>1) binding.photoGalleryRv.smoothScrollToPosition(position-2)
+            binding.photoGalleryRv.findViewHolderForAdapterPosition(position-1)?.itemView?.performClick()
         }
-
-        //cross close
-        val crossClose = dialog.findViewById<ImageView>(R.id.cross)
-        crossClose.setOnClickListener {
-            dialog.dismiss()
-        }
-
+        dialog.findViewById<ImageView>(R.id.cross).setOnClickListener { dialog.dismiss() }
         dialog.show()
     }
-    private fun setupVideoGalleryRecyclerView(warrior: Warrior) {
 
-        with(binding.videoGalleryRv) {
-            val lManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
-
-            binding.arrowLeftVideo.setOnClickListener {
-                val swipePosition = if (lManager.findFirstVisibleItemPosition() > 0)
-                    lManager.findFirstVisibleItemPosition() - 1
-                else 0
-                smoothScrollToPosition(swipePosition)
-            }
-
-            binding.arrowRightVideo.setOnClickListener {
-                val position = lManager.findLastVisibleItemPosition() + 1
-                smoothScrollToPosition(position)
-            }
-
-            layoutManager = lManager
-            videoGalleryRecyclerViewAdapter =
-                VideoGalleryRecyclerViewAdapter(warrior.profilePicture)
-            adapter = videoGalleryRecyclerViewAdapter
-
-            recycledViewPool.setMaxRecycledViews(
-                VideoGalleryRecyclerViewAdapter.VIEW_TYPE_ENABLED,
-                VideoGalleryRecyclerViewAdapter.MAX_POOL_SIZE
-            )
-            val listOfVideos = warrior.videos.split(",").map { it.trim() }
-            videoGalleryRecyclerViewAdapter.submitList(listOfVideos)
-            videoGalleryRecyclerViewAdapter.onVideoClickListener = {
-                fileName: String , filePosition: Int ->
-                setupVideoDialogBox(warrior, fileName, filePosition)
-            }
-        }
-    }
-    private fun setupVideoDialogBox(warrior: Warrior, videoName: String, position: Int) {
-
-        val profilePictureValue = warrior.profilePicture
-        val vidFilePath = requireContext().filesDir
-
+    private fun setupVideoDialog(warrior: Warrior, videoName: String, position: Int) {
         val dialog = Dialog(requireContext())
-
         dialog.setContentView(R.layout.video_dialog)
         val videoView = dialog.findViewById<VideoView>(R.id.videoView)
-        val frameView = dialog.findViewById<FrameLayout>(R.id.frameView)
-
-        videoView.setVideoURI(File("${vidFilePath}/${profilePictureValue}/${videoName}").toUri())
+        val frame = dialog.findViewById<FrameLayout>(R.id.frameView)
+        val file = File(requireContext().filesDir, "${warrior.profilePicture}/$videoName")
+        videoView.setVideoURI(file.toUri())
         videoView.setOnPreparedListener {
-            val mediaController = MediaController(videoView.context)
-            mediaController.requestFocus()
-            val parent = mediaController.parent as ViewGroup
-            parent.removeView(mediaController)
-            frameView.addView(mediaController)
-            mediaController.setMediaPlayer(videoView)
-            mediaController.isEnabled = true
-            videoView.setMediaController(mediaController)
-            mediaController.setAnchorView(videoView)
-            videoView.start()
-            mediaController.show(0)
-            videoView.setOnClickListener {
-                frameView.visibility = if (frameView.isVisible) View.GONE else View.VISIBLE
-            }
+            val mc = MediaController(videoView.context)
+            val parent = mc.parent as ViewGroup
+            parent.removeView(mc)
+            frame.addView(mc)
+            mc.setMediaPlayer(videoView)
+            mc.isEnabled = true
+            videoView.setMediaController(mc)
+            mc.setAnchorView(videoView)
+            videoView.start(); mc.show(0)
+            videoView.setOnClickListener { frame.visibility = if (frame.isVisible) View.GONE else View.VISIBLE }
         }
-        //ready swipe right
-        val rightBtnVideo = dialog.findViewById<ImageView>(R.id.arrowRightFullVideo)
-        rightBtnVideo.setOnClickListener {
-            dialog.dismiss()
-            binding.videoGalleryRv.smoothScrollToPosition(position + 2)
-            binding.videoGalleryRv.findViewHolderForAdapterPosition(position + 1)?.itemView?.performClick()
+        dialog.findViewById<ImageView>(R.id.arrowRightFullVideo).setOnClickListener {
+            dialog.dismiss(); binding.videoGalleryRv.smoothScrollToPosition(position+2)
+            binding.videoGalleryRv.findViewHolderForAdapterPosition(position+1)?.itemView?.performClick()
         }
-
-        //swipe left
-        val leftBtnVideo = dialog.findViewById<ImageView>(R.id.arrowLeftFullVideo)
-        leftBtnVideo.setOnClickListener {
-            dialog.dismiss()
-            if (position > 1){
-                binding.videoGalleryRv.smoothScrollToPosition(position-2)
-            }
-            binding.videoGalleryRv.findViewHolderForAdapterPosition(position - 1)?.itemView?.performClick()
+        dialog.findViewById<ImageView>(R.id.arrowLeftFullVideo).setOnClickListener {
+            dialog.dismiss(); if (position>1) binding.videoGalleryRv.smoothScrollToPosition(position-2)
+            binding.videoGalleryRv.findViewHolderForAdapterPosition(position-1)?.itemView?.performClick()
         }
-        //cross close
-        val crossClose = dialog.findViewById<ImageView>(R.id.crossVideo)
-        crossClose.setOnClickListener {
-            dialog.dismiss()
-        }
-
-
+        dialog.findViewById<ImageView>(R.id.crossVideo).setOnClickListener { dialog.dismiss() }
         dialog.show()
     }
 
-
-    private fun observeKeyDownEventChanges(warrior: Warrior) {
-        detailedScreenFragmentViewModel.keyEvent.observe(viewLifecycleOwner, EventObserver {
-            val profilePictureValue = warrior.profilePicture
-            val picFilePath = requireContext().filesDir
-            val directoryToDelete = File("${picFilePath}/${profilePictureValue}")
-            directoryToDelete.deleteRecursively()
-
-            detailedScreenFragmentViewModel.deleteWarrior(warrior)
-            //Toast.makeText(context, "${warrior.toString()}", Toast.LENGTH_LONG).show()
+    private fun observeWarriorList() {
+        viewModel.warriorList.observe(viewLifecycleOwner) { list ->
+            namesAdapter.submitList(list) {
+                // Auto-select current warrior if present
+                currentWarrior?.let { cw ->
+                    val idx = list.indexOfFirst { it.id == cw.id && it.id != 0 }
+                        .takeIf { it >= 0 } ?: list.indexOfFirst { it.profilePicture == cw.profilePicture }
+                    if (idx >= 0) {
+                        namesAdapter.selectedPosition = idx
+                        namesAdapter.notifyItemChanged(idx)
+                        binding.recyclerViewWarriorFullnames.post {
+                            binding.recyclerViewWarriorFullnames.scrollToPosition(idx)
+                        }
+                    }
+                }
+                binding.progressBarNames.visibility = View.GONE
+            }
         }
-        )
     }
 
-    private fun onBackBtnPressed(){
-        binding.backBtnF.setOnClickListener {
-            findNavController().popBackStack()
-        }
+    private fun observeDeleteEvents(warrior: Warrior) {
+        viewModel.keyEvent.observe(viewLifecycleOwner, EventObserver {
+            val folder = File(requireContext().filesDir, warrior.profilePicture)
+            folder.deleteRecursively()
+            viewModel.deleteWarrior(warrior)
+        })
     }
 
+    private fun onBackBtnPressed() { binding.backBtnF.setOnClickListener { findNavController().popBackStack() } }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

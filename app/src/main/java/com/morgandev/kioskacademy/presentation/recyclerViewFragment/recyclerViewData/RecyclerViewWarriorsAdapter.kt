@@ -1,12 +1,9 @@
 package com.morgandev.kioskacademy.presentation.recyclerViewFragment.recyclerViewData
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.bumptech.glide.Glide
-import com.morgandev.kioskacademy.databinding.FragmentRecyclerViewWarriorsAddBinding
-import com.morgandev.kioskacademy.databinding.FragmentRecyclerViewWarriorsBinding
 import com.morgandev.kioskacademy.databinding.WarriorItemFullBinding
 import com.morgandev.kioskacademy.domain.entities.Warrior
 import java.io.File
@@ -15,6 +12,9 @@ import java.io.File
 class RecyclerViewWarriorsAdapter :
     ListAdapter<Warrior, RecyclerViewWarriorsViewHolder>(RecyclerViewWarriorDiffCallback()) {
 
+    init {
+        setHasStableIds(true)
+    }
 
     var onWarriorClickListener: ((Warrior) -> Unit)? = null
 
@@ -22,9 +22,15 @@ class RecyclerViewWarriorsAdapter :
         parent: ViewGroup,
         viewType: Int
     ): RecyclerViewWarriorsViewHolder {
-        val bind = WarriorItemFullBinding.inflate(LayoutInflater.from(parent.context),parent, false)
+        val bind = WarriorItemFullBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return RecyclerViewWarriorsViewHolder(bind)
     }
+
+    override fun getItemId(position: Int): Long {
+        val item = getItem(position)
+        return if (item.id != 0) item.id.toLong() else (item.profilePicture.hashCode()).toLong()
+    }
+
     override fun onBindViewHolder(viewHolder: RecyclerViewWarriorsViewHolder, position: Int) {
         val warriorItem = getItem(position)
         val binding = viewHolder.binding
@@ -36,22 +42,19 @@ class RecyclerViewWarriorsAdapter :
 
         Glide.with(contextValue)
             .load(File("${picFilePath}/${profilePictureValue}/${profilePictureValue}"))
+            .centerCrop()
             .into(warriorIvValue)
-            .waitForLayout()
 
-        binding.warriorTvName.text = warriorItem.nameUA.replace(' ', '\n')
+        binding.warriorTvName.text = warriorItem.nameUA
 
         binding.root.setOnClickListener {
             onWarriorClickListener?.invoke(warriorItem)
         }
-
     }
 
-
-    companion object{
+    companion object {
         const val VIEW_TYPE_ENABLED = 100
         const val MAX_POOL_SIZE = 30
     }
-
 
 }
